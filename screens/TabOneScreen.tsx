@@ -1,32 +1,41 @@
-import * as React from 'react';
-import { StyleSheet } from 'react-native';
+import React, { useState } from "react";
+import { StyleSheet, TextInput } from "react-native";
+import { Text, View } from "../components/Themed";
 
-import EditScreenInfo from '../components/EditScreenInfo';
-import { Text, View } from '../components/Themed';
+import Checkbox from "../components/Checkbox/checkbox";
 
 export default function TabOneScreen() {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="/screens/TabOneScreen.tsx" />
-    </View>
-  );
+	const [isChecked, setIsChecked] = useState(false);
+
+	return (
+		<View style={styles.container}>
+			<Text style={styles.title}>This is going to update</Text>
+			<View style={{ flexDirection: "row", alignItems: "center" }}>
+				<View>
+					<Checkbox
+						isChecked={isChecked}
+						onPress={() => {
+							setIsChecked(!isChecked);
+						}}
+					/>
+				</View>
+				<TextInput
+					style={{ flex: 1, marginLeft: 12, fontSize: 18 }}
+					multiline
+				/>
+			</View>
+		</View>
+	);
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
+	container: {
+		flex: 1,
+		alignItems: "center",
+		padding: 12,
+	},
+	title: {
+		fontSize: 20,
+		fontWeight: "bold",
+	},
 });
