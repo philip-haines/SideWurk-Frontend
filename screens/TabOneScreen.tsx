@@ -1,29 +1,39 @@
 import React, { useState } from "react";
-import { StyleSheet, TextInput } from "react-native";
+import { StyleSheet, FlatList } from "react-native";
 import { Text, View } from "../components/Themed";
-
-import Checkbox from "../components/Checkbox/checkbox";
+import TaskListItem from "../components/TaskList/TaskListItem";
 
 export default function TabOneScreen() {
-	const [isChecked, setIsChecked] = useState(false);
-
+	const [tasks, setTasks] = useState([
+		{
+			id: 1,
+			content: "Buy Milk",
+			isComplete: true,
+		},
+		{
+			id: 2,
+			content: "Buy Bread",
+			isComplete: false,
+		},
+		{
+			id: 3,
+			content: "Buy Eggs",
+			isComplete: false,
+		},
+		{
+			id: 4,
+			content: "Buy Cheese",
+			isComplete: false,
+		},
+	]);
 	return (
 		<View style={styles.container}>
 			<Text style={styles.title}>This is going to update</Text>
-			<View style={{ flexDirection: "row", alignItems: "center" }}>
-				<View>
-					<Checkbox
-						isChecked={isChecked}
-						onPress={() => {
-							setIsChecked(!isChecked);
-						}}
-					/>
-				</View>
-				<TextInput
-					style={{ flex: 1, marginLeft: 12, fontSize: 18 }}
-					multiline
-				/>
-			</View>
+			<FlatList
+				data={tasks}
+				renderItem={({ item }) => <TaskListItem task={item} />}
+				style={{ width: "100%" }}
+			/>
 		</View>
 	);
 }
