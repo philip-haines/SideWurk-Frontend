@@ -1,5 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { StyleSheet, TextInput, View } from "react-native";
+import React, { useState, useEffect, useRef } from "react";
+import {
+	StyleSheet,
+	TextInput,
+	View,
+	KeyboardAvoidingView,
+	Platform,
+} from "react-native";
 import Checkbox from "../Checkbox/checkbox";
 
 interface TaskListItemProps {
@@ -8,12 +14,21 @@ interface TaskListItemProps {
 		content: string;
 		isComplete: boolean;
 	};
+	newTaskOnSubmit: () => void;
 }
 
-export default function TaskListItem(props: TaskListItemProps) {
-	const { task } = props;
+export default function TaskListItem({
+	task,
+	newTaskOnSubmit,
+}: TaskListItemProps) {
 	const [isChecked, setIsChecked] = useState(false);
 	const [content, setContent] = useState("");
+	const input = useRef(null);
+
+	const onSubmit = () => {
+		console.warn("you hit me in onSubmit");
+		newTaskOnSubmit();
+	};
 	useEffect(() => {
 		if (!task) {
 			return;
@@ -21,6 +36,19 @@ export default function TaskListItem(props: TaskListItemProps) {
 		setIsChecked(task.isComplete);
 		setContent(task.content);
 	}, [task]);
+
+	useEffect(() => {
+		if (input.current) {
+			input?.current?.focus();
+		}
+	}, []);
+
+	const onKeyPress = ({ nativeEvent }) => {
+		if (nativeEvent.key === "Backspace" && content === "") {
+			console.warn("Delete Item");
+		}
+	};
+
 	return (
 		<View
 			style={{
@@ -37,12 +65,23 @@ export default function TaskListItem(props: TaskListItemProps) {
 					}}
 				/>
 			</View>
-			<TextInput
-				value={content}
-				onChangeText={setContent}
-				style={{ flex: 1, marginLeft: 12, fontSize: 18 }}
-				multiline
-			/>
+			<View>
+				<TextInput
+					ref={input}
+					value={content}
+					onChangeText={setContent}
+					style={{
+						flex: 1,
+						marginLeft: 12,
+						fontSize: 18,
+						width: "90%",
+					}}
+					multiline
+					onSubmitEditing={onSubmit}
+					onKeyPress={onKeyPress}
+					blurOnSubmit
+				/>
+			</View>
 		</View>
 	);
 }
