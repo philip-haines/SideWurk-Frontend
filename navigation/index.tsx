@@ -51,6 +51,7 @@ function RootNavigator() {
 				component={SplashScreen}
 				options={{ headerShown: false }}
 			/>
+
 			<Stack.Screen
 				name="SignInScreen"
 				component={SignInScreen}
