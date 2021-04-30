@@ -44,8 +44,6 @@ const Stack = createStackNavigator<RootStackParamList>();
 function RootNavigator() {
 	return (
 		<Stack.Navigator screenOptions={{ headerShown: true }}>
-			{/* <Stack.Screen name="Root" component={BottomTabNavigator} /> */}
-
 			<Stack.Screen
 				name="SplashScreen"
 				component={SplashScreen}
@@ -61,6 +59,8 @@ function RootNavigator() {
 				component={SignUpScreen}
 				options={{ title: "Create Account" }}
 			/>
+
+			{/* <Stack.Screen name="Root" component={BottomTabNavigator} /> */}
 			<Stack.Screen name="Home" component={TaskListScreen} />
 			<Stack.Screen name="TaskScreen" component={TaskScreen} />
 			<Stack.Screen
