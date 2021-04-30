@@ -13,7 +13,7 @@ export default function SplashScreen() {
 	}, []);
 
 	const isAuthenticated = () => {
-		return true;
+		return false;
 	};
 	return (
 		<View style={{ flex: 1, justifyContent: "center" }}>
