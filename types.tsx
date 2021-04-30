@@ -5,6 +5,8 @@
 
 export type RootStackParamList = {
 	Root: undefined;
+	Home: undefined;
+	TaskScreen: undefined;
 	NotFound: undefined;
 };
 

@@ -3,24 +3,35 @@
  * https://reactnavigation.org/docs/getting-started
  *
  */
-import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import * as React from 'react';
-import { ColorSchemeName } from 'react-native';
+import {
+	NavigationContainer,
+	DefaultTheme,
+	DarkTheme,
+} from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import * as React from "react";
+import { ColorSchemeName } from "react-native";
 
-import NotFoundScreen from '../screens/NotFoundScreen';
-import { RootStackParamList } from '../types';
-import BottomTabNavigator from './BottomTabNavigator';
-import LinkingConfiguration from './LinkingConfiguration';
+import NotFoundScreen from "../screens/NotFoundScreen";
+import TaskListScreen from "../screens/TaskListScreen";
+import TaskScreen from "../screens/TaskScreen";
+import { RootStackParamList } from "../types";
+import BottomTabNavigator from "./BottomTabNavigator";
+import LinkingConfiguration from "./LinkingConfiguration";
 
-export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
-  return (
-    <NavigationContainer
-      linking={LinkingConfiguration}
-      theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <RootNavigator />
-    </NavigationContainer>
-  );
+export default function Navigation({
+	colorScheme,
+}: {
+	colorScheme: ColorSchemeName;
+}) {
+	return (
+		<NavigationContainer
+			linking={LinkingConfiguration}
+			theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+		>
+			<RootNavigator />
+		</NavigationContainer>
+	);
 }
 
 // A root stack navigator is often used for displaying modals on top of all other content
@@ -28,10 +39,16 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
 const Stack = createStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
-  return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Root" component={BottomTabNavigator} />
-      <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
-    </Stack.Navigator>
-  );
+	return (
+		<Stack.Navigator screenOptions={{ headerShown: true }}>
+			{/* <Stack.Screen name="Root" component={BottomTabNavigator} /> */}
+			<Stack.Screen name="Home" component={TaskListScreen} />
+			<Stack.Screen name="TaskScreen" component={TaskScreen} />
+			<Stack.Screen
+				name="NotFound"
+				component={NotFoundScreen}
+				options={{ title: "Oops!" }}
+			/>
+		</Stack.Navigator>
+	);
 }

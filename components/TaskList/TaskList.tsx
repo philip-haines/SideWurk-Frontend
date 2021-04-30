@@ -1,5 +1,6 @@
 import React from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 interface TaskListProps {
@@ -11,8 +12,9 @@ interface TaskListProps {
 }
 
 export default function TaskList({ taskList }: TaskListProps) {
+	const navigation = useNavigation();
 	const handlePress = () => {
-		console.warn("open project once connected to back end");
+		navigation.navigate("TaskScreen", { id: taskList.id });
 	};
 	return (
 		<Pressable onPress={handlePress}>
