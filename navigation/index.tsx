@@ -15,6 +15,9 @@ import { ColorSchemeName } from "react-native";
 import NotFoundScreen from "../screens/NotFoundScreen";
 import TaskListScreen from "../screens/TaskListScreen";
 import TaskScreen from "../screens/TaskScreen";
+import SignInScreen from "../screens/AuthScreens/SignInScreen";
+import SignUpScreen from "../screens/AuthScreens/SignUpScreen";
+import SplashScreen from "../screens/SplashScreen";
 import { RootStackParamList } from "../types";
 import BottomTabNavigator from "./BottomTabNavigator";
 import LinkingConfiguration from "./LinkingConfiguration";
@@ -42,6 +45,22 @@ function RootNavigator() {
 	return (
 		<Stack.Navigator screenOptions={{ headerShown: true }}>
 			{/* <Stack.Screen name="Root" component={BottomTabNavigator} /> */}
+
+			<Stack.Screen
+				name="SplashScreen"
+				component={SplashScreen}
+				options={{ headerShown: false }}
+			/>
+			<Stack.Screen
+				name="SignInScreen"
+				component={SignInScreen}
+				options={{ title: "Sign In" }}
+			/>
+			<Stack.Screen
+				name="SignUpScreen"
+				component={SignUpScreen}
+				options={{ title: "Create Account" }}
+			/>
 			<Stack.Screen name="Home" component={TaskListScreen} />
 			<Stack.Screen name="TaskScreen" component={TaskScreen} />
 			<Stack.Screen
