@@ -7,6 +7,9 @@ export type RootStackParamList = {
 	Root: undefined;
 	Home: undefined;
 	TaskScreen: undefined;
+	SignInScreen: undefined;
+	SignUpScreen: undefined;
+	SplashScreen: undefined;
 	NotFound: undefined;
 };
 
