@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, TextInput, View, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { useMutation } from "@apollo/client";
 
 export default function SignUPScreen() {
 	const [email, setEmail] = useState("");
