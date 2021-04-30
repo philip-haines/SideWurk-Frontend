@@ -76,7 +76,8 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		alignItems: "center",
-		padding: 12,
+		padding: 24,
+		justifyContent: "space-around",
 	},
 	title: {
 		width: "100%",
