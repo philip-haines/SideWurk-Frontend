@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { StyleSheet, FlatList } from "react-native";
+import React, { useEffect, useState } from "react";
+import { StyleSheet, FlatList, Alert } from "react-native";
 import EditScreenInfo from "../components/EditScreenInfo";
 import { Text, View } from "../components/Themed";
 import { useQuery, gql } from "@apollo/client";
@@ -17,9 +17,18 @@ const MY_TASKLISTS_QUERY = gql`
 export default function TabTwoScreen() {
 	const [taskLists, setTaskLists] = useState([]);
 
-	const [myTaskLists, { data, error, loading }] = useQuery(
-		MY_TASKLISTS_QUERY
-	);
+	const { data, error, loading } = useQuery(MY_TASKLISTS_QUERY);
+	useEffect(() => {
+		if (error) {
+			Alert.alert("Error fetching. Please try again.", error.message);
+		}
+	}, [error]);
+
+	useEffect(() => {
+		if (data) {
+			setTaskLists(data.myTaskLists);
+		}
+	}, [data]);
 
 	return (
 		<View style={styles.container}>
