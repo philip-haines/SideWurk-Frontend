@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { StyleSheet, FlatList } from "react-native";
 import EditScreenInfo from "../components/EditScreenInfo";
 import { Text, View } from "../components/Themed";
+import { useQuery, gql } from "@apollo/client";
 import TaskList from "../components/TaskList/TaskList";
 
 export default function TabTwoScreen() {
