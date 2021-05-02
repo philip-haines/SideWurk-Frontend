@@ -57,14 +57,19 @@ export default function TabOneScreen() {
 	}
 
 	const newTaskOnSubmit = (atIndex: number) => {
-		const newTasks = [...tasks];
-		newTasks.splice(atIndex, 0, {
-			id: id,
-			content: "",
-			isComplete: false,
-		});
-		setTasks(newTasks);
+		// const newTasks = [...tasks];
+		// newTasks.splice(atIndex, 0, {
+		// 	id: id,
+		// 	content: "",
+		// 	isComplete: false,
+		// });
+		// setTasks(newTasks);
 	};
+
+	if (!tasks) {
+		return null;
+	}
+
 	return (
 		<KeyboardAvoidingView
 			behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -76,6 +81,7 @@ export default function TabOneScreen() {
 					style={styles.title}
 					onChangeText={setTitle}
 					placeholder={"Title"}
+					value={title}
 				/>
 				<FlatList
 					data={tasks}
