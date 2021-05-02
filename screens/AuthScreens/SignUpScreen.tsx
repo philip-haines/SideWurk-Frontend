@@ -30,8 +30,6 @@ export default function SignUPScreen() {
 	const navigation = useNavigation();
 
 	const [signUp, { data, error, loading }] = useMutation(SIGN_UP_MUTATION);
-	console.log(data);
-	console.log(error);
 	const onSubmit = () => {
 		signUp({ variables: { email, name, password } });
 		setName("");
