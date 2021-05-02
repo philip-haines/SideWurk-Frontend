@@ -1,40 +1,60 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
 	StyleSheet,
 	FlatList,
 	TextInput,
 	KeyboardAvoidingView,
 	Platform,
+	Alert,
+	ActivityIndicator,
 } from "react-native";
+import { useQuery, gql } from "@apollo/client";
+import { useRoute } from "@react-navigation/native";
 import { Text, View } from "../components/Themed";
 import TaskListItem from "../components/TaskList/TaskListItem";
 
-let id = 5;
+// let id = 5;
+
+const GET_TASK_LIST = gql`
+	query getTaskList($id: ID!) {
+		getTaskList(id: $id) {
+			id
+			title
+			progress
+			tasks {
+				id
+				content
+				isComplete
+			}
+		}
+	}
+`;
 
 export default function TabOneScreen() {
 	const [title, setTitle] = useState("");
-	const [tasks, setTasks] = useState([
-		{
-			id: 1,
-			content: "Buy Milk",
-			isComplete: true,
-		},
-		{
-			id: 2,
-			content: "Buy Bread",
-			isComplete: false,
-		},
-		{
-			id: 3,
-			content: "Buy Eggs",
-			isComplete: false,
-		},
-		{
-			id: 4,
-			content: "Buy Cheese",
-			isComplete: false,
-		},
-	]);
+	const [tasks, setTasks] = useState([]);
+
+	const route = useRoute();
+
+	const { data, loading, error } = useQuery(GET_TASK_LIST, {
+		variables: { id: route.params.id },
+	});
+	useEffect(() => {
+		if (error) {
+			Alert.alert("Error fetching. Please try again.", error.message);
+		}
+	}, [error]);
+
+	useEffect(() => {
+		if (data) {
+			setTitle(data.getTaskList.title);
+			setTasks(data.getTaskList.tasks);
+		}
+	}, [data]);
+
+	if (loading) {
+		return <ActivityIndicator />;
+	}
 
 	const newTaskOnSubmit = (atIndex: number) => {
 		const newTasks = [...tasks];
