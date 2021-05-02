@@ -34,7 +34,7 @@ export default function SignInScreen() {
 	const onSubmit = () => {
 		signIn({ variables: { email, password } });
 		if (error) {
-			Alert.alert("Error signing up. Try again.");
+			Alert.alert("Invalid credentials. Please try again.");
 		}
 
 		if (data) {
@@ -72,6 +72,7 @@ export default function SignInScreen() {
 				}}
 			/>
 			<Pressable
+				disabled={loading}
 				onPress={onSubmit}
 				style={{
 					marginVertical: 15,
@@ -91,6 +92,7 @@ export default function SignInScreen() {
 			{loading && <ActivityIndicator />}
 
 			<Pressable
+				disabled={loading}
 				onPress={() => navigation.navigate("SignUpScreen")}
 				style={{
 					marginVertical: 15,
