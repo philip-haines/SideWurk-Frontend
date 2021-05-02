@@ -1,15 +1,53 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, TextInput, View, Pressable } from "react-native";
+import {
+	StyleSheet,
+	Text,
+	TextInput,
+	View,
+	Pressable,
+	ActivityIndicator,
+	Alert,
+} from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
-import { useMutation } from "@apollo/client";
+import { useMutation, gql } from "@apollo/client";
+
+const SIGN_UP_MUTATION = gql`
+	mutation signUp($email: String!, $password: String!, $name: String!) {
+		signUp(input: { email: $email, password: $password, name: $name }) {
+			token
+			user {
+				id
+				name
+			}
+		}
+	}
+`;
 
 export default function SignUPScreen() {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [name, setName] = useState("");
+
 	const navigation = useNavigation();
 
-	const onSubmit = () => {};
+	const [signUp, { data, error, loading }] = useMutation(SIGN_UP_MUTATION);
+
+	const onSubmit = () => {
+		signUp({ variables: { email, name, password } });
+		if (error) {
+			Alert.alert("Error signing up. Try again.");
+		}
+		if (data) {
+			AsyncStorage.setItem("token", data.signUp.token)
+				.then(() => navigation.navigate("Home"))
+				.then(() => {
+					setName("");
+					setEmail("");
+					setPassword("");
+				});
+		}
+	};
 	return (
 		<View style={{ padding: 20 }}>
 			<TextInput
@@ -34,6 +72,7 @@ export default function SignUPScreen() {
 					marginVertical: 25,
 				}}
 			/>
+
 			<TextInput
 				placeholder="password"
 				value={password}
@@ -46,7 +85,9 @@ export default function SignUPScreen() {
 					marginVertical: 25,
 				}}
 			/>
+
 			<Pressable
+				disabled={loading}
 				onPress={onSubmit}
 				style={{
 					marginVertical: 15,
@@ -57,6 +98,7 @@ export default function SignUPScreen() {
 					justifyContent: "center",
 				}}
 			>
+				{loading && <ActivityIndicator />}
 				<Text
 					style={{ color: "white", fontSize: 18, fontWeight: "bold" }}
 				>
@@ -65,6 +107,7 @@ export default function SignUPScreen() {
 			</Pressable>
 
 			<Pressable
+				disabled={loading}
 				onPress={() => navigation.navigate("SignInScreen")}
 				style={{
 					marginVertical: 15,
