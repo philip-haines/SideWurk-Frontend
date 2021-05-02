@@ -34,6 +34,9 @@ export default function SignUPScreen() {
 	console.log(error);
 	const onSubmit = () => {
 		signUp({ variables: { email, name, password } });
+		setName("");
+		setEmail("");
+		setPassword("");
 	};
 	return (
 		<View style={{ padding: 20 }}>
