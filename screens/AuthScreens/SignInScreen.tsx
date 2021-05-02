@@ -37,7 +37,7 @@ export default function SignInScreen() {
 				onPress={onSubmit}
 				style={{
 					marginVertical: 15,
-					backgroundColor: "#4D748C",
+					backgroundColor: "#38c6bd",
 					height: 50,
 					borderRadius: 8,
 					alignItems: "center",
@@ -61,7 +61,7 @@ export default function SignInScreen() {
 			>
 				<Text
 					style={{
-						color: "#4D748C",
+						color: "#38c6bd",
 						fontSize: 18,
 						fontWeight: "bold",
 					}}

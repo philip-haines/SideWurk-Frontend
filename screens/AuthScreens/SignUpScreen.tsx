@@ -28,11 +28,12 @@ export default function SignUPScreen() {
 	const [name, setName] = useState("");
 
 	const navigation = useNavigation();
+
 	const [signUp, { data, error, loading }] = useMutation(SIGN_UP_MUTATION);
-	console.log(data);
-	console.log(error);
+	// console.log(data);
+	// console.log(error);
 	const onSubmit = () => {
-		console.log(signUp);
+		signUp({ variables: { email: email, password: password, name: name } });
 	};
 	return (
 		<View style={{ padding: 20 }}>
