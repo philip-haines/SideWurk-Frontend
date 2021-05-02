@@ -6,7 +6,9 @@ import {
 	View,
 	Pressable,
 	ActivityIndicator,
+	Alert,
 } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import { useMutation, gql } from "@apollo/client";
 
@@ -30,11 +32,21 @@ export default function SignUPScreen() {
 	const navigation = useNavigation();
 
 	const [signUp, { data, error, loading }] = useMutation(SIGN_UP_MUTATION);
+
 	const onSubmit = () => {
 		signUp({ variables: { email, name, password } });
-		setName("");
-		setEmail("");
-		setPassword("");
+		if (error) {
+			Alert.alert("Error signing up. Try again.");
+		}
+		if (data) {
+			AsyncStorage.setItem("token", data.signUp.token)
+				.then(() => navigation.navigate("Home"))
+				.then(() => {
+					setName("");
+					setEmail("");
+					setPassword("");
+				});
+		}
 	};
 	return (
 		<View style={{ padding: 20 }}>
