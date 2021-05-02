@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
 	StyleSheet,
 	Text,
@@ -31,20 +31,23 @@ export default function SignInScreen() {
 	const navigation = useNavigation();
 	const [signIn, { data, error, loading }] = useMutation(SIGN_IN_MUTATION);
 
-	const onSubmit = () => {
-		signIn({ variables: { email, password } });
+	useEffect(() => {
 		if (error) {
 			Alert.alert("Invalid credentials. Please try again.");
 		}
+	}, [error]);
 
-		if (data) {
-			AsyncStorage.setItem("token", data.signIn.token)
-				.then(() => navigation.navigate("Home"))
-				.then(() => {
-					setEmail("");
-					setPassword("");
-				});
-		}
+	if (data) {
+		AsyncStorage.setItem("token", data.signIn.token)
+			.then(() => navigation.navigate("Home"))
+			.then(() => {
+				setEmail("");
+				setPassword("");
+			});
+	}
+
+	const onSubmit = () => {
+		signIn({ variables: { email, password } });
 	};
 	return (
 		<View style={{ padding: 20 }}>
