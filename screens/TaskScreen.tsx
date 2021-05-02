@@ -7,6 +7,7 @@ import {
 	Platform,
 } from "react-native";
 import { Text, View } from "../components/Themed";
+import { useQuery, gql } from "@apollo/client";
 import TaskListItem from "../components/TaskList/TaskListItem";
 
 let id = 5;
