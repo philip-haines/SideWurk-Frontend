@@ -4,25 +4,22 @@ import EditScreenInfo from "../components/EditScreenInfo";
 import { Text, View } from "../components/Themed";
 import { useQuery, gql } from "@apollo/client";
 import TaskList from "../components/TaskList/TaskList";
+const MY_TASKLISTS_QUERY = gql`
+	query myTaskLists {
+		myTaskLists {
+			id
+			title
+			progress
+		}
+	}
+`;
 
 export default function TabTwoScreen() {
-	const [taskLists, setTaskLists] = useState([
-		{
-			id: 1,
-			title: "Task List 1",
-			createdAt: "2d",
-		},
-		{
-			id: 2,
-			title: "Task List 2",
-			createdAt: "5d",
-		},
-		{
-			id: 3,
-			title: "Task List 3",
-			createdAt: "1d",
-		},
-	]);
+	const [taskLists, setTaskLists] = useState([]);
+
+	const [myTaskLists, { data, error, loading }] = useQuery(
+		MY_TASKLISTS_QUERY
+	);
 
 	return (
 		<View style={styles.container}>
