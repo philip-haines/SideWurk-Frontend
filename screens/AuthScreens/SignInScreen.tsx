@@ -11,19 +11,7 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { useMutation, gql } from "@apollo/client";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
-const SIGN_IN_MUTATION = gql`
-	mutation signIn($email: String!, $password: String!) {
-		signIn(input: { email: $email, password: $password }) {
-			token
-			user {
-				id
-				name
-				email
-			}
-		}
-	}
-`;
+import { SIGN_IN_MUTATION } from "../../Apollo/mutations";
 
 export default function SignInScreen() {
 	const [email, setEmail] = useState("");

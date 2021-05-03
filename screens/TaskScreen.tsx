@@ -8,11 +8,12 @@ import {
 	Alert,
 	ActivityIndicator,
 } from "react-native";
-import { useQuery, useMutation, gql } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
 import { useRoute } from "@react-navigation/native";
 import { Text, View } from "../components/Themed";
 import TaskListItem from "../components/TaskList/TaskListItem";
-import { GET_TASK_LIST, CREATE_TASK } from "../Apollo/Queries";
+import { GET_TASK_LIST } from "../Apollo/Queries";
+import { CREATE_TASK } from "../Apollo/mutations";
 
 export default function TabOneScreen() {
 	const [title, setTitle] = useState("");
