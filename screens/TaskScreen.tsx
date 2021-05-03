@@ -8,46 +8,12 @@ import {
 	Alert,
 	ActivityIndicator,
 } from "react-native";
-import { useQuery, useMutation, gql } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
 import { useRoute } from "@react-navigation/native";
 import { Text, View } from "../components/Themed";
 import TaskListItem from "../components/TaskList/TaskListItem";
-
-// let id = 5;
-
-const GET_TASK_LIST = gql`
-	query getTaskList($id: ID!) {
-		getTaskList(id: $id) {
-			id
-			title
-			progress
-			tasks {
-				id
-				content
-				isComplete
-			}
-		}
-	}
-`;
-
-const CREATE_TASK = gql`
-	mutation createTask($content: String!, $taskListId: ID!) {
-		createTask(content: $content, taskListId: $taskListId) {
-			id
-			content
-			isComplete
-			taskList {
-				id
-				progress
-				tasks {
-					id
-					content
-					isComplete
-				}
-			}
-		}
-	}
-`;
+import { GET_TASK_LIST } from "../Apollo/Queries";
+import { CREATE_TASK } from "../Apollo/mutations";
 
 export default function TabOneScreen() {
 	const [title, setTitle] = useState("");
