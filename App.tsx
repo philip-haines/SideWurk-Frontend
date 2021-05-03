@@ -5,7 +5,7 @@ import { ApolloProvider } from "@apollo/client";
 import useCachedResources from "./hooks/useCachedResources";
 import useColorScheme from "./hooks/useColorScheme";
 import Navigation from "./navigation";
-import { client } from "./apollo";
+import { client } from "./Apollo/apollo";
 
 export default function App() {
 	const isLoadingComplete = useCachedResources();
