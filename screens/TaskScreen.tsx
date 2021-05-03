@@ -12,26 +12,7 @@ import { useQuery, useMutation, gql } from "@apollo/client";
 import { useRoute } from "@react-navigation/native";
 import { Text, View } from "../components/Themed";
 import TaskListItem from "../components/TaskList/TaskListItem";
-import { GET_TASK_LIST } from "../Apollo/Queries";
-
-const CREATE_TASK = gql`
-	mutation createTask($content: String!, $taskListId: ID!) {
-		createTask(content: $content, taskListId: $taskListId) {
-			id
-			content
-			isComplete
-			taskList {
-				id
-				progress
-				tasks {
-					id
-					content
-					isComplete
-				}
-			}
-		}
-	}
-`;
+import { GET_TASK_LIST, CREATE_TASK } from "../Apollo/Queries";
 
 export default function TabOneScreen() {
 	const [title, setTitle] = useState("");
