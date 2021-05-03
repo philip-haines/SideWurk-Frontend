@@ -13,6 +13,18 @@ export const SIGN_IN_MUTATION = gql`
 	}
 `;
 
+export const SIGN_UP_MUTATION = gql`
+	mutation signUp($email: String!, $password: String!, $name: String!) {
+		signUp(input: { email: $email, password: $password, name: $name }) {
+			token
+			user {
+				id
+				name
+			}
+		}
+	}
+`;
+
 export const CREATE_TASK = gql`
 	mutation createTask($content: String!, $taskListId: ID!) {
 		createTask(content: $content, taskListId: $taskListId) {
