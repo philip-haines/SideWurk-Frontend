@@ -12,23 +12,7 @@ import { useQuery, useMutation, gql } from "@apollo/client";
 import { useRoute } from "@react-navigation/native";
 import { Text, View } from "../components/Themed";
 import TaskListItem from "../components/TaskList/TaskListItem";
-
-// let id = 5;
-
-const GET_TASK_LIST = gql`
-	query getTaskList($id: ID!) {
-		getTaskList(id: $id) {
-			id
-			title
-			progress
-			tasks {
-				id
-				content
-				isComplete
-			}
-		}
-	}
-`;
+import { GET_TASK_LIST } from "../Apollo/Queries";
 
 const CREATE_TASK = gql`
 	mutation createTask($content: String!, $taskListId: ID!) {
