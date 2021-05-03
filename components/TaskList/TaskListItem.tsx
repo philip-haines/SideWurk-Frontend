@@ -26,7 +26,6 @@ export default function TaskListItem({
 	const input = useRef(null);
 
 	const onSubmit = () => {
-		console.warn("you hit me in onSubmit");
 		newTaskOnSubmit();
 	};
 	useEffect(() => {

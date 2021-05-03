@@ -8,7 +8,7 @@ import {
 	Alert,
 	ActivityIndicator,
 } from "react-native";
-import { useQuery, gql } from "@apollo/client";
+import { useQuery, useMutation, gql } from "@apollo/client";
 import { useRoute } from "@react-navigation/native";
 import { Text, View } from "../components/Themed";
 import TaskListItem from "../components/TaskList/TaskListItem";
@@ -30,15 +30,37 @@ const GET_TASK_LIST = gql`
 	}
 `;
 
+const CREATE_TASK = gql`
+	mutation createTask($content: String!, $taskListId: ID!) {
+		createTask(content: $content, taskListId: $taskListId) {
+			id
+			content
+			isComplete
+			taskList {
+				id
+				progress
+				tasks {
+					id
+					content
+					isComplete
+				}
+			}
+		}
+	}
+`;
+
 export default function TabOneScreen() {
 	const [title, setTitle] = useState("");
 	const [tasks, setTasks] = useState([]);
 
 	const route = useRoute();
 
+	const id = route.params.id;
+
 	const { data, loading, error } = useQuery(GET_TASK_LIST, {
-		variables: { id: route.params.id },
+		variables: { id },
 	});
+
 	useEffect(() => {
 		if (error) {
 			Alert.alert("Error fetching. Please try again.", error.message);
@@ -52,19 +74,23 @@ export default function TabOneScreen() {
 		}
 	}, [data]);
 
+	const [
+		createTask,
+		{ data: createTaskData, error: createTaskError },
+	] = useMutation(CREATE_TASK);
+
+	const newTaskOnSubmit = (atIndex: number) => {
+		createTask({
+			variables: {
+				content: "",
+				taskListId: id,
+			},
+		});
+	};
+
 	if (loading) {
 		return <ActivityIndicator />;
 	}
-
-	const newTaskOnSubmit = (atIndex: number) => {
-		// const newTasks = [...tasks];
-		// newTasks.splice(atIndex, 0, {
-		// 	id: id,
-		// 	content: "",
-		// 	isComplete: false,
-		// });
-		// setTasks(newTasks);
-	};
 
 	if (!tasks) {
 		return null;
