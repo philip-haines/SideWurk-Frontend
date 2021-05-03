@@ -3,15 +3,7 @@ import { StyleSheet, FlatList, Alert, ActivityIndicator } from "react-native";
 import { Text, View } from "../components/Themed";
 import { useQuery, gql } from "@apollo/client";
 import TaskList from "../components/TaskList/TaskList";
-const MY_TASK_LISTS_QUERY = gql`
-	query myTaskLists {
-		myTaskLists {
-			id
-			title
-			progress
-		}
-	}
-`;
+import { MY_TASK_LISTS_QUERY } from "../Apollo/Queries";
 
 export default function TabTwoScreen() {
 	const [taskLists, setTaskLists] = useState([]);

@@ -14,3 +14,13 @@ export const GET_TASK_LIST = gql`
 		}
 	}
 `;
+
+export const MY_TASK_LISTS_QUERY = gql`
+	query myTaskLists {
+		myTaskLists {
+			id
+			title
+			progress
+		}
+	}
+`;
