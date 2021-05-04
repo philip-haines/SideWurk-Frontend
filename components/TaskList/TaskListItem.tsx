@@ -1,7 +1,26 @@
 import React, { useState, useEffect, useRef } from "react";
 import { StyleSheet, TextInput, View } from "react-native";
-import Checkbox from "../Checkbox/checkbox";
 import { useMutation, gql } from "@apollo/client";
+
+import Checkbox from "../Checkbox/checkbox";
+const UPDATE_TASK = gql`
+	mutation updateTask($id: ID!, $content: String, $isComplete: Boolean) {
+		updateTask(id: $id, content: $content, isComplete: $isComplete) {
+			content
+			isComplete
+			taskList {
+				title
+				progress
+				tasks {
+					id
+					content
+					isComplete
+				}
+			}
+		}
+	}
+`;
+
 interface TaskListItemProps {
 	task: {
 		id: number;
@@ -18,6 +37,17 @@ export default function TaskListItem({
 	const [isChecked, setIsChecked] = useState(false);
 	const [content, setContent] = useState("");
 	const input = useRef(null);
+	const [updateTask] = useMutation(UPDATE_TASK);
+
+	useEffect(() => {
+		updateTask({
+			variables: {
+				id: task.id,
+				content,
+				isComplete: isChecked,
+			},
+		});
+	}, [content, isChecked]);
 
 	const onSubmit = () => {
 		newTaskOnSubmit();
