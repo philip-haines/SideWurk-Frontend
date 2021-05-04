@@ -64,10 +64,10 @@ export default function TabOneScreen() {
 	};
 
 	const deleteTaskOnBackspace = (passedTask) => {
-		const tasks = [...tasks];
-		const foundTask = tasks.filter((task) => passedTask.id === task);
-		const newTasks = tasks.pop(foundTask);
-		setTasks(newTasks);
+		// const tasks = [...tasks];
+		// const foundTask = tasks.filter((task) => passedTask.id === task);
+		// const newTasks = tasks.pop(foundTask);
+		// setTasks(newTasks);
 		deleteTask({
 			variables: {
 				id: passedTask.id,
