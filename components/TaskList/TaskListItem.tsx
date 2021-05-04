@@ -6,7 +6,7 @@ import {
 	NativeSyntheticEvent,
 } from "react-native";
 
-import { useMutation } from "@apollo/client";
+import { useMutation, gql } from "@apollo/client";
 
 import Checkbox from "../Checkbox/checkbox";
 import { UPDATE_TASK } from "../../Apollo/mutations";
@@ -18,11 +18,13 @@ interface TaskListItemProps {
 		isComplete: boolean;
 	};
 	newTaskOnSubmit: () => void;
+	deleteTaskOnBackspace: () => void;
 }
 
 export default function TaskListItem({
 	task,
 	newTaskOnSubmit,
+	deleteTaskOnBackspace,
 }: TaskListItemProps) {
 	const [isChecked, setIsChecked] = useState(false);
 	const [content, setContent] = useState("");
@@ -59,7 +61,7 @@ export default function TaskListItem({
 
 	const handleDelete = ({ nativeEvent }: NativeSyntheticEvent<{}>) => {
 		if (nativeEvent.key === "Backspace" && content === "") {
-			console.warn("Delete Item");
+			deleteTaskOnBackspace(task);
 		}
 	};
 

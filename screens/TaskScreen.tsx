@@ -8,12 +8,18 @@ import {
 	Alert,
 	ActivityIndicator,
 } from "react-native";
-import { useQuery, useMutation } from "@apollo/client";
+import { useQuery, useMutation, gql } from "@apollo/client";
 import { useRoute } from "@react-navigation/native";
 import { Text, View } from "../components/Themed";
 import TaskListItem from "../components/TaskList/TaskListItem";
 import { GET_TASK_LIST } from "../Apollo/Queries";
 import { CREATE_TASK } from "../Apollo/mutations";
+
+const DELETE_TASK = gql`
+	mutation deleteTask($id: ID!) {
+		deleteTask(id: $id)
+	}
+`;
 
 export default function TabOneScreen() {
 	const [title, setTitle] = useState("");
@@ -25,6 +31,9 @@ export default function TabOneScreen() {
 
 	const { data, loading, error } = useQuery(GET_TASK_LIST, {
 		variables: { id },
+	});
+	const [deleteTask] = useMutation(DELETE_TASK, {
+		refetchQueries: [{ query: GET_TASK_LIST, variables: { id } }],
 	});
 
 	useEffect(() => {
@@ -45,11 +54,23 @@ export default function TabOneScreen() {
 		{ data: createTaskData, error: createTaskError },
 	] = useMutation(CREATE_TASK);
 
-	const newTaskOnSubmit = (atIndex: number) => {
+	const newTaskOnSubmit = () => {
 		createTask({
 			variables: {
 				content: "",
 				taskListId: id,
+			},
+		});
+	};
+
+	const deleteTaskOnBackspace = (passedTask) => {
+		// const tasks = [...tasks];
+		// const foundTask = tasks.filter((task) => passedTask.id === task);
+		// const newTasks = tasks.pop(foundTask);
+		// setTasks(newTasks);
+		deleteTask({
+			variables: {
+				id: passedTask.id,
 			},
 		});
 	};
@@ -80,7 +101,8 @@ export default function TabOneScreen() {
 					renderItem={({ item, index }) => (
 						<TaskListItem
 							task={item}
-							newTaskOnSubmit={() => newTaskOnSubmit(index + 1)}
+							newTaskOnSubmit={() => newTaskOnSubmit()}
+							deleteTaskOnBackspace={deleteTaskOnBackspace}
 						/>
 					)}
 					style={{ width: "100%" }}
