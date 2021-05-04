@@ -1,13 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
-import {
-	StyleSheet,
-	TextInput,
-	View,
-	KeyboardAvoidingView,
-	Platform,
-} from "react-native";
+import { StyleSheet, TextInput, View } from "react-native";
 import Checkbox from "../Checkbox/checkbox";
-
+import { useMutation, gql } from "@apollo/client";
 interface TaskListItemProps {
 	task: {
 		id: number;
