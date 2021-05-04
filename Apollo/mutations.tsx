@@ -43,3 +43,21 @@ export const CREATE_TASK = gql`
 		}
 	}
 `;
+
+export const UPDATE_TASK = gql`
+	mutation updateTask($id: ID!, $content: String, $isComplete: Boolean) {
+		updateTask(id: $id, content: $content, isComplete: $isComplete) {
+			content
+			isComplete
+			taskList {
+				title
+				progress
+				tasks {
+					id
+					content
+					isComplete
+				}
+			}
+		}
+	}
+`;
