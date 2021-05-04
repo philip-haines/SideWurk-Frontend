@@ -1,7 +1,16 @@
 import React, { useState, useEffect, useRef } from "react";
-import { StyleSheet, TextInput, View } from "react-native";
+import {
+	StyleSheet,
+	TextInput,
+	View,
+	NativeSyntheticEvent,
+} from "react-native";
+
+import { useMutation } from "@apollo/client";
+
 import Checkbox from "../Checkbox/checkbox";
-import { useMutation, gql } from "@apollo/client";
+import { UPDATE_TASK } from "../../Apollo/mutations";
+
 interface TaskListItemProps {
 	task: {
 		id: number;
@@ -18,17 +27,7 @@ export default function TaskListItem({
 	const [isChecked, setIsChecked] = useState(false);
 	const [content, setContent] = useState("");
 	const input = useRef(null);
-
-	const onSubmit = () => {
-		newTaskOnSubmit();
-	};
-	useEffect(() => {
-		if (!task) {
-			return;
-		}
-		setIsChecked(task.isComplete);
-		setContent(task.content);
-	}, [task]);
+	const [updateTask] = useMutation(UPDATE_TASK);
 
 	useEffect(() => {
 		if (input.current) {
@@ -36,7 +35,29 @@ export default function TaskListItem({
 		}
 	}, []);
 
-	const onKeyPress = ({ nativeEvent }) => {
+	useEffect(() => {
+		if (!task) {
+			return;
+		}
+		setIsChecked(task.isComplete);
+		setContent(task.content);
+	}, [task, isChecked]);
+
+	const handleUpdate = (value?: boolean) => {
+		console.log(task.isComplete, isChecked, task.content);
+		updateTask({
+			variables: {
+				id: task.id,
+				content,
+				isComplete: value,
+			},
+		});
+	};
+	const onSubmit = () => {
+		newTaskOnSubmit();
+	};
+
+	const handleDelete = ({ nativeEvent }: NativeSyntheticEvent<{}>) => {
 		if (nativeEvent.key === "Backspace" && content === "") {
 			console.warn("Delete Item");
 		}
@@ -52,9 +73,10 @@ export default function TaskListItem({
 		>
 			<View>
 				<Checkbox
-					isChecked={isChecked}
+					isChecked={task.isComplete}
 					onPress={() => {
 						setIsChecked(!isChecked);
+						handleUpdate(!isChecked);
 					}}
 				/>
 			</View>
@@ -62,16 +84,17 @@ export default function TaskListItem({
 				<TextInput
 					ref={input}
 					value={content}
-					onChangeText={setContent}
 					style={{
 						flex: 1,
 						marginLeft: 12,
 						fontSize: 18,
-						width: "90%",
+						width: "100%",
 					}}
 					multiline
+					onChangeText={setContent}
+					onKeyPress={handleDelete}
+					onEndEditing={() => handleUpdate()}
 					onSubmitEditing={onSubmit}
-					onKeyPress={onKeyPress}
 					blurOnSubmit
 				/>
 			</View>
