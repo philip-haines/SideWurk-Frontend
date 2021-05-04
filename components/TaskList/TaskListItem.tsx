@@ -1,6 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
-import { StyleSheet, TextInput, View } from "react-native";
-import { useMutation, gql } from "@apollo/client";
+import {
+	StyleSheet,
+	TextInput,
+	View,
+	NativeSyntheticEvent,
+} from "react-native";
+
+import { useMutation } from "@apollo/client";
 
 import Checkbox from "../Checkbox/checkbox";
 import { UPDATE_TASK } from "../../Apollo/mutations";
@@ -35,14 +41,15 @@ export default function TaskListItem({
 		}
 		setIsChecked(task.isComplete);
 		setContent(task.content);
-	}, [task]);
+	}, [task, isChecked]);
 
-	const handleUpdate = () => {
+	const handleUpdate = (value?: boolean) => {
+		console.log(task.isComplete, isChecked, task.content);
 		updateTask({
 			variables: {
 				id: task.id,
 				content,
-				isComplete: isChecked,
+				isComplete: value,
 			},
 		});
 	};
@@ -50,7 +57,7 @@ export default function TaskListItem({
 		newTaskOnSubmit();
 	};
 
-	const handleDelete = ({ nativeEvent }) => {
+	const handleDelete = ({ nativeEvent }: NativeSyntheticEvent<{}>) => {
 		if (nativeEvent.key === "Backspace" && content === "") {
 			console.warn("Delete Item");
 		}
@@ -66,10 +73,10 @@ export default function TaskListItem({
 		>
 			<View>
 				<Checkbox
-					isChecked={isChecked}
+					isChecked={task.isComplete}
 					onPress={() => {
 						setIsChecked(!isChecked);
-						handleUpdate();
+						handleUpdate(!isChecked);
 					}}
 				/>
 			</View>
@@ -86,7 +93,7 @@ export default function TaskListItem({
 					multiline
 					onChangeText={setContent}
 					onKeyPress={handleDelete}
-					onEndEditing={handleUpdate}
+					onEndEditing={() => handleUpdate()}
 					onSubmitEditing={onSubmit}
 					blurOnSubmit
 				/>
