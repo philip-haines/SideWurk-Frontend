@@ -15,6 +15,19 @@ import TaskListItem from "../components/TaskList/TaskListItem";
 import { GET_TASK_LIST } from "../Apollo/Queries";
 import { CREATE_TASK, DELETE_TASK } from "../Apollo/mutations";
 
+const UPDATE_TASK_LIST = gql`
+	mutation updateTaskList($id: ID!, $title: String!) {
+		updateTaskList(id: $id, title: $title) {
+			id
+			title
+			users {
+				id
+				name
+			}
+		}
+	}
+`;
+
 export default function TabOneScreen() {
 	const [title, setTitle] = useState("");
 	const [tasks, setTasks] = useState([]);
@@ -26,9 +39,16 @@ export default function TabOneScreen() {
 	const { data, loading, error } = useQuery(GET_TASK_LIST, {
 		variables: { id },
 	});
+	const [
+		createTask,
+		{ data: createTaskData, error: createTaskError },
+	] = useMutation(CREATE_TASK);
+
 	const [deleteTask] = useMutation(DELETE_TASK, {
 		refetchQueries: [{ query: GET_TASK_LIST, variables: { id } }],
 	});
+
+	const [updateTaskList] = useMutation(UPDATE_TASK_LIST);
 
 	useEffect(() => {
 		if (error) {
@@ -43,11 +63,6 @@ export default function TabOneScreen() {
 		}
 	}, [data]);
 
-	const [
-		createTask,
-		{ data: createTaskData, error: createTaskError },
-	] = useMutation(CREATE_TASK);
-
 	const newTaskOnSubmit = () => {
 		createTask({
 			variables: {
@@ -61,6 +76,15 @@ export default function TabOneScreen() {
 		deleteTask({
 			variables: {
 				id: passedTask.id,
+			},
+		});
+	};
+
+	const handleTitleUpdate = () => {
+		updateTaskList({
+			variables: {
+				id,
+				title,
 			},
 		});
 	};
@@ -82,6 +106,7 @@ export default function TabOneScreen() {
 			<View style={styles.container}>
 				<TextInput
 					style={styles.title}
+					onEndEditing={() => handleTitleUpdate()}
 					onChangeText={setTitle}
 					placeholder={"Title"}
 					value={title}

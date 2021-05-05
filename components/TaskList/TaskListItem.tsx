@@ -46,7 +46,6 @@ export default function TaskListItem({
 	}, [task, isChecked]);
 
 	const handleUpdate = (value?: boolean) => {
-		console.log(task.isComplete, isChecked, task.content);
 		updateTask({
 			variables: {
 				id: task.id,
