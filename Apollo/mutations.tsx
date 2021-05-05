@@ -67,3 +67,16 @@ export const DELETE_TASK = gql`
 		deleteTask(id: $id)
 	}
 `;
+
+export const UPDATE_TASK_LIST = gql`
+	mutation updateTaskList($id: ID!, $title: String!) {
+		updateTaskList(id: $id, title: $title) {
+			id
+			title
+			users {
+				id
+				name
+			}
+		}
+	}
+`;
