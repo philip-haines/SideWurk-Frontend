@@ -22,10 +22,8 @@ import {
 export default function TabOneScreen() {
 	const [title, setTitle] = useState("");
 	const [tasks, setTasks] = useState([]);
-
 	const route = useRoute();
-
-	const id = route.params.id;
+	const id: number = route.params.id;
 
 	const { data, loading, error } = useQuery(GET_TASK_LIST, {
 		variables: { id },
@@ -35,7 +33,7 @@ export default function TabOneScreen() {
 		{ data: createTaskData, error: createTaskError },
 	] = useMutation(CREATE_TASK);
 
-	const [deleteTask] = useMutation(DELETE_TASK, {
+	const [deleteTask, { loading: deleteLoading }] = useMutation(DELETE_TASK, {
 		refetchQueries: [{ query: GET_TASK_LIST, variables: { id } }],
 	});
 
@@ -109,6 +107,7 @@ export default function TabOneScreen() {
 							task={item}
 							newTaskOnSubmit={() => newTaskOnSubmit()}
 							deleteTaskOnBackspace={deleteTaskOnBackspace}
+							loading={deleteLoading}
 						/>
 					)}
 					style={{ width: "100%" }}
