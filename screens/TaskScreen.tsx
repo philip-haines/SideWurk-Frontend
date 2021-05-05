@@ -82,7 +82,7 @@ export default function TabOneScreen() {
 	};
 
 	const handleNavigation = () => {
-		navigation.navigate("AddUsersScreen");
+		navigation.navigate("AddUsersScreen", { id });
 	};
 
 	if (loading) {
