@@ -10,6 +10,7 @@ export type RootStackParamList = {
 	SignInScreen: undefined;
 	SignUpScreen: undefined;
 	SplashScreen: undefined;
+	AddUsersScreen: undefined;
 	NotFound: undefined;
 };
 

@@ -8,10 +8,9 @@ import {
 	Alert,
 	ActivityIndicator,
 	Pressable,
-	Modal,
 } from "react-native";
 import { useQuery, useMutation, gql } from "@apollo/client";
-import { useRoute } from "@react-navigation/native";
+import { useRoute, useNavigation } from "@react-navigation/native";
 import { Text, View } from "../components/Themed";
 import { MaterialIcons } from "@expo/vector-icons";
 import TaskListItem from "../components/TaskList/TaskListItem";
@@ -23,6 +22,7 @@ import {
 } from "../Apollo/mutations";
 
 export default function TabOneScreen() {
+	const navigation = useNavigation();
 	const [title, setTitle] = useState("");
 	const [tasks, setTasks] = useState([]);
 	const route = useRoute();
@@ -41,8 +41,6 @@ export default function TabOneScreen() {
 	});
 
 	const [updateTaskList] = useMutation(UPDATE_TASK_LIST);
-
-	const [modalVisibility, setModalVisibility] = useState(true);
 
 	useEffect(() => {
 		if (error) {
@@ -66,7 +64,7 @@ export default function TabOneScreen() {
 		});
 	};
 
-	const deleteTaskOnBackspace = (passedTask) => {
+	const deleteTaskOnBackspace = (passedTask: Task) => {
 		deleteTask({
 			variables: {
 				id: passedTask.id,
@@ -83,6 +81,10 @@ export default function TabOneScreen() {
 		});
 	};
 
+	const handleNavigation = () => {
+		navigation.navigate("AddUsersScreen");
+	};
+
 	if (loading) {
 		return <ActivityIndicator />;
 	}
@@ -97,7 +99,6 @@ export default function TabOneScreen() {
 			keyboardVerticalOffset={Platform.OS === "ios" ? 90 : 0}
 			style={{ flex: 1 }}
 		>
-			{/* <Modal></Modal> */}
 			<View style={styles.container}>
 				<View
 					style={{
@@ -120,6 +121,7 @@ export default function TabOneScreen() {
 						}}
 					>
 						<Pressable
+							onPress={handleNavigation}
 							style={{
 								height: 40,
 								width: 40,
