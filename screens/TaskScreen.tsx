@@ -13,20 +13,11 @@ import { useRoute } from "@react-navigation/native";
 import { Text, View } from "../components/Themed";
 import TaskListItem from "../components/TaskList/TaskListItem";
 import { GET_TASK_LIST } from "../Apollo/Queries";
-import { CREATE_TASK, DELETE_TASK } from "../Apollo/mutations";
-
-const UPDATE_TASK_LIST = gql`
-	mutation updateTaskList($id: ID!, $title: String!) {
-		updateTaskList(id: $id, title: $title) {
-			id
-			title
-			users {
-				id
-				name
-			}
-		}
-	}
-`;
+import {
+	CREATE_TASK,
+	DELETE_TASK,
+	UPDATE_TASK_LIST,
+} from "../Apollo/mutations";
 
 export default function TabOneScreen() {
 	const [title, setTitle] = useState("");
