@@ -29,6 +29,7 @@ export default function AddUsersToListScreen() {
 			console.log(userData);
 		}
 	}, [userSearch]);
+
 	return (
 		<View style={styles.container}>
 			<View style={styles.inputContainer}>
