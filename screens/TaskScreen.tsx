@@ -7,10 +7,13 @@ import {
 	Platform,
 	Alert,
 	ActivityIndicator,
+	Pressable,
+	Modal,
 } from "react-native";
 import { useQuery, useMutation, gql } from "@apollo/client";
 import { useRoute } from "@react-navigation/native";
 import { Text, View } from "../components/Themed";
+import { MaterialIcons } from "@expo/vector-icons";
 import TaskListItem from "../components/TaskList/TaskListItem";
 import { GET_TASK_LIST } from "../Apollo/Queries";
 import {
@@ -38,6 +41,8 @@ export default function TabOneScreen() {
 	});
 
 	const [updateTaskList] = useMutation(UPDATE_TASK_LIST);
+
+	const [modalVisibility, setModalVisibility] = useState(true);
 
 	useEffect(() => {
 		if (error) {
@@ -92,14 +97,46 @@ export default function TabOneScreen() {
 			keyboardVerticalOffset={Platform.OS === "ios" ? 90 : 0}
 			style={{ flex: 1 }}
 		>
+			{/* <Modal></Modal> */}
 			<View style={styles.container}>
-				<TextInput
-					style={styles.title}
-					onEndEditing={() => handleTitleUpdate()}
-					onChangeText={setTitle}
-					placeholder={"Title"}
-					value={title}
-				/>
+				<View
+					style={{
+						flexDirection: "row",
+						alignItems: "center",
+						marginHorizontal: 15,
+					}}
+				>
+					<TextInput
+						style={styles.title}
+						onEndEditing={() => handleTitleUpdate()}
+						onChangeText={setTitle}
+						placeholder={"Title"}
+						value={title}
+					/>
+					<View
+						style={{
+							flexDirection: "row",
+							alignItems: "center",
+						}}
+					>
+						<Pressable
+							style={{
+								height: 40,
+								width: 40,
+								borderRadius: 5,
+								backgroundColor: "green",
+								alignItems: "center",
+								justifyContent: "center",
+							}}
+						>
+							<MaterialIcons
+								name="groups"
+								size={24}
+								color="white"
+							/>
+						</Pressable>
+					</View>
+				</View>
 				<FlatList
 					data={tasks}
 					renderItem={({ item, index }) => (
