@@ -13,13 +13,7 @@ import { useRoute } from "@react-navigation/native";
 import { Text, View } from "../components/Themed";
 import TaskListItem from "../components/TaskList/TaskListItem";
 import { GET_TASK_LIST } from "../Apollo/Queries";
-import { CREATE_TASK } from "../Apollo/mutations";
-
-const DELETE_TASK = gql`
-	mutation deleteTask($id: ID!) {
-		deleteTask(id: $id)
-	}
-`;
+import { CREATE_TASK, DELETE_TASK } from "../Apollo/mutations";
 
 export default function TabOneScreen() {
 	const [title, setTitle] = useState("");
@@ -64,10 +58,6 @@ export default function TabOneScreen() {
 	};
 
 	const deleteTaskOnBackspace = (passedTask) => {
-		// const tasks = [...tasks];
-		// const foundTask = tasks.filter((task) => passedTask.id === task);
-		// const newTasks = tasks.pop(foundTask);
-		// setTasks(newTasks);
 		deleteTask({
 			variables: {
 				id: passedTask.id,
