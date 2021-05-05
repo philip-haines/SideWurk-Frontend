@@ -1,26 +1,47 @@
-import * as React from "react";
-import { StyleSheet } from "react-native";
-
-import EditScreenInfo from "../components/EditScreenInfo";
+import React, { useState, useEffect } from "react";
+import { StyleSheet, TextInput } from "react-native";
 import { Text, View } from "../components/Themed";
 
 export default function AddUsersToListScreen() {
-	return <View style={styles.container}></View>;
+	const [userSearch, setUserSearch] = useState("");
+	return (
+		<View style={styles.container}>
+			<View style={styles.inputContainer}>
+				<TextInput
+					style={styles.searchInput}
+					placeholder="Find by Email or Name"
+					value={userSearch}
+					onChangeText={setUserSearch}
+				/>
+			</View>
+		</View>
+	);
 }
 
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		alignItems: "center",
-		justifyContent: "center",
+		paddingTop: 1,
 	},
+
 	title: {
 		fontSize: 20,
 		fontWeight: "bold",
 	},
-	separator: {
-		marginVertical: 30,
-		height: 1,
-		width: "80%",
+
+	inputContainer: {
+		width: "100%",
+		paddingHorizontal: 10,
+		borderTopColor: "#ccc",
+		borderBottomColor: "#ccc",
+		borderBottomWidth: 0.25,
+		borderTopWidth: 0.25,
+		height: 50,
+		justifyContent: "center",
+	},
+
+	searchInput: {
+		width: "70%",
 	},
 });
