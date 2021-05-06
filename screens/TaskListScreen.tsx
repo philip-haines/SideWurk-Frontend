@@ -5,6 +5,7 @@ import {
 	Alert,
 	ActivityIndicator,
 	Pressable,
+	TextInput,
 } from "react-native";
 import { Text, View } from "../components/Themed";
 import { useQuery, gql } from "@apollo/client";
@@ -14,6 +15,8 @@ import { MY_TASK_LISTS_QUERY } from "../Apollo/Queries";
 
 export default function TabTwoScreen() {
 	const [taskLists, setTaskLists] = useState([]);
+	const [inputVisibility, setInputVisibility] = useState(false);
+	const [taskListTitle, setTaskListTitle] = useState("");
 
 	const { data, error, loading } = useQuery(MY_TASK_LISTS_QUERY);
 	useEffect(() => {
@@ -32,6 +35,10 @@ export default function TabTwoScreen() {
 		return <ActivityIndicator />;
 	}
 
+	const handleClick = () => {
+		console.log("you hit me");
+	};
+
 	return (
 		<View style={styles.container}>
 			<FlatList
@@ -39,9 +46,19 @@ export default function TabTwoScreen() {
 				renderItem={({ item }) => <TaskList taskList={item} />}
 				style={{ width: "100%" }}
 			/>
-			<Pressable style={styles.addTaskListButton}>
-				<Ionicons name="pencil" size={32} color="white" />
-			</Pressable>
+			<View style={styles.bottomRow}>
+				<TextInput
+					placeholder="New List Name"
+					value={taskListTitle}
+					style={styles.newTitleInput}
+				/>
+				<Pressable
+					style={styles.addTaskListButton}
+					onPress={handleClick}
+				>
+					<Ionicons name="pencil" size={32} color="white" />
+				</Pressable>
+			</View>
 		</View>
 	);
 }
@@ -52,16 +69,38 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		justifyContent: "flex-end",
 	},
+
+	bottomRow: {
+		flexDirection: "row",
+		width: "100%",
+		justifyContent: "space-between",
+		alignItems: "center",
+		height: 185,
+	},
+
 	addTaskListButton: {
 		height: 70,
 		width: 70,
 		backgroundColor: "#77df79",
-		position: "absolute",
 		alignSelf: "flex-end",
 		bottom: 60,
 		right: 30,
 		borderRadius: 50,
 		justifyContent: "center",
 		alignItems: "center",
+	},
+
+	newTitleInput: {
+		marginLeft: 20,
+		width: "70%",
+		paddingHorizontal: 10,
+		borderTopColor: "#ccc",
+		borderBottomColor: "#ccc",
+		borderBottomWidth: 0.25,
+		borderLeftColor: "#ccc",
+		borderLeftWidth: 0.25,
+		borderTopWidth: 0.25,
+		height: 50,
+		justifyContent: "center",
 	},
 });
