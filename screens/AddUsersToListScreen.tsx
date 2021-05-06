@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, TextInput } from "react-native";
+import {
+	StyleSheet,
+	TextInput,
+	FlatList,
+	ActivityIndicator,
+} from "react-native";
 import { Text, View } from "../components/Themed";
+import User from "../components/user/User";
 
 import { useQuery, gql } from "@apollo/client";
 
@@ -17,16 +23,15 @@ const GET_USERS = gql`
 export default function AddUsersToListScreen() {
 	const [userSearch, setUserSearch] = useState("");
 	const [userData, setUserData] = useState([]);
-	const { data: usersData } = useQuery(GET_USERS, {
+	const { data: searchData, loading: usersLoading } = useQuery(GET_USERS, {
 		variables: {
 			text: userSearch,
 		},
 	});
 
 	useEffect(() => {
-		if (usersData) {
-			setUserData(usersData);
-			console.log(userData);
+		if (searchData) {
+			setUserData(searchData.getUsers);
 		}
 	}, [userSearch]);
 
@@ -40,6 +45,14 @@ export default function AddUsersToListScreen() {
 					onChangeText={setUserSearch}
 				/>
 			</View>
+			{!userData ? <ActivityIndicator /> : null}
+			<FlatList
+				data={userData}
+				renderItem={({ item }) => (
+					<User loading={usersLoading} user={item} />
+				)}
+				style={{ width: "100%" }}
+			/>
 		</View>
 	);
 }
