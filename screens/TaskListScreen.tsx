@@ -6,6 +6,7 @@ import {
 	ActivityIndicator,
 	Pressable,
 	TextInput,
+	KeyboardAvoidingView,
 } from "react-native";
 import { Text, View } from "../components/Themed";
 import { useQuery, gql } from "@apollo/client";
@@ -16,7 +17,8 @@ import { MY_TASK_LISTS_QUERY } from "../Apollo/Queries";
 export default function TabTwoScreen() {
 	const [taskLists, setTaskLists] = useState([]);
 	const [inputVisibility, setInputVisibility] = useState(false);
-	const [taskListTitle, setTaskListTitle] = useState("");
+	const [taskListTitle, setTaskListTitle] = useState(String);
+	const [icon, setIcon] = useState("pencil");
 
 	const { data, error, loading } = useQuery(MY_TASK_LISTS_QUERY);
 	useEffect(() => {
@@ -35,31 +37,57 @@ export default function TabTwoScreen() {
 		return <ActivityIndicator />;
 	}
 
+	useEffect(() => {
+		if (!inputVisibility) {
+			setIcon("pencil");
+		} else {
+			if (taskListTitle !== "") {
+				setIcon("send-sharp");
+			} else {
+				setIcon("close-sharp");
+			}
+		}
+	}, [inputVisibility, taskListTitle]);
+
 	const handleClick = () => {
-		console.log("you hit me");
+		if (icon === "pencil" || icon === "close-sharp") {
+			setInputVisibility(!inputVisibility);
+			return null;
+		}
+		console.log("Youre sending me to the back", taskListTitle);
+		setInputVisibility(!inputVisibility);
 	};
 
 	return (
-		<View style={styles.container}>
-			<FlatList
-				data={taskLists}
-				renderItem={({ item }) => <TaskList taskList={item} />}
-				style={{ width: "100%" }}
-			/>
-			<View style={styles.bottomRow}>
-				<TextInput
-					placeholder="New List Name"
-					value={taskListTitle}
-					style={styles.newTitleInput}
+		<KeyboardAvoidingView
+			behavior={Platform.OS === "ios" ? "padding" : "height"}
+			keyboardVerticalOffset={Platform.OS === "ios" ? 30 : 0}
+			style={{ flex: 1 }}
+		>
+			<View style={styles.container}>
+				<FlatList
+					data={taskLists}
+					renderItem={({ item }) => <TaskList taskList={item} />}
+					style={{ width: "100%" }}
 				/>
-				<Pressable
-					style={styles.addTaskListButton}
-					onPress={handleClick}
-				>
-					<Ionicons name="pencil" size={32} color="white" />
-				</Pressable>
+				<View style={styles.bottomRow}>
+					{inputVisibility ? (
+						<TextInput
+							placeholder="New List Name"
+							value={taskListTitle}
+							style={styles.newTitleInput}
+							onChangeText={setTaskListTitle}
+						/>
+					) : null}
+					<Pressable
+						style={styles.addTaskListButton}
+						onPress={handleClick}
+					>
+						<Ionicons name={icon} size={32} color="white" />
+					</Pressable>
+				</View>
 			</View>
-		</View>
+		</KeyboardAvoidingView>
 	);
 }
 
@@ -83,6 +111,7 @@ const styles = StyleSheet.create({
 		width: 70,
 		backgroundColor: "#77df79",
 		alignSelf: "flex-end",
+		position: "absolute",
 		bottom: 60,
 		right: 30,
 		borderRadius: 50,
@@ -92,7 +121,7 @@ const styles = StyleSheet.create({
 
 	newTitleInput: {
 		marginLeft: 20,
-		width: "70%",
+		width: "72%",
 		paddingHorizontal: 10,
 		borderTopColor: "#ccc",
 		borderBottomColor: "#ccc",
