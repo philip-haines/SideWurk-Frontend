@@ -46,13 +46,15 @@ export default function AddUsersToListScreen() {
 				/>
 			</View>
 			{!userData ? <ActivityIndicator /> : null}
-			<FlatList
-				data={userData}
-				renderItem={({ item }) => (
-					<User loading={usersLoading} user={item} />
-				)}
-				style={{ width: "100%" }}
-			/>
+			<View style={styles.listContainer}>
+				<FlatList
+					data={userData}
+					renderItem={({ item }) => (
+						<User loading={usersLoading} user={item} />
+					)}
+					style={{ width: "100%" }}
+				/>
+			</View>
 		</View>
 	);
 }
@@ -82,5 +84,10 @@ const styles = StyleSheet.create({
 
 	searchInput: {
 		width: "70%",
+	},
+
+	listContainer: {
+		width: "100%",
+		paddingLeft: 10,
 	},
 });
