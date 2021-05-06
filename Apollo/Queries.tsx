@@ -24,3 +24,13 @@ export const MY_TASK_LISTS_QUERY = gql`
 		}
 	}
 `;
+
+export const GET_USERS = gql`
+	query getUsers($text: String) {
+		getUsers(input: { text: $text }) {
+			id
+			email
+			name
+		}
+	}
+`;

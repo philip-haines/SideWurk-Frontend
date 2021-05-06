@@ -19,12 +19,14 @@ interface TaskListItemProps {
 	};
 	newTaskOnSubmit: () => void;
 	deleteTaskOnBackspace: () => void;
+	loading: boolean;
 }
 
 export default function TaskListItem({
 	task,
 	newTaskOnSubmit,
 	deleteTaskOnBackspace,
+	loading,
 }: TaskListItemProps) {
 	const [isChecked, setIsChecked] = useState(false);
 	const [content, setContent] = useState("");
@@ -95,6 +97,7 @@ export default function TaskListItem({
 					onChangeText={setContent}
 					onKeyPress={handleDelete}
 					onEndEditing={() => handleUpdate()}
+					editable={!loading}
 					onSubmitEditing={onSubmit}
 					blurOnSubmit
 				/>

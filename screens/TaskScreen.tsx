@@ -7,10 +7,12 @@ import {
 	Platform,
 	Alert,
 	ActivityIndicator,
+	Pressable,
 } from "react-native";
 import { useQuery, useMutation, gql } from "@apollo/client";
-import { useRoute } from "@react-navigation/native";
+import { useRoute, useNavigation } from "@react-navigation/native";
 import { Text, View } from "../components/Themed";
+import { MaterialIcons } from "@expo/vector-icons";
 import TaskListItem from "../components/TaskList/TaskListItem";
 import { GET_TASK_LIST } from "../Apollo/Queries";
 import {
@@ -20,12 +22,11 @@ import {
 } from "../Apollo/mutations";
 
 export default function TabOneScreen() {
+	const navigation = useNavigation();
 	const [title, setTitle] = useState("");
 	const [tasks, setTasks] = useState([]);
-
 	const route = useRoute();
-
-	const id = route.params.id;
+	const id: number = route.params.id;
 
 	const { data, loading, error } = useQuery(GET_TASK_LIST, {
 		variables: { id },
@@ -35,7 +36,7 @@ export default function TabOneScreen() {
 		{ data: createTaskData, error: createTaskError },
 	] = useMutation(CREATE_TASK);
 
-	const [deleteTask] = useMutation(DELETE_TASK, {
+	const [deleteTask, { loading: deleteLoading }] = useMutation(DELETE_TASK, {
 		refetchQueries: [{ query: GET_TASK_LIST, variables: { id } }],
 	});
 
@@ -63,7 +64,7 @@ export default function TabOneScreen() {
 		});
 	};
 
-	const deleteTaskOnBackspace = (passedTask) => {
+	const deleteTaskOnBackspace = (passedTask: Task) => {
 		deleteTask({
 			variables: {
 				id: passedTask.id,
@@ -78,6 +79,10 @@ export default function TabOneScreen() {
 				title,
 			},
 		});
+	};
+
+	const handleNavigation = () => {
+		navigation.navigate("AddUsersScreen", { id });
 	};
 
 	if (loading) {
@@ -95,13 +100,45 @@ export default function TabOneScreen() {
 			style={{ flex: 1 }}
 		>
 			<View style={styles.container}>
-				<TextInput
-					style={styles.title}
-					onEndEditing={() => handleTitleUpdate()}
-					onChangeText={setTitle}
-					placeholder={"Title"}
-					value={title}
-				/>
+				<View
+					style={{
+						flexDirection: "row",
+						alignItems: "center",
+						marginHorizontal: 15,
+					}}
+				>
+					<TextInput
+						style={styles.title}
+						onEndEditing={() => handleTitleUpdate()}
+						onChangeText={setTitle}
+						placeholder={"Title"}
+						value={title}
+					/>
+					<View
+						style={{
+							flexDirection: "row",
+							alignItems: "center",
+						}}
+					>
+						<Pressable
+							onPress={handleNavigation}
+							style={{
+								height: 40,
+								width: 40,
+								borderRadius: 5,
+								backgroundColor: "green",
+								alignItems: "center",
+								justifyContent: "center",
+							}}
+						>
+							<MaterialIcons
+								name="groups"
+								size={24}
+								color="white"
+							/>
+						</Pressable>
+					</View>
+				</View>
 				<FlatList
 					data={tasks}
 					renderItem={({ item, index }) => (
@@ -109,6 +146,7 @@ export default function TabOneScreen() {
 							task={item}
 							newTaskOnSubmit={() => newTaskOnSubmit()}
 							deleteTaskOnBackspace={deleteTaskOnBackspace}
+							loading={deleteLoading}
 						/>
 					)}
 					style={{ width: "100%" }}

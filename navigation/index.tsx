@@ -18,8 +18,9 @@ import TaskScreen from "../screens/TaskScreen";
 import SignInScreen from "../screens/AuthScreens/SignInScreen";
 import SignUpScreen from "../screens/AuthScreens/SignUpScreen";
 import SplashScreen from "../screens/SplashScreen";
+import AddUsersScreen from "../screens/AddUsersToListScreen";
 import { RootStackParamList } from "../types";
-import BottomTabNavigator from "./BottomTabNavigator";
+// import BottomTabNavigator from "./BottomTabNavigator";
 import LinkingConfiguration from "./LinkingConfiguration";
 
 export default function Navigation({
@@ -63,6 +64,7 @@ function RootNavigator() {
 			{/* <Stack.Screen name="Root" component={BottomTabNavigator} /> */}
 			<Stack.Screen name="Home" component={TaskListScreen} />
 			<Stack.Screen name="TaskScreen" component={TaskScreen} />
+			<Stack.Screen name="AddUsersScreen" component={AddUsersScreen} />
 			<Stack.Screen
 				name="NotFound"
 				component={NotFoundScreen}
