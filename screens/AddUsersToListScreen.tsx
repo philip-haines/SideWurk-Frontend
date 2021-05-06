@@ -23,7 +23,11 @@ const GET_USERS = gql`
 export default function AddUsersToListScreen() {
 	const [userSearch, setUserSearch] = useState("");
 	const [userData, setUserData] = useState([]);
-	const { data: searchData, loading: usersLoading } = useQuery(GET_USERS, {
+	const {
+		data: searchData,
+		loading: usersLoading,
+		error: userError,
+	} = useQuery(GET_USERS, {
 		variables: {
 			text: userSearch,
 		},
@@ -31,9 +35,19 @@ export default function AddUsersToListScreen() {
 
 	useEffect(() => {
 		if (searchData) {
+			console.log(searchData);
 			setUserData(searchData.getUsers);
 		}
-	}, [userSearch]);
+		if (userSearch === "") {
+			setUserData([]);
+		}
+	}, [searchData]);
+
+	const renderUsers = () => {
+		return userData.map((user) => (
+			<User user={user} loading={usersLoading} />
+		));
+	};
 
 	return (
 		<View style={styles.container}>
@@ -47,13 +61,15 @@ export default function AddUsersToListScreen() {
 			</View>
 			{!userData ? <ActivityIndicator /> : null}
 			<View style={styles.listContainer}>
-				<FlatList
+				{usersLoading ? <ActivityIndicator /> : renderUsers()}
+
+				{/* <FlatList
 					data={userData}
 					renderItem={({ item }) => (
 						<User loading={usersLoading} user={item} />
 					)}
 					style={{ width: "100%" }}
-				/>
+				/> */}
 			</View>
 		</View>
 	);

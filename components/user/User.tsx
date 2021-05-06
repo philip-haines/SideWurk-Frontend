@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import {
+	ActivityIndicator,
+	Pressable,
+	StyleSheet,
+	Text,
+	View,
+} from "react-native";
 import Checkbox from "../Checkbox/checkbox";
 
 interface UserProps {
@@ -12,7 +18,7 @@ interface UserProps {
 	loading: boolean;
 }
 
-export default function User({ user }: UserProps) {
+export default function User({ user, loading }: UserProps) {
 	const [addUsers, setAddUsers] = useState([]);
 	const [isChecked, setIsChecked] = useState(false);
 
