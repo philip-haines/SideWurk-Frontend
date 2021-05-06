@@ -7,18 +7,9 @@ import {
 } from "react-native";
 import { Text, View } from "../components/Themed";
 import User from "../components/user/User";
+import { GET_USERS } from "../Apollo/Queries";
 
-import { useQuery, gql } from "@apollo/client";
-
-const GET_USERS = gql`
-	query getUsers($text: String) {
-		getUsers(input: { text: $text }) {
-			id
-			email
-			name
-		}
-	}
-`;
+import { useQuery } from "@apollo/client";
 
 export default function AddUsersToListScreen() {
 	const [userSearch, setUserSearch] = useState("");
@@ -34,10 +25,14 @@ export default function AddUsersToListScreen() {
 	});
 
 	useEffect(() => {
+		if (userError) {
+			return;
+		}
+
 		if (searchData) {
-			console.log(searchData);
 			setUserData(searchData.getUsers);
 		}
+
 		if (userSearch === "") {
 			setUserData([]);
 		}
