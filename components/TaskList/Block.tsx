@@ -60,7 +60,7 @@ export default function Block({ block }: BlockProps) {
 
 	return (
 		<View>
-			<Text>{block.title}</Text>
+			<Text style={styles.title}>{block.title}</Text>
 			<FlatList
 				data={block.tasks}
 				renderItem={({ item }) => {
@@ -78,4 +78,11 @@ export default function Block({ block }: BlockProps) {
 	);
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+	title: {
+		width: "100%",
+		fontSize: 18,
+		fontWeight: "bold",
+		marginTop: 10,
+	},
+});
