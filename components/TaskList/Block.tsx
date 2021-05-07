@@ -24,6 +24,7 @@ interface BlockProps {
 export default function Block({ block }: BlockProps) {
 	const route = useRoute();
 	const id: number = route.params.id;
+	console.log(id);
 
 	const { data, loading, error } = useQuery(GET_TASK_LIST, {
 		variables: { id },
@@ -31,14 +32,16 @@ export default function Block({ block }: BlockProps) {
 	const [
 		createTask,
 		{ data: createTaskData, error: createTaskError },
-	] = useMutation(CREATE_TASK);
+	] = useMutation(CREATE_TASK, {
+		refetchQueries: [{ query: GET_TASK_LIST, variables: { id } }],
+	});
 
 	const [deleteTask, { loading: deleteLoading }] = useMutation(DELETE_TASK, {
 		refetchQueries: [{ query: GET_TASK_LIST, variables: { id } }],
 	});
 
 	const newTaskOnSubmit = () => {
-		console.log(block.id);
+		console.log(`You hit me in block page`, block.id);
 		createTask({
 			variables: {
 				content: "",
@@ -64,6 +67,7 @@ export default function Block({ block }: BlockProps) {
 					return (
 						<TaskListItem
 							task={item}
+							taskListId={id}
 							newTaskOnSubmit={newTaskOnSubmit}
 							deleteTaskOnBackspace={deleteTaskOnBackspace}
 						/>

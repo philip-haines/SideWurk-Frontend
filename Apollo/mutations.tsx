@@ -49,9 +49,9 @@ export const UPDATE_TASK = gql`
 		updateTask(id: $id, content: $content, isComplete: $isComplete) {
 			content
 			isComplete
-			taskList {
+			block {
+				id
 				title
-				progress
 				tasks {
 					id
 					content
