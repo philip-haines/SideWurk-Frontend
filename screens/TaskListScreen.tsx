@@ -89,7 +89,7 @@ export default function TabTwoScreen() {
 					renderItem={({ item }) => <TaskList taskList={item} />}
 					style={{ width: "100%" }}
 				/>
-				<View style={styles.bottomRow}>
+				{/* <View style={styles.bottomRow}>
 					{inputVisibility ? (
 						<TextInput
 							placeholder="New List Name"
@@ -104,7 +104,7 @@ export default function TabTwoScreen() {
 					>
 						<Ionicons name={icon} size={32} color="white" />
 					</Pressable>
-				</View>
+				</View> */}
 			</View>
 		</KeyboardAvoidingView>
 	);
