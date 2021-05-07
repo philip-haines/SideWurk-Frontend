@@ -4,6 +4,7 @@ import {
 	TextInput,
 	FlatList,
 	ActivityIndicator,
+	Pressable,
 } from "react-native";
 import { Text, View } from "../components/Themed";
 import User from "../components/user/User";
@@ -57,14 +58,6 @@ export default function AddUsersToListScreen() {
 			{!userData ? <ActivityIndicator /> : null}
 			<View style={styles.listContainer}>
 				{usersLoading ? <ActivityIndicator /> : renderUsers()}
-
-				{/* <FlatList
-					data={userData}
-					renderItem={({ item }) => (
-						<User loading={usersLoading} user={item} />
-					)}
-					style={{ width: "100%" }}
-				/> */}
 			</View>
 		</View>
 	);
