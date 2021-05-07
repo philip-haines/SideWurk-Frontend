@@ -57,23 +57,6 @@ export default function TabOneScreen() {
 		}
 	}, [data]);
 
-	// const newTaskOnSubmit = () => {
-	// 	createTask({
-	// 		variables: {
-	// 			content: "",
-	// 			taskListId: id,
-	// 		},
-	// 	});
-	// };
-
-	// const deleteTaskOnBackspace = (passedTask: Task) => {
-	// 	deleteTask({
-	// 		variables: {
-	// 			id: passedTask.id,
-	// 		},
-	// 	});
-	// };
-
 	// const handleTitleUpdate = () => {
 	// 	updateTaskList({
 	// 		variables: {

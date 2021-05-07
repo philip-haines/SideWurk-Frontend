@@ -26,14 +26,14 @@ export const SIGN_UP_MUTATION = gql`
 `;
 
 export const CREATE_TASK = gql`
-	mutation createTask($content: String!, $taskListId: ID!) {
-		createTask(content: $content, taskListId: $taskListId) {
+	mutation createTask($content: String!, $blockId: ID!) {
+		createTask(content: $content, blockId: $blockId) {
 			id
 			content
 			isComplete
-			taskList {
+			block {
 				id
-				progress
+				title
 				tasks {
 					id
 					content

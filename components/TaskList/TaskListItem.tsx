@@ -13,6 +13,7 @@ import { UPDATE_TASK } from "../../Apollo/mutations";
 
 interface TaskListItemProps {
 	task: {
+		__typename: string;
 		id: number;
 		content: string;
 		isComplete: boolean;
@@ -57,6 +58,7 @@ export default function TaskListItem({
 		});
 	};
 	const onSubmit = () => {
+		console.log("you did something");
 		newTaskOnSubmit();
 	};
 
