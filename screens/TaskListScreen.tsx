@@ -9,16 +9,34 @@ import {
 	KeyboardAvoidingView,
 } from "react-native";
 import { Text, View } from "../components/Themed";
-import { useQuery, gql } from "@apollo/client";
+import { useQuery, useMutation, gql } from "@apollo/client";
 import { Ionicons } from "@expo/vector-icons";
 import TaskList from "../components/TaskList/TaskList";
 import { MY_TASK_LISTS_QUERY } from "../Apollo/Queries";
+
+const CREATE_TASK_LIST = gql`
+	mutation createTaskList($title: String!) {
+		createTaskList(title: $title) {
+			id
+			title
+			progress
+			users {
+				id
+				name
+			}
+		}
+	}
+`;
 
 export default function TabTwoScreen() {
 	const [taskLists, setTaskLists] = useState([]);
 	const [inputVisibility, setInputVisibility] = useState(false);
 	const [taskListTitle, setTaskListTitle] = useState(String);
 	const [icon, setIcon] = useState("pencil");
+
+	const [createTaskList] = useMutation(CREATE_TASK_LIST, {
+		refetchQueries: [{ query: MY_TASK_LISTS_QUERY }],
+	});
 
 	const { data, error, loading } = useQuery(MY_TASK_LISTS_QUERY);
 	useEffect(() => {
@@ -53,9 +71,14 @@ export default function TabTwoScreen() {
 		if (icon === "pencil" || icon === "close-sharp") {
 			setInputVisibility(!inputVisibility);
 			return null;
+		} else {
+			createTaskList({
+				variables: {
+					title: taskListTitle,
+				},
+			});
+			setInputVisibility(!inputVisibility);
 		}
-		console.log("Youre sending me to the back", taskListTitle);
-		setInputVisibility(!inputVisibility);
 	};
 
 	return (
