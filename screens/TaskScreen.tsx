@@ -16,11 +16,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 // import TaskListItem from "../components/TaskList/TaskListItem";
 import Block from "../components/TaskList/Block";
 import { GET_TASK_LIST } from "../Apollo/Queries";
-// import {
-// 	CREATE_TASK,
-// 	DELETE_TASK,
-// 	UPDATE_TASK_LIST,
-// } from "../Apollo/mutations";
+import { UPDATE_TASK_LIST } from "../Apollo/mutations";
 
 export default function TabOneScreen() {
 	const navigation = useNavigation();
@@ -32,16 +28,8 @@ export default function TabOneScreen() {
 	const { data, loading, error } = useQuery(GET_TASK_LIST, {
 		variables: { id },
 	});
-	// const [
-	// 	createTask,
-	// 	{ data: createTaskData, error: createTaskError },
-	// ] = useMutation(CREATE_TASK);
 
-	// const [deleteTask, { loading: deleteLoading }] = useMutation(DELETE_TASK, {
-	// 	refetchQueries: [{ query: GET_TASK_LIST, variables: { id } }],
-	// });
-
-	// const [updateTaskList] = useMutation(UPDATE_TASK_LIST);
+	const [updateTaskList] = useMutation(UPDATE_TASK_LIST);
 
 	useEffect(() => {
 		if (error) {
@@ -57,14 +45,14 @@ export default function TabOneScreen() {
 		}
 	}, [data]);
 
-	// const handleTitleUpdate = () => {
-	// 	updateTaskList({
-	// 		variables: {
-	// 			id,
-	// 			title,
-	// 		},
-	// 	});
-	// };
+	const handleTitleUpdate = () => {
+		updateTaskList({
+			variables: {
+				id,
+				title,
+			},
+		});
+	};
 
 	const handleNavigation = () => {
 		navigation.navigate("AddUsersScreen", { id });
@@ -94,7 +82,7 @@ export default function TabOneScreen() {
 				>
 					<TextInput
 						style={styles.title}
-						// onEndEditing={() => handleTitleUpdate()}
+						onEndEditing={() => handleTitleUpdate()}
 						onChangeText={setTitle}
 						placeholder={"Title"}
 						value={title}

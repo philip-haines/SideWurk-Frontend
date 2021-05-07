@@ -1,8 +1,10 @@
 import React from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
+import { useRoute, useNavigation } from "@react-navigation/native";
+import { useMutation, useQuery, gql } from "@apollo/client";
+import { GET_TASK_LIST } from "../../Apollo/Queries";
+import { CREATE_TASK, DELETE_TASK } from "../../Apollo/mutations";
 import TaskListItem from "./TaskListItem";
-import { useMutation, gql } from "@apollo/client";
-import { CREATE_TASK } from "../../Apollo/mutations";
 
 interface Task {
 	task: {
@@ -20,10 +22,20 @@ interface BlockProps {
 }
 
 export default function Block({ block }: BlockProps) {
+	const route = useRoute();
+	const id: number = route.params.id;
+
+	const { data, loading, error } = useQuery(GET_TASK_LIST, {
+		variables: { id },
+	});
 	const [
 		createTask,
 		{ data: createTaskData, error: createTaskError },
 	] = useMutation(CREATE_TASK);
+
+	const [deleteTask, { loading: deleteLoading }] = useMutation(DELETE_TASK, {
+		refetchQueries: [{ query: GET_TASK_LIST, variables: { id } }],
+	});
 
 	const newTaskOnSubmit = () => {
 		console.log(block.id);
@@ -53,7 +65,7 @@ export default function Block({ block }: BlockProps) {
 						<TaskListItem
 							task={item}
 							newTaskOnSubmit={newTaskOnSubmit}
-							// deleteTaskOnBackspace={deleteTaskOnBackspace}
+							deleteTaskOnBackspace={deleteTaskOnBackspace}
 						/>
 					);
 				}}
