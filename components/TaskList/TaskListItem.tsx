@@ -6,13 +6,15 @@ import {
 	NativeSyntheticEvent,
 } from "react-native";
 
-import { useMutation, gql } from "@apollo/client";
+import { useMutation, useQuery, gql } from "@apollo/client";
+import { UPDATE_TASK } from "../../Apollo/mutations";
+import { GET_TASK_LIST } from "../../Apollo/Queries";
 
 import Checkbox from "../Checkbox/checkbox";
-import { UPDATE_TASK } from "../../Apollo/mutations";
 
 interface TaskListItemProps {
 	task: {
+		__typename: string;
 		id: number;
 		content: string;
 		isComplete: boolean;
@@ -20,6 +22,7 @@ interface TaskListItemProps {
 	newTaskOnSubmit: () => void;
 	deleteTaskOnBackspace: () => void;
 	loading: boolean;
+	taskListId: number;
 }
 
 export default function TaskListItem({
@@ -27,11 +30,16 @@ export default function TaskListItem({
 	newTaskOnSubmit,
 	deleteTaskOnBackspace,
 	loading,
+	taskListId,
 }: TaskListItemProps) {
 	const [isChecked, setIsChecked] = useState(false);
+	console.log(isChecked);
 	const [content, setContent] = useState("");
 	const input = useRef(null);
-	const [updateTask] = useMutation(UPDATE_TASK);
+
+	const [updateTask] = useMutation(UPDATE_TASK, {
+		refetchQueries: [{ query: GET_TASK_LIST, variables: { taskListId } }],
+	});
 
 	useEffect(() => {
 		if (input.current) {
@@ -48,6 +56,7 @@ export default function TaskListItem({
 	}, [task, isChecked]);
 
 	const handleUpdate = (value?: boolean) => {
+		console.log("task ID", task.id, "content", content);
 		updateTask({
 			variables: {
 				id: task.id,
@@ -57,6 +66,7 @@ export default function TaskListItem({
 		});
 	};
 	const onSubmit = () => {
+		console.log("you did something");
 		newTaskOnSubmit();
 	};
 

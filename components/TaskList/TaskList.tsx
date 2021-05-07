@@ -28,7 +28,6 @@ export default function TaskList({ taskList }: TaskListProps) {
 				</View>
 				<View style={{ flexDirection: "row", alignItems: "center" }}>
 					<Text style={styles.title}>{taskList.title}</Text>
-					<Text style={styles.time}>{taskList.createdAt}</Text>
 				</View>
 			</View>
 		</Pressable>

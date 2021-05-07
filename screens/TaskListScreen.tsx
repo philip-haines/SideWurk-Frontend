@@ -4,13 +4,10 @@ import {
 	FlatList,
 	Alert,
 	ActivityIndicator,
-	Pressable,
-	TextInput,
 	KeyboardAvoidingView,
 } from "react-native";
 import { Text, View } from "../components/Themed";
 import { useQuery, useMutation, gql } from "@apollo/client";
-import { Ionicons } from "@expo/vector-icons";
 import TaskList from "../components/TaskList/TaskList";
 import { MY_TASK_LISTS_QUERY } from "../Apollo/Queries";
 
@@ -89,22 +86,6 @@ export default function TabTwoScreen() {
 					renderItem={({ item }) => <TaskList taskList={item} />}
 					style={{ width: "100%" }}
 				/>
-				<View style={styles.bottomRow}>
-					{inputVisibility ? (
-						<TextInput
-							placeholder="New List Name"
-							value={taskListTitle}
-							style={styles.newTitleInput}
-							onChangeText={setTaskListTitle}
-						/>
-					) : null}
-					<Pressable
-						style={styles.addTaskListButton}
-						onPress={handleClick}
-					>
-						<Ionicons name={icon} size={32} color="white" />
-					</Pressable>
-				</View>
 			</View>
 		</KeyboardAvoidingView>
 	);
