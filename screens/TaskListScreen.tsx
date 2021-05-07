@@ -71,14 +71,13 @@ export default function TabTwoScreen() {
 		if (icon === "pencil" || icon === "close-sharp") {
 			setInputVisibility(!inputVisibility);
 			return null;
-		} else {
-			createTaskList({
-				variables: {
-					title: taskListTitle,
-				},
-			});
-			setInputVisibility(!inputVisibility);
 		}
+		createTaskList({
+			variables: {
+				title: taskListTitle,
+			},
+		});
+		setInputVisibility(!inputVisibility);
 	};
 
 	return (
@@ -126,7 +125,8 @@ const styles = StyleSheet.create({
 		width: "100%",
 		justifyContent: "space-between",
 		alignItems: "center",
-		height: 185,
+		height: 85,
+		paddingBottom: 93,
 	},
 
 	addTaskListButton: {
@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
 
 	newTitleInput: {
 		marginLeft: 20,
-		width: "72%",
+		width: "69%",
 		paddingHorizontal: 10,
 		borderTopColor: "#ccc",
 		borderBottomColor: "#ccc",
@@ -154,5 +154,7 @@ const styles = StyleSheet.create({
 		borderTopWidth: 0.25,
 		height: 50,
 		justifyContent: "center",
+		backgroundColor: "white",
+		zIndex: 10,
 	},
 });
