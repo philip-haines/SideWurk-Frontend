@@ -92,37 +92,11 @@ export default function TabOneScreen() {
 							flexDirection: "row",
 							alignItems: "center",
 						}}
-					>
-						<Pressable
-							onPress={handleNavigation}
-							style={{
-								height: 40,
-								width: 40,
-								borderRadius: 5,
-								backgroundColor: "green",
-								alignItems: "center",
-								justifyContent: "center",
-							}}
-						>
-							<MaterialIcons
-								name="groups"
-								size={24}
-								color="white"
-							/>
-						</Pressable>
-					</View>
+					></View>
 				</View>
 				<FlatList
 					data={blocks}
-					renderItem={({ item, index }) => (
-						// <TaskListItem
-						// 	task={item}
-						// 	newTaskOnSubmit={() => newTaskOnSubmit()}
-						// 	deleteTaskOnBackspace={deleteTaskOnBackspace}
-						// 	loading={deleteLoading}
-						// />
-						<Block block={item} />
-					)}
+					renderItem={({ item, index }) => <Block block={item} />}
 					style={{ width: "100%" }}
 				/>
 			</View>
