@@ -51,10 +51,6 @@ export default function TabTwoScreen() {
 		}
 	}, [data]);
 
-	if (loading) {
-		return <ActivityIndicator />;
-	}
-
 	useEffect(() => {
 		if (!inputVisibility) {
 			setIcon("pencil");
@@ -67,18 +63,19 @@ export default function TabTwoScreen() {
 		}
 	}, [inputVisibility, taskListTitle]);
 
+	if (loading) {
+		return <ActivityIndicator />;
+	}
+
 	const handleClick = () => {
-		if (icon === "pencil" || icon === "close-sharp") {
-			setInputVisibility(!inputVisibility);
-			return null;
-		}
-		createTaskList({
-			variables: {
-				title: taskListTitle,
-			},
-		});
 		setInputVisibility(!inputVisibility);
 	};
+
+	// createTaskList({
+	// 	variables: {
+	// 		title: taskListTitle,
+	// 	},
+	// });
 
 	return (
 		<KeyboardAvoidingView
