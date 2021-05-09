@@ -48,6 +48,7 @@ export default function TaskList({
 						style={styles.title}
 						onChangeText={setTitle}
 						onEndEditing={() => handleUpdate()}
+						placeholder="Title"
 					/>
 				</View>
 			</View>
