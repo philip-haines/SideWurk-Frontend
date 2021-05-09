@@ -13,7 +13,7 @@ import { useRoute, useNavigation } from "@react-navigation/native";
 import { Text, View } from "../components/Themed";
 import Block from "../components/TaskList/Block";
 import { GET_TASK_LIST } from "../Apollo/Queries";
-import { UPDATE_TASK_LIST, CREATE_BLOCK } from "../Apollo/mutations";
+import { CREATE_BLOCK } from "../Apollo/mutations";
 
 import { FontAwesome } from "@expo/vector-icons";
 
@@ -28,7 +28,6 @@ export default function TabOneScreen() {
 		variables: { id },
 	});
 
-	const [updateTaskList] = useMutation(UPDATE_TASK_LIST);
 	const [
 		createBlock,
 		{ data: createBlockData, loading: createBlockLoading },
@@ -49,15 +48,6 @@ export default function TabOneScreen() {
 			});
 		}
 	}, [data]);
-
-	const handleTitleUpdate = () => {
-		updateTaskList({
-			variables: {
-				id,
-				title,
-			},
-		});
-	};
 
 	const handleNavigation = () => {
 		navigation.navigate("AddUsersScreen", { id });

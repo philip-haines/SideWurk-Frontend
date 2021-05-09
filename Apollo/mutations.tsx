@@ -107,3 +107,17 @@ export const DELETE_BLOCK = gql`
 		deleteBlock(id: $id)
 	}
 `;
+
+export const CREATE_TASK_LIST = gql`
+	mutation createTaskList($title: String!) {
+		createTaskList(title: $title) {
+			id
+			title
+			progress
+			users {
+				id
+				name
+			}
+		}
+	}
+`;

@@ -11,22 +11,9 @@ import { Text, View } from "../components/Themed";
 import { useQuery, useMutation, gql } from "@apollo/client";
 import TaskList from "../components/TaskList/TaskList";
 import { MY_TASK_LISTS_QUERY } from "../Apollo/Queries";
+import { CREATE_TASK_LIST, UPDATE_TASK_LIST } from "../Apollo/mutations";
 
 import { FontAwesome } from "@expo/vector-icons";
-
-const CREATE_TASK_LIST = gql`
-	mutation createTaskList($title: String!) {
-		createTaskList(title: $title) {
-			id
-			title
-			progress
-			users {
-				id
-				name
-			}
-		}
-	}
-`;
 
 export default function TabTwoScreen() {
 	const [taskLists, setTaskLists] = useState([]);
@@ -37,6 +24,8 @@ export default function TabTwoScreen() {
 	const [createTaskList] = useMutation(CREATE_TASK_LIST, {
 		refetchQueries: [{ query: MY_TASK_LISTS_QUERY }],
 	});
+
+	const [updateTaskList] = useMutation(UPDATE_TASK_LIST);
 
 	const { data, error, loading } = useQuery(MY_TASK_LISTS_QUERY);
 	useEffect(() => {
@@ -75,6 +64,15 @@ export default function TabTwoScreen() {
 		});
 	};
 
+	const handleTitleUpdate = (taskList) => {
+		updateTaskList({
+			variables: {
+				id: taskList.id,
+				title: taskList.title,
+			},
+		});
+	};
+
 	return (
 		<KeyboardAvoidingView
 			behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -84,7 +82,12 @@ export default function TabTwoScreen() {
 			<View style={styles.container}>
 				<FlatList
 					data={taskLists}
-					renderItem={({ item }) => <TaskList taskList={item} />}
+					renderItem={({ item }) => (
+						<TaskList
+							taskList={item}
+							handleTitleUpdate={handleTitleUpdate}
+						/>
+					)}
 					style={{ width: "100%" }}
 				/>
 				<View style={styles.buttonRow}>
