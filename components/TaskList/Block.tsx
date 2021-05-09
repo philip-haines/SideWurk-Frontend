@@ -1,10 +1,23 @@
-import React from "react";
-import { FlatList, StyleSheet, Text, TextInput, View } from "react-native";
+import React, { useState } from "react";
+import {
+	FlatList,
+	StyleSheet,
+	Text,
+	TextInput,
+	View,
+	NativeSyntheticEvent,
+} from "react-native";
 import { useRoute, useNavigation } from "@react-navigation/native";
 import { useMutation, useQuery, gql } from "@apollo/client";
 import { GET_TASK_LIST } from "../../Apollo/Queries";
 import { CREATE_TASK, DELETE_TASK } from "../../Apollo/mutations";
 import TaskListItem from "./TaskListItem";
+
+const DELETE_BLOCK = gql`
+	mutation deleteBlock($id: ID!) {
+		deleteBlock(id: $id)
+	}
+`;
 
 interface Task {
 	task: {
@@ -24,6 +37,7 @@ interface BlockProps {
 export default function Block({ block }: BlockProps) {
 	const route = useRoute();
 	const id: number = route.params ? route.params.id : null;
+	const [blockTitle, setBlockTitle] = useState(block.title);
 
 	const { data, loading, error } = useQuery(GET_TASK_LIST, {
 		variables: { id },
@@ -35,9 +49,19 @@ export default function Block({ block }: BlockProps) {
 		refetchQueries: [{ query: GET_TASK_LIST, variables: { id } }],
 	});
 
-	const [deleteTask, { loading: deleteLoading }] = useMutation(DELETE_TASK, {
-		refetchQueries: [{ query: GET_TASK_LIST, variables: { id } }],
-	});
+	const [deleteTask, { loading: deleteTaskLoading }] = useMutation(
+		DELETE_TASK,
+		{
+			refetchQueries: [{ query: GET_TASK_LIST, variables: { id } }],
+		}
+	);
+
+	const [deleteBlock, { loading: deleteBlockLoading }] = useMutation(
+		DELETE_BLOCK,
+		{
+			refetchQueries: [{ query: GET_TASK_LIST, variables: { id } }],
+		}
+	);
 
 	const newTaskOnSubmit = () => {
 		createTask({
@@ -46,6 +70,20 @@ export default function Block({ block }: BlockProps) {
 				blockId: block.id,
 			},
 		});
+	};
+
+	const handleDelete = ({ nativeEvent }: NativeSyntheticEvent<{}>) => {
+		if (nativeEvent.key === "Backspace" && blockTitle === "") {
+			if (block.tasks.length === 0) {
+				deleteBlock({
+					variables: {
+						id: block.id,
+					},
+				});
+			}
+		} else {
+			return null;
+		}
 	};
 
 	const deleteTaskOnBackspace = (passedTask: Task) => {
@@ -60,11 +98,11 @@ export default function Block({ block }: BlockProps) {
 		<View>
 			<TextInput
 				style={styles.title}
-				onSubmitEditing={newTaskOnSubmit}
-				placeholder="Title"
-			>
-				{block.title}
-			</TextInput>
+				value={blockTitle}
+				onChangeText={setBlockTitle}
+				editable={true}
+				onKeyPress={handleDelete}
+			/>
 			<FlatList
 				data={block.tasks}
 				renderItem={({ item }) => {
