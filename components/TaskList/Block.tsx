@@ -6,6 +6,7 @@ import {
 	TextInput,
 	View,
 	NativeSyntheticEvent,
+	Alert,
 } from "react-native";
 import { useRoute, useNavigation } from "@react-navigation/native";
 import { useMutation, useQuery, gql } from "@apollo/client";
@@ -72,6 +73,39 @@ export default function Block({ block }: BlockProps) {
 		});
 	};
 
+	const deleteBlockWithTasks = () => {
+		block.tasks.forEach((task) =>
+			deleteTask({
+				variables: {
+					id: task.id,
+				},
+			})
+		);
+		deleteBlock({
+			variables: {
+				id: block.id,
+			},
+		});
+	};
+
+	const taskAlert = () => {
+		Alert.alert(
+			"Block Still Has Tasks",
+			"Deleting this block will delete all associated tasks.",
+			[
+				{
+					text: "Cancel",
+					style: "cancel",
+				},
+				{
+					text: "Delete",
+					onPress: () => deleteBlockWithTasks(),
+					style: "destructive",
+				},
+			]
+		);
+	};
+
 	const handleDelete = ({ nativeEvent }: NativeSyntheticEvent<{}>) => {
 		if (nativeEvent.key === "Backspace" && blockTitle === "") {
 			if (block.tasks.length === 0) {
@@ -80,6 +114,8 @@ export default function Block({ block }: BlockProps) {
 						id: block.id,
 					},
 				});
+			} else {
+				taskAlert();
 			}
 		} else {
 			return null;
@@ -102,6 +138,7 @@ export default function Block({ block }: BlockProps) {
 				onChangeText={setBlockTitle}
 				editable={true}
 				onKeyPress={handleDelete}
+				onSubmitEditing={newTaskOnSubmit}
 			/>
 			<FlatList
 				data={block.tasks}
