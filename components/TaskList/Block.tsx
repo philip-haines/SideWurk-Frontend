@@ -23,7 +23,7 @@ interface BlockProps {
 
 export default function Block({ block }: BlockProps) {
 	const route = useRoute();
-	const id: number = route.params.id;
+	const id: number = route.params ? route.params.id : null;
 	console.log(id);
 
 	const { data, loading, error } = useQuery(GET_TASK_LIST, {
