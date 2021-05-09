@@ -1,5 +1,5 @@
 import React from "react";
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import { FlatList, StyleSheet, Text, TextInput, View } from "react-native";
 import { useRoute, useNavigation } from "@react-navigation/native";
 import { useMutation, useQuery, gql } from "@apollo/client";
 import { GET_TASK_LIST } from "../../Apollo/Queries";
@@ -60,7 +60,7 @@ export default function Block({ block }: BlockProps) {
 
 	return (
 		<View>
-			<Text style={styles.title}>{block.title}</Text>
+			<TextInput style={styles.title}>{block.title}</TextInput>
 			<FlatList
 				data={block.tasks}
 				renderItem={({ item }) => {

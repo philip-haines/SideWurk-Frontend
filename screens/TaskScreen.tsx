@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import {
 	StyleSheet,
 	FlatList,
-	TextInput,
 	KeyboardAvoidingView,
 	Platform,
 	Alert,
@@ -16,6 +15,15 @@ import Block from "../components/TaskList/Block";
 import { GET_TASK_LIST } from "../Apollo/Queries";
 import { UPDATE_TASK_LIST } from "../Apollo/mutations";
 
+const CREATE_BLOCK = gql`
+	mutation createBlock($title: String!, $taskListId: ID!) {
+		createBlock(title: $title, taskListId: $taskListId) {
+			id
+			title
+		}
+	}
+`;
+
 export default function TabOneScreen() {
 	const navigation = useNavigation();
 	const [title, setTitle] = useState("");
@@ -28,6 +36,18 @@ export default function TabOneScreen() {
 	});
 
 	const [updateTaskList] = useMutation(UPDATE_TASK_LIST);
+	const [
+		createBlock,
+		{ data: createBlockData, loading: createBlockLoading },
+	] = useMutation(CREATE_BLOCK, {
+		refetchQueries: [
+			{
+				query: GET_TASK_LIST,
+				variables: { id },
+			},
+		],
+		awaitRefetchQueries: true,
+	});
 
 	useEffect(() => {
 		if (error) {
@@ -57,6 +77,15 @@ export default function TabOneScreen() {
 
 	const handleNavigation = () => {
 		navigation.navigate("AddUsersScreen", { id });
+	};
+
+	const handlePress = () => {
+		createBlock({
+			variables: {
+				taskListId: id,
+				title: "This is a Test After backend change 2",
+			},
+		});
 	};
 
 	if (loading) {
@@ -105,12 +134,18 @@ export default function TabOneScreen() {
 					<FlatList
 						data={blocks}
 						renderItem={({ item, index }) => <Block block={item} />}
-						style={{ width: "100%", height: "90%" }}
+						style={{
+							width: "100%",
+							maxHeight: "95%",
+						}}
 					/>
+					<View style={styles.buttonRow}>
+						<Pressable
+							style={[styles.button, styles.addBlock]}
+							onPress={handlePress}
+						></Pressable>
+					</View>
 				</View>
-			</View>
-			<View style={styles.buttonRow}>
-				<Pressable style={[styles.button, styles.addBlock]}></Pressable>
 			</View>
 			{/* <Pressable
 				onPress={handleNavigation}
@@ -133,8 +168,8 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		alignItems: "center",
-		justifyContent: "space-between",
-		padding: 24,
+		// justifyContent: "space-between",
+		padding: 16,
 	},
 	title: {
 		width: "100%",
@@ -155,4 +190,6 @@ const styles = StyleSheet.create({
 		borderRadius: 50,
 		backgroundColor: "black",
 	},
+
+	addBlock: {},
 });
