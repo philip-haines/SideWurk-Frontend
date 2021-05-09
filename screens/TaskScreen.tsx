@@ -42,7 +42,6 @@ export default function TabOneScreen() {
 		if (data) {
 			setTitle(data.getTaskList.title);
 			setBlocks(data.getTaskList.blocks);
-			console.log(data.getTaskList.blocks);
 			navigation.setOptions({
 				title: data.getTaskList.title,
 			});
@@ -66,10 +65,11 @@ export default function TabOneScreen() {
 		createBlock({
 			variables: {
 				taskListId: id,
-				title: "This is a Test After backend change 7",
+				title: "This is a Test After backend change 10",
 			},
 		});
 	};
+	console.log(createBlockData);
 
 	if (loading) {
 		return <ActivityIndicator />;

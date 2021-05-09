@@ -24,7 +24,6 @@ interface BlockProps {
 export default function Block({ block }: BlockProps) {
 	const route = useRoute();
 	const id: number = route.params ? route.params.id : null;
-	console.log(id);
 
 	const { data, loading, error } = useQuery(GET_TASK_LIST, {
 		variables: { id },
@@ -41,7 +40,6 @@ export default function Block({ block }: BlockProps) {
 	});
 
 	const newTaskOnSubmit = () => {
-		console.log(`You hit me in block page`, block.id);
 		createTask({
 			variables: {
 				content: "",
@@ -60,7 +58,9 @@ export default function Block({ block }: BlockProps) {
 
 	return (
 		<View>
-			<TextInput style={styles.title}>{block.title}</TextInput>
+			<TextInput style={styles.title} onSubmitEditing={newTaskOnSubmit}>
+				{block.title}
+			</TextInput>
 			<FlatList
 				data={block.tasks}
 				renderItem={({ item }) => {
