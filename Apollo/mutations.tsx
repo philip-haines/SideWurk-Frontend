@@ -101,3 +101,9 @@ export const CREATE_BLOCK = gql`
 		}
 	}
 `;
+
+export const DELETE_BLOCK = gql`
+	mutation deleteBlock($id: ID!) {
+		deleteBlock(id: $id)
+	}
+`;

@@ -11,14 +11,8 @@ import {
 import { useRoute, useNavigation } from "@react-navigation/native";
 import { useMutation, useQuery, gql } from "@apollo/client";
 import { GET_TASK_LIST } from "../../Apollo/Queries";
-import { CREATE_TASK, DELETE_TASK } from "../../Apollo/mutations";
+import { CREATE_TASK, DELETE_TASK, DELETE_BLOCK } from "../../Apollo/mutations";
 import TaskListItem from "./TaskListItem";
-
-const DELETE_BLOCK = gql`
-	mutation deleteBlock($id: ID!) {
-		deleteBlock(id: $id)
-	}
-`;
 
 interface Task {
 	task: {
