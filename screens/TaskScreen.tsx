@@ -15,6 +15,8 @@ import Block from "../components/TaskList/Block";
 import { GET_TASK_LIST } from "../Apollo/Queries";
 import { UPDATE_TASK_LIST, CREATE_BLOCK } from "../Apollo/mutations";
 
+import { FontAwesome } from "@expo/vector-icons";
+
 export default function TabOneScreen() {
 	const navigation = useNavigation();
 	const [title, setTitle] = useState("");
@@ -65,11 +67,10 @@ export default function TabOneScreen() {
 		createBlock({
 			variables: {
 				taskListId: id,
-				title: "This is a Test After backend change 10",
+				title: "",
 			},
 		});
 	};
-	console.log(createBlockData);
 
 	if (loading) {
 		return <ActivityIndicator />;
@@ -126,7 +127,9 @@ export default function TabOneScreen() {
 						<Pressable
 							style={[styles.button, styles.addBlock]}
 							onPress={handlePress}
-						></Pressable>
+						>
+							<FontAwesome name="plus" size={24} color="black" />
+						</Pressable>
 					</View>
 				</View>
 			</View>
@@ -170,8 +173,11 @@ const styles = StyleSheet.create({
 	button: {
 		height: 50,
 		width: 50,
-		borderRadius: 50,
-		backgroundColor: "black",
+		borderRadius: 100,
+		justifyContent: "center",
+		alignItems: "center",
+		borderColor: "black",
+		borderWidth: 5,
 	},
 
 	addBlock: {},
