@@ -5,11 +5,14 @@ import {
 	Alert,
 	ActivityIndicator,
 	KeyboardAvoidingView,
+	Pressable,
 } from "react-native";
 import { Text, View } from "../components/Themed";
 import { useQuery, useMutation, gql } from "@apollo/client";
 import TaskList from "../components/TaskList/TaskList";
 import { MY_TASK_LISTS_QUERY } from "../Apollo/Queries";
+
+import { FontAwesome } from "@expo/vector-icons";
 
 const CREATE_TASK_LIST = gql`
 	mutation createTaskList($title: String!) {
@@ -64,15 +67,13 @@ export default function TabTwoScreen() {
 		return <ActivityIndicator />;
 	}
 
-	const handleClick = () => {
-		setInputVisibility(!inputVisibility);
+	const handlePress = () => {
+		createTaskList({
+			variables: {
+				title: "",
+			},
+		});
 	};
-
-	// createTaskList({
-	// 	variables: {
-	// 		title: taskListTitle,
-	// 	},
-	// });
 
 	return (
 		<KeyboardAvoidingView
@@ -86,6 +87,11 @@ export default function TabTwoScreen() {
 					renderItem={({ item }) => <TaskList taskList={item} />}
 					style={{ width: "100%" }}
 				/>
+				<View style={styles.buttonRow}>
+					<Pressable style={styles.button} onPress={handlePress}>
+						<FontAwesome name="plus" size={24} color="black" />
+					</Pressable>
+				</View>
 			</View>
 		</KeyboardAvoidingView>
 	);
@@ -98,41 +104,43 @@ const styles = StyleSheet.create({
 		justifyContent: "flex-end",
 	},
 
-	bottomRow: {
-		flexDirection: "row",
-		width: "100%",
-		justifyContent: "space-between",
-		alignItems: "center",
-		height: 85,
-		paddingBottom: 93,
-	},
-
-	addTaskListButton: {
-		height: 70,
-		width: 70,
-		backgroundColor: "#77df79",
+	buttonRow: {
+		paddingBottom: 30,
+		paddingRight: 10,
+		height: "12%",
+		alignItems: "flex-end",
+		justifyContent: "center",
 		alignSelf: "flex-end",
-		position: "absolute",
-		bottom: 60,
-		right: 30,
-		borderRadius: 50,
+	},
+	button: {
+		height: 40,
+		width: 40,
+		borderRadius: 100,
 		justifyContent: "center",
 		alignItems: "center",
+		borderColor: "black",
+		borderWidth: 3,
 	},
 
-	newTitleInput: {
-		marginLeft: 20,
-		width: "69%",
-		paddingHorizontal: 10,
-		borderTopColor: "#ccc",
-		borderBottomColor: "#ccc",
-		borderBottomWidth: 0.25,
-		borderLeftColor: "#ccc",
-		borderLeftWidth: 0.25,
-		borderTopWidth: 0.25,
-		height: 50,
-		justifyContent: "center",
-		backgroundColor: "white",
-		zIndex: 10,
-	},
+	// bottomRow: {
+	// 	flexDirection: "row",
+	// 	width: "100%",
+	// 	justifyContent: "space-between",
+	// 	alignItems: "center",
+	// 	height: 85,
+	// 	paddingBottom: 93,
+	// },
+
+	// addTaskListButton: {
+	// 	height: 70,
+	// 	width: 70,
+	// 	backgroundColor: "#77df79",
+	// 	alignSelf: "flex-end",
+	// 	position: "absolute",
+	// 	bottom: 60,
+	// 	right: 30,
+	// 	borderRadius: 50,
+	// 	justifyContent: "center",
+	// 	alignItems: "center",
+	// },
 });

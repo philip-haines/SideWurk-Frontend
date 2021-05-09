@@ -1,5 +1,5 @@
-import React from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import React, { useState } from "react";
+import { Pressable, StyleSheet, Text, View, TextInput } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
@@ -27,7 +27,7 @@ export default function TaskList({ taskList }: TaskListProps) {
 					/>
 				</View>
 				<View style={{ flexDirection: "row", alignItems: "center" }}>
-					<Text style={styles.title}>{taskList.title}</Text>
+					<TextInput value={taskList.title} style={styles.title} />
 				</View>
 			</View>
 		</Pressable>
