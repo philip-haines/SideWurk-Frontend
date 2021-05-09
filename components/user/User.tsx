@@ -22,14 +22,11 @@ export default function User({ user, loading }: UserProps) {
 	const [addUsers, setAddUsers] = useState([]);
 	const [isChecked, setIsChecked] = useState(false);
 
-	// console.log("This is user from user pag", user);
-
 	const handlePress = () => {
 		setIsChecked(!isChecked);
 		setAddUsers((addUsers) => [user, ...addUsers]);
 	};
 
-	// console.log("this is the add users console.log", addUsers);
 	return (
 		<Pressable>
 			<View style={styles.userResultsContainer}>

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import {
 	StyleSheet,
 	FlatList,
-	TextInput,
 	KeyboardAvoidingView,
 	Platform,
 	Alert,
@@ -12,11 +11,9 @@ import {
 import { useQuery, useMutation, gql } from "@apollo/client";
 import { useRoute, useNavigation } from "@react-navigation/native";
 import { Text, View } from "../components/Themed";
-import { MaterialIcons } from "@expo/vector-icons";
-// import TaskListItem from "../components/TaskList/TaskListItem";
 import Block from "../components/TaskList/Block";
 import { GET_TASK_LIST } from "../Apollo/Queries";
-import { UPDATE_TASK_LIST } from "../Apollo/mutations";
+import { UPDATE_TASK_LIST, CREATE_BLOCK } from "../Apollo/mutations";
 
 export default function TabOneScreen() {
 	const navigation = useNavigation();
@@ -30,6 +27,10 @@ export default function TabOneScreen() {
 	});
 
 	const [updateTaskList] = useMutation(UPDATE_TASK_LIST);
+	const [
+		createBlock,
+		{ data: createBlockData, loading: createBlockLoading },
+	] = useMutation(CREATE_BLOCK);
 
 	useEffect(() => {
 		if (error) {
@@ -41,7 +42,9 @@ export default function TabOneScreen() {
 		if (data) {
 			setTitle(data.getTaskList.title);
 			setBlocks(data.getTaskList.blocks);
-			console.log(data.getTaskList.blocks);
+			navigation.setOptions({
+				title: data.getTaskList.title,
+			});
 		}
 	}, [data]);
 
@@ -58,6 +61,16 @@ export default function TabOneScreen() {
 		navigation.navigate("AddUsersScreen", { id });
 	};
 
+	const handlePress = () => {
+		createBlock({
+			variables: {
+				taskListId: id,
+				title: "This is a Test After backend change 10",
+			},
+		});
+	};
+	console.log(createBlockData);
+
 	if (loading) {
 		return <ActivityIndicator />;
 	}
@@ -73,7 +86,7 @@ export default function TabOneScreen() {
 			style={{ flex: 1 }}
 		>
 			<View style={styles.container}>
-				<View
+				{/* <View
 					style={{
 						flexDirection: "row",
 						alignItems: "center",
@@ -93,13 +106,43 @@ export default function TabOneScreen() {
 							alignItems: "center",
 						}}
 					></View>
+				</View> */}
+				<View
+					style={{
+						height: "100%",
+						width: "100%",
+						alignSelf: "flex-start",
+					}}
+				>
+					<FlatList
+						data={blocks}
+						renderItem={({ item, index }) => <Block block={item} />}
+						style={{
+							width: "100%",
+							maxHeight: "95%",
+						}}
+					/>
+					<View style={styles.buttonRow}>
+						<Pressable
+							style={[styles.button, styles.addBlock]}
+							onPress={handlePress}
+						></Pressable>
+					</View>
 				</View>
-				<FlatList
-					data={blocks}
-					renderItem={({ item, index }) => <Block block={item} />}
-					style={{ width: "100%" }}
-				/>
 			</View>
+			{/* <Pressable
+				onPress={handleNavigation}
+				style={{
+					height: 40,
+					width: 40,
+					borderRadius: 5,
+					backgroundColor: "green",
+					alignItems: "center",
+					justifyContent: "center",
+				}}
+			>
+				<MaterialIcons name="groups" size={24} color="white" />
+			</Pressable> */}
 		</KeyboardAvoidingView>
 	);
 }
@@ -108,12 +151,28 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		alignItems: "center",
-		padding: 24,
-		justifyContent: "space-around",
+		// justifyContent: "space-between",
+		padding: 16,
 	},
 	title: {
 		width: "100%",
 		fontSize: 20,
 		fontWeight: "bold",
 	},
+
+	buttonRow: {
+		paddingBottom: 30,
+		paddingRight: 10,
+		height: "12%",
+		alignItems: "flex-end",
+		justifyContent: "center",
+	},
+	button: {
+		height: 50,
+		width: 50,
+		borderRadius: 50,
+		backgroundColor: "black",
+	},
+
+	addBlock: {},
 });

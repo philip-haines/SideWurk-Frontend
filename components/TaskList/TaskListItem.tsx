@@ -33,7 +33,6 @@ export default function TaskListItem({
 	taskListId,
 }: TaskListItemProps) {
 	const [isChecked, setIsChecked] = useState(false);
-	console.log(isChecked);
 	const [content, setContent] = useState("");
 	const input = useRef(null);
 
@@ -56,7 +55,6 @@ export default function TaskListItem({
 	}, [task, isChecked]);
 
 	const handleUpdate = (value?: boolean) => {
-		console.log("task ID", task.id, "content", content);
 		updateTask({
 			variables: {
 				id: task.id,
@@ -66,7 +64,6 @@ export default function TaskListItem({
 		});
 	};
 	const onSubmit = () => {
-		console.log("you did something");
 		newTaskOnSubmit();
 	};
 

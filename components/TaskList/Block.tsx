@@ -1,5 +1,5 @@
 import React from "react";
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import { FlatList, StyleSheet, Text, TextInput, View } from "react-native";
 import { useRoute, useNavigation } from "@react-navigation/native";
 import { useMutation, useQuery, gql } from "@apollo/client";
 import { GET_TASK_LIST } from "../../Apollo/Queries";
@@ -23,8 +23,7 @@ interface BlockProps {
 
 export default function Block({ block }: BlockProps) {
 	const route = useRoute();
-	const id: number = route.params.id;
-	console.log(id);
+	const id: number = route.params ? route.params.id : null;
 
 	const { data, loading, error } = useQuery(GET_TASK_LIST, {
 		variables: { id },
@@ -41,7 +40,6 @@ export default function Block({ block }: BlockProps) {
 	});
 
 	const newTaskOnSubmit = () => {
-		console.log(`You hit me in block page`, block.id);
 		createTask({
 			variables: {
 				content: "",
@@ -60,7 +58,9 @@ export default function Block({ block }: BlockProps) {
 
 	return (
 		<View>
-			<Text style={styles.title}>{block.title}</Text>
+			<TextInput style={styles.title} onSubmitEditing={newTaskOnSubmit}>
+				{block.title}
+			</TextInput>
 			<FlatList
 				data={block.tasks}
 				renderItem={({ item }) => {
