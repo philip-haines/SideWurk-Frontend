@@ -58,7 +58,11 @@ export default function Block({ block }: BlockProps) {
 
 	return (
 		<View>
-			<TextInput style={styles.title} onSubmitEditing={newTaskOnSubmit}>
+			<TextInput
+				style={styles.title}
+				onSubmitEditing={newTaskOnSubmit}
+				placeholder="Title"
+			>
 				{block.title}
 			</TextInput>
 			<FlatList
