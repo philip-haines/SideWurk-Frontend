@@ -13,16 +13,7 @@ import { useRoute, useNavigation } from "@react-navigation/native";
 import { Text, View } from "../components/Themed";
 import Block from "../components/TaskList/Block";
 import { GET_TASK_LIST } from "../Apollo/Queries";
-import { UPDATE_TASK_LIST } from "../Apollo/mutations";
-
-const CREATE_BLOCK = gql`
-	mutation createBlock($title: String!, $taskListId: ID!) {
-		createBlock(title: $title, taskListId: $taskListId) {
-			id
-			title
-		}
-	}
-`;
+import { UPDATE_TASK_LIST, CREATE_BLOCK } from "../Apollo/mutations";
 
 export default function TabOneScreen() {
 	const navigation = useNavigation();
@@ -39,15 +30,7 @@ export default function TabOneScreen() {
 	const [
 		createBlock,
 		{ data: createBlockData, loading: createBlockLoading },
-	] = useMutation(CREATE_BLOCK, {
-		refetchQueries: [
-			{
-				query: GET_TASK_LIST,
-				variables: { id },
-			},
-		],
-		awaitRefetchQueries: true,
-	});
+	] = useMutation(CREATE_BLOCK);
 
 	useEffect(() => {
 		if (error) {
@@ -83,7 +66,7 @@ export default function TabOneScreen() {
 		createBlock({
 			variables: {
 				taskListId: id,
-				title: "This is a Test After backend change 2",
+				title: "This is a Test After backend change 7",
 			},
 		});
 	};

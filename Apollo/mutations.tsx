@@ -80,3 +80,24 @@ export const UPDATE_TASK_LIST = gql`
 		}
 	}
 `;
+
+export const CREATE_BLOCK = gql`
+	mutation createBlock($title: String!, $taskListId: ID!) {
+		createBlock(title: $title, taskListId: $taskListId) {
+			id
+			title
+			taskList {
+				id
+				title
+				blocks {
+					id
+					title
+					tasks {
+						id
+						content
+					}
+				}
+			}
+		}
+	}
+`;
