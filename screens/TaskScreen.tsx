@@ -171,13 +171,13 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
 	},
 	button: {
-		height: 50,
-		width: 50,
+		height: 40,
+		width: 40,
 		borderRadius: 100,
 		justifyContent: "center",
 		alignItems: "center",
 		borderColor: "black",
-		borderWidth: 5,
+		borderWidth: 3,
 	},
 
 	addBlock: {},
