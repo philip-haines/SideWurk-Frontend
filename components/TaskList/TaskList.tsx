@@ -9,13 +9,29 @@ interface TaskListProps {
 		title: string;
 		createdAt: string;
 	};
+	handleTitleUpdate: () => void;
 }
 
-export default function TaskList({ taskList }: TaskListProps) {
+export default function TaskList({
+	taskList,
+	handleTitleUpdate,
+}: TaskListProps) {
 	const navigation = useNavigation();
 	const handlePress = () => {
 		navigation.navigate("TaskScreen", { id: taskList.id });
 	};
+
+	const [title, setTitle] = useState(taskList.title);
+
+	const handleUpdate = () => {
+		const updatedTaskList = {
+			id: taskList.id,
+			title,
+		};
+
+		handleTitleUpdate(updatedTaskList);
+	};
+
 	return (
 		<Pressable onPress={handlePress}>
 			<View style={styles.root}>
@@ -27,7 +43,12 @@ export default function TaskList({ taskList }: TaskListProps) {
 					/>
 				</View>
 				<View style={{ flexDirection: "row", alignItems: "center" }}>
-					<TextInput value={taskList.title} style={styles.title} />
+					<TextInput
+						value={title}
+						style={styles.title}
+						onChangeText={setTitle}
+						onEndEditing={() => handleUpdate()}
+					/>
 				</View>
 			</View>
 		</Pressable>
