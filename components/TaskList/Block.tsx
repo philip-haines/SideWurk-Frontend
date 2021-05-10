@@ -11,17 +11,14 @@ import {
 import { useRoute, useNavigation } from "@react-navigation/native";
 import { useMutation, useQuery, gql } from "@apollo/client";
 import { GET_TASK_LIST } from "../../Apollo/Queries";
-import { CREATE_TASK, DELETE_TASK, DELETE_BLOCK } from "../../Apollo/mutations";
+import {
+	CREATE_TASK,
+	DELETE_TASK,
+	DELETE_BLOCK,
+	UPDATE_BLOCK_TITLE,
+} from "../../Apollo/mutations";
 import TaskListItem from "./TaskListItem";
 
-const UPDATE_BLOCK_TITLE = gql`
-	mutation updateBlock($id: ID!, $title: String!) {
-		updateBlock(id: $id, title: $title) {
-			id
-			title
-		}
-	}
-`;
 interface Task {
 	task: {
 		id: number;
@@ -72,6 +69,7 @@ export default function Block({ block, showCompleted }: BlockProps) {
 	};
 
 	const updateBlockTitle = () => {
+		console.log("you hit me on end editing");
 		updateBlock({
 			variables: {
 				id: block.id,
