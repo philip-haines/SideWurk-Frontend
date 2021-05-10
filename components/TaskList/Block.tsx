@@ -169,15 +169,15 @@ export default function Block({ block, showCompleted }: BlockProps) {
 				/>
 				<ProgressCircle
 					percent={block.progress}
-					radius={35}
-					borderWidth={8}
+					radius={25}
+					borderWidth={4}
 					color="black"
 					shadowColor={"#fbfbfc"}
 					bgColor="#fff"
 				>
-					<Text style={{ fontSize: 14 }}>{`${Math.round(
-						block.progress
-					)}%`}</Text>
+					<Text
+						style={{ fontSize: 14, fontWeight: "bold" }}
+					>{`${Math.round(block.progress)}%`}</Text>
 				</ProgressCircle>
 				{/* <View style={styles.outerProgress}>
 					<View
