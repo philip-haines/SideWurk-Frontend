@@ -30,6 +30,7 @@ interface BlockProps {
 	block: {
 		id: number;
 		title: string;
+		progress: number;
 		tasks: [Task];
 	};
 	showCompleted: boolean;
@@ -113,7 +114,7 @@ export default function Block({ block, showCompleted }: BlockProps) {
 
 	const handleDelete = ({ nativeEvent }: NativeSyntheticEvent<{}>) => {
 		if (nativeEvent.key === "Backspace" && blockTitle === "") {
-			if (block.tasks.length === 0) {
+			if (!block.tasks.length) {
 				deleteBlock({
 					variables: {
 						id: block.id,
@@ -158,6 +159,15 @@ export default function Block({ block, showCompleted }: BlockProps) {
 				onSubmitEditing={newTaskOnSubmit}
 				onEndEditing={updateBlockTitle}
 			/>
+			<View style={{ height: 15, width: 60, backgroundColor: "red" }}>
+				<View
+					style={{
+						height: 15,
+						width: `${block.progress}%`,
+						backgroundColor: "black",
+					}}
+				></View>
+			</View>
 			<FlatList
 				data={toggleShowCompletedTasks()}
 				renderItem={({ item }) => {

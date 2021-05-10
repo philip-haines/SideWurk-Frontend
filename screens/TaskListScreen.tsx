@@ -17,9 +17,6 @@ import { FontAwesome } from "@expo/vector-icons";
 
 export default function TabTwoScreen() {
 	const [taskLists, setTaskLists] = useState([]);
-	const [inputVisibility, setInputVisibility] = useState(false);
-	const [taskListTitle, setTaskListTitle] = useState(String);
-
 	const [createTaskList] = useMutation(CREATE_TASK_LIST, {
 		refetchQueries: [{ query: MY_TASK_LISTS_QUERY }],
 	});

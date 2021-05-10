@@ -9,6 +9,7 @@ export const GET_TASK_LIST = gql`
 			blocks {
 				id
 				title
+				progress
 				tasks {
 					id
 					content
@@ -24,7 +25,6 @@ export const MY_TASK_LISTS_QUERY = gql`
 		myTaskLists {
 			id
 			title
-			progress
 		}
 	}
 `;

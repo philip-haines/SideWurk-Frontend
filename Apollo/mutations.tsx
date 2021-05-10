@@ -94,6 +94,7 @@ export const CREATE_BLOCK = gql`
 				blocks {
 					id
 					title
+					progress
 					tasks {
 						id
 						content
@@ -124,7 +125,6 @@ export const CREATE_TASK_LIST = gql`
 		createTaskList(title: $title) {
 			id
 			title
-			progress
 			users {
 				id
 				name
