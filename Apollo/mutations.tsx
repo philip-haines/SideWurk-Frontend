@@ -102,6 +102,15 @@ export const CREATE_BLOCK = gql`
 	}
 `;
 
+export const UPDATE_BLOCK_TITLE = gql`
+	mutation updateBlock($id: ID!, $title: String!) {
+		updateBlock(id: $id, title: $title) {
+			id
+			title
+		}
+	}
+`;
+
 export const DELETE_BLOCK = gql`
 	mutation deleteBlock($id: ID!) {
 		deleteBlock(id: $id)
