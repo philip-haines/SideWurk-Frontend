@@ -37,26 +37,17 @@ export default function Block({ block }: BlockProps) {
 	const { data, loading, error } = useQuery(GET_TASK_LIST, {
 		variables: { id },
 	});
-	const [
-		createTask,
-		{ data: createTaskData, error: createTaskError },
-	] = useMutation(CREATE_TASK, {
+	const [createTask] = useMutation(CREATE_TASK, {
 		refetchQueries: [{ query: GET_TASK_LIST, variables: { id } }],
 	});
 
-	const [deleteTask, { loading: deleteTaskLoading }] = useMutation(
-		DELETE_TASK,
-		{
-			refetchQueries: [{ query: GET_TASK_LIST, variables: { id } }],
-		}
-	);
+	const [deleteTask] = useMutation(DELETE_TASK, {
+		refetchQueries: [{ query: GET_TASK_LIST, variables: { id } }],
+	});
 
-	const [deleteBlock, { loading: deleteBlockLoading }] = useMutation(
-		DELETE_BLOCK,
-		{
-			refetchQueries: [{ query: GET_TASK_LIST, variables: { id } }],
-		}
-	);
+	const [deleteBlock] = useMutation(DELETE_BLOCK, {
+		refetchQueries: [{ query: GET_TASK_LIST, variables: { id } }],
+	});
 
 	const newTaskOnSubmit = () => {
 		createTask({
@@ -127,6 +118,7 @@ export default function Block({ block }: BlockProps) {
 	return (
 		<View>
 			<TextInput
+				placeholder="Title"
 				style={styles.title}
 				value={blockTitle}
 				onChangeText={setBlockTitle}

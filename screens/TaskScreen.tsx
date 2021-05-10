@@ -120,6 +120,9 @@ export default function TabOneScreen() {
 						>
 							<FontAwesome name="plus" size={24} color="black" />
 						</Pressable>
+						<Pressable>
+							<Text>Show completed</Text>
+						</Pressable>
 					</View>
 				</View>
 			</View>
@@ -154,11 +157,12 @@ const styles = StyleSheet.create({
 	},
 
 	buttonRow: {
+		flexDirection: "row",
 		paddingBottom: 30,
 		paddingRight: 10,
 		height: "12%",
-		alignItems: "flex-end",
-		justifyContent: "center",
+		alignItems: "center",
+		justifyContent: "flex-end",
 	},
 	button: {
 		height: 40,
