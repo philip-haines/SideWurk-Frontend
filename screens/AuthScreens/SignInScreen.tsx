@@ -38,7 +38,7 @@ export default function SignInScreen() {
 		signIn({ variables: { email, password } });
 	};
 	return (
-		<View style={{ padding: 20 }}>
+		<View style={{ padding: 20, backgroundColor: "white", height: "100%" }}>
 			<TextInput
 				placeholder="example@youremail.com"
 				value={email}
@@ -67,9 +67,9 @@ export default function SignInScreen() {
 				onPress={onSubmit}
 				style={{
 					marginVertical: 15,
-					backgroundColor: "#f12b7e",
+					backgroundColor: "black",
 					height: 50,
-					borderRadius: 8,
+					borderRadius: 15,
 					alignItems: "center",
 					justifyContent: "center",
 				}}
@@ -93,7 +93,7 @@ export default function SignInScreen() {
 			>
 				<Text
 					style={{
-						color: "#f12b7e",
+						color: "black",
 						fontSize: 18,
 						fontWeight: "bold",
 					}}
