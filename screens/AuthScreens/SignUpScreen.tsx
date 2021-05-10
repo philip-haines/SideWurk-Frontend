@@ -39,7 +39,7 @@ export default function SignUPScreen() {
 		}
 	};
 	return (
-		<View style={{ padding: 20 }}>
+		<View style={{ padding: 20, height: "100%", backgroundColor: "white" }}>
 			<TextInput
 				placeholder="John Smith"
 				value={name}
@@ -81,7 +81,7 @@ export default function SignUPScreen() {
 				onPress={onSubmit}
 				style={{
 					marginVertical: 15,
-					backgroundColor: "#F54944",
+					backgroundColor: "black",
 					height: 50,
 					borderRadius: 8,
 					alignItems: "center",
@@ -107,7 +107,7 @@ export default function SignUPScreen() {
 			>
 				<Text
 					style={{
-						color: "#F54944",
+						color: "black",
 						fontSize: 18,
 						fontWeight: "bold",
 					}}
