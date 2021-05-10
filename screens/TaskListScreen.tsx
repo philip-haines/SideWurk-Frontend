@@ -40,18 +40,6 @@ export default function TabTwoScreen() {
 		}
 	}, [data]);
 
-	useEffect(() => {
-		if (!inputVisibility) {
-			setIcon("pencil");
-		} else {
-			if (taskListTitle !== "") {
-				setIcon("send-sharp");
-			} else {
-				setIcon("close-sharp");
-			}
-		}
-	}, [inputVisibility, taskListTitle]);
-
 	if (loading) {
 		return <ActivityIndicator />;
 	}

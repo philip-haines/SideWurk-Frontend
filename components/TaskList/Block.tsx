@@ -27,9 +27,10 @@ interface BlockProps {
 		title: string;
 		tasks: [Task];
 	};
+	showCompleted: boolean;
 }
 
-export default function Block({ block }: BlockProps) {
+export default function Block({ block, showCompleted }: BlockProps) {
 	const route = useRoute();
 	const id: number = route.params ? route.params.id : null;
 	const [blockTitle, setBlockTitle] = useState(block.title);
@@ -115,6 +116,17 @@ export default function Block({ block }: BlockProps) {
 		});
 	};
 
+	const toggleShowCompletedTasks = () => {
+		if (!showCompleted) {
+			const taskData = block.tasks.filter(
+				(task) => task.isComplete !== true
+			);
+			return taskData;
+		} else {
+			return block.tasks;
+		}
+	};
+
 	return (
 		<View>
 			<TextInput
@@ -127,7 +139,7 @@ export default function Block({ block }: BlockProps) {
 				onSubmitEditing={newTaskOnSubmit}
 			/>
 			<FlatList
-				data={block.tasks}
+				data={toggleShowCompletedTasks()}
 				renderItem={({ item }) => {
 					return (
 						<TaskListItem
