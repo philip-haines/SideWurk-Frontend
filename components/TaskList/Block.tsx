@@ -14,6 +14,14 @@ import { GET_TASK_LIST } from "../../Apollo/Queries";
 import { CREATE_TASK, DELETE_TASK, DELETE_BLOCK } from "../../Apollo/mutations";
 import TaskListItem from "./TaskListItem";
 
+const UPDATE_BLOCK_TITLE = gql`
+	mutation updateBlock($id: ID!, $title: String!) {
+		updateBlock(id: $id, title: $title) {
+			id
+			title
+		}
+	}
+`;
 interface Task {
 	task: {
 		id: number;
@@ -46,6 +54,10 @@ export default function Block({ block, showCompleted }: BlockProps) {
 		refetchQueries: [{ query: GET_TASK_LIST, variables: { id } }],
 	});
 
+	const [updateBlock] = useMutation(UPDATE_BLOCK_TITLE, {
+		refetchQueries: [{ query: GET_TASK_LIST, variables: { id } }],
+	});
+
 	const [deleteBlock] = useMutation(DELETE_BLOCK, {
 		refetchQueries: [{ query: GET_TASK_LIST, variables: { id } }],
 	});
@@ -55,6 +67,15 @@ export default function Block({ block, showCompleted }: BlockProps) {
 			variables: {
 				content: "",
 				blockId: block.id,
+			},
+		});
+	};
+
+	const updateBlockTitle = () => {
+		updateBlock({
+			variables: {
+				id: block.id,
+				title: blockTitle,
 			},
 		});
 	};
@@ -137,6 +158,7 @@ export default function Block({ block, showCompleted }: BlockProps) {
 				editable={true}
 				onKeyPress={handleDelete}
 				onSubmitEditing={newTaskOnSubmit}
+				onEndEditing={updateBlockTitle}
 			/>
 			<FlatList
 				data={toggleShowCompletedTasks()}

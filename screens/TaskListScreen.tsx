@@ -19,7 +19,6 @@ export default function TabTwoScreen() {
 	const [taskLists, setTaskLists] = useState([]);
 	const [inputVisibility, setInputVisibility] = useState(false);
 	const [taskListTitle, setTaskListTitle] = useState(String);
-	const [icon, setIcon] = useState("pencil");
 
 	const [createTaskList] = useMutation(CREATE_TASK_LIST, {
 		refetchQueries: [{ query: MY_TASK_LISTS_QUERY }],
@@ -80,7 +79,7 @@ export default function TabTwoScreen() {
 				/>
 				<View style={styles.buttonRow}>
 					<Pressable style={styles.button} onPress={handlePress}>
-						<FontAwesome name="plus" size={24} color="black" />
+						<FontAwesome name="plus" size={24} color="white" />
 					</Pressable>
 				</View>
 			</View>
@@ -109,8 +108,7 @@ const styles = StyleSheet.create({
 		borderRadius: 100,
 		justifyContent: "center",
 		alignItems: "center",
-		borderColor: "black",
-		borderWidth: 3,
+		backgroundColor: "black",
 	},
 
 	// bottomRow: {
