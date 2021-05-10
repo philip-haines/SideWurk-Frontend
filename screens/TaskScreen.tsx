@@ -23,6 +23,7 @@ export default function TabOneScreen() {
 	const [blocks, setBlocks] = useState([]);
 	const route = useRoute();
 	const id: number = route.params.id;
+	const [toggleCompleted, setToggleCompleted] = useState(true);
 
 	const { data, loading, error } = useQuery(GET_TASK_LIST, {
 		variables: { id },
@@ -107,7 +108,12 @@ export default function TabOneScreen() {
 				>
 					<FlatList
 						data={blocks}
-						renderItem={({ item, index }) => <Block block={item} />}
+						renderItem={({ item, index }) => (
+							<Block
+								block={item}
+								showCompleted={toggleCompleted}
+							/>
+						)}
 						style={{
 							width: "100%",
 							maxHeight: "95%",
@@ -115,13 +121,24 @@ export default function TabOneScreen() {
 					/>
 					<View style={styles.buttonRow}>
 						<Pressable
-							style={[styles.button, styles.addBlock]}
+							style={styles.toggleShowButton}
+							onPress={() => setToggleCompleted(!toggleCompleted)}
+						>
+							<Text
+								style={{
+									fontSize: 18,
+									fontWeight: "bold",
+									color: "white",
+								}}
+							>
+								Show completed
+							</Text>
+						</Pressable>
+						<Pressable
+							style={styles.addBlockButton}
 							onPress={handlePress}
 						>
-							<FontAwesome name="plus" size={24} color="black" />
-						</Pressable>
-						<Pressable>
-							<Text>Show completed</Text>
+							<FontAwesome name="plus" size={24} color="white" />
 						</Pressable>
 					</View>
 				</View>
@@ -159,20 +176,27 @@ const styles = StyleSheet.create({
 	buttonRow: {
 		flexDirection: "row",
 		paddingBottom: 30,
-		paddingRight: 10,
+		paddingHorizontal: 10,
 		height: "12%",
 		alignItems: "center",
-		justifyContent: "flex-end",
+		justifyContent: "space-between",
 	},
-	button: {
+	addBlockButton: {
 		height: 40,
 		width: 40,
 		borderRadius: 100,
 		justifyContent: "center",
 		alignItems: "center",
-		borderColor: "black",
-		borderWidth: 3,
+		backgroundColor: "black",
 	},
 
-	addBlock: {},
+	toggleShowButton: {
+		height: 40,
+		width: 275,
+		justifyContent: "center",
+		alignItems: "center",
+		backgroundColor: "black",
+		borderRadius: 15,
+		alignSelf: "center",
+	},
 });
