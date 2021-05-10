@@ -34,6 +34,7 @@ export const CREATE_TASK = gql`
 			block {
 				id
 				title
+				progress
 				tasks {
 					id
 					content
@@ -52,6 +53,7 @@ export const UPDATE_TASK = gql`
 			block {
 				id
 				title
+				progress
 				tasks {
 					id
 					content
