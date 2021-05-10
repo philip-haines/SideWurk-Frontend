@@ -8,6 +8,7 @@ import {
 	NativeSyntheticEvent,
 	Alert,
 } from "react-native";
+import ProgressCircle from "react-native-progress-circle";
 import { useRoute, useNavigation } from "@react-navigation/native";
 import { useMutation, useQuery, gql } from "@apollo/client";
 import { GET_TASK_LIST } from "../../Apollo/Queries";
@@ -30,6 +31,7 @@ interface BlockProps {
 	block: {
 		id: number;
 		title: string;
+		progress: number;
 		tasks: [Task];
 	};
 	showCompleted: boolean;
@@ -113,7 +115,7 @@ export default function Block({ block, showCompleted }: BlockProps) {
 
 	const handleDelete = ({ nativeEvent }: NativeSyntheticEvent<{}>) => {
 		if (nativeEvent.key === "Backspace" && blockTitle === "") {
-			if (block.tasks.length === 0) {
+			if (!block.tasks.length) {
 				deleteBlock({
 					variables: {
 						id: block.id,
@@ -148,16 +150,46 @@ export default function Block({ block, showCompleted }: BlockProps) {
 
 	return (
 		<View>
-			<TextInput
-				placeholder="Title"
-				style={styles.title}
-				value={blockTitle}
-				onChangeText={setBlockTitle}
-				editable={true}
-				onKeyPress={handleDelete}
-				onSubmitEditing={newTaskOnSubmit}
-				onEndEditing={updateBlockTitle}
-			/>
+			<View
+				style={{
+					flexDirection: "row",
+					alignItems: "center",
+					justifyContent: "space-between",
+				}}
+			>
+				<TextInput
+					placeholder="Title"
+					style={styles.title}
+					value={blockTitle}
+					onChangeText={setBlockTitle}
+					editable={true}
+					onKeyPress={handleDelete}
+					onSubmitEditing={newTaskOnSubmit}
+					onEndEditing={updateBlockTitle}
+				/>
+				<ProgressCircle
+					percent={block.progress}
+					radius={25}
+					borderWidth={4}
+					color="black"
+					shadowColor={"#fbfbfc"}
+					bgColor="#fff"
+				>
+					<Text
+						style={{ fontSize: 14, fontWeight: "bold" }}
+					>{`${Math.round(block.progress)}%`}</Text>
+				</ProgressCircle>
+				{/* <View style={styles.outerProgress}>
+					<View
+						style={[
+							styles.innerProgress,
+							{ width: `${block.progress}%` },
+						]}
+					>
+						<View style={styles.innerCircle}></View>
+					</View>
+				</View> */}
+			</View>
 			<FlatList
 				data={toggleShowCompletedTasks()}
 				renderItem={({ item }) => {
@@ -177,9 +209,33 @@ export default function Block({ block, showCompleted }: BlockProps) {
 
 const styles = StyleSheet.create({
 	title: {
-		width: "100%",
 		fontSize: 18,
 		fontWeight: "bold",
 		marginTop: 10,
 	},
+
+	// outerProgress: {
+	// 	width: 30,
+	// 	height: 30,
+	// 	borderRadius: 100,
+	// 	justifyContent: "center",
+	// 	alignItems: "flex-start",
+	// 	backgroundColor: "red",
+	// },
+
+	// innerProgress: {
+	// 	height: "100%",
+	// 	borderRadius: 100,
+	// 	backgroundColor: "black",
+	// 	justifyContent: "center",
+	// 	alignItems: "center",
+	// 	transform: [{ rotateZ: "45deg" }],
+	// },
+
+	// innerCircle: {
+	// 	height: 15,
+	// 	width: 15,
+	// 	borderRadius: 100,
+	// 	backgroundColor: "white",
+	// },
 });
