@@ -66,8 +66,6 @@ function RootNavigator() {
 				component={RestaurantScreen}
 				options={{ title: "Restaurants" }}
 			/>
-
-			{/* <Stack.Screen name="Root" component={BottomTabNavigator} /> */}
 			<Stack.Screen name="TaskListScreen" component={TaskListScreen} />
 			<Stack.Screen name="TaskScreen" component={TaskScreen} />
 			<Stack.Screen name="AddUsersScreen" component={AddUsersScreen} />

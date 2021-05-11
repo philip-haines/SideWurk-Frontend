@@ -37,3 +37,21 @@ export const GET_USERS = gql`
 		}
 	}
 `;
+
+export const MY_RESTAURANTS = gql`
+	query myRestaurants {
+		myRestaurants {
+			id
+			title
+			users {
+				id
+				name
+				email
+			}
+			taskLists {
+				id
+				title
+			}
+		}
+	}
+`;

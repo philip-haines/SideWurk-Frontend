@@ -7,28 +7,13 @@ import {
 	Alert,
 	ActivityIndicator,
 } from "react-native";
-import { useQuery, useMutation, gql } from "@apollo/client";
+import { useNavigation } from "@react-navigation/native";
+import { useQuery } from "@apollo/client";
 import Restaurant from "../components/restaurants/Restaurant";
-
-const MY_RESTAURANTS = gql`
-	query myRestaurants {
-		myRestaurants {
-			id
-			title
-			users {
-				id
-				name
-				email
-			}
-			taskLists {
-				id
-				title
-			}
-		}
-	}
-`;
+import { MY_RESTAURANTS } from "../Apollo/Queries";
 
 export default function RestaurantScreen() {
+	const navigation = useNavigation();
 	const { data, error, loading } = useQuery(MY_RESTAURANTS);
 	const [restaurants, setRestaurants] = useState([]);
 
@@ -41,8 +26,10 @@ export default function RestaurantScreen() {
 	useEffect(() => {
 		if (data) {
 			setRestaurants(data.myRestaurants);
+			navigation.setOptions({
+				title: data.myRestaurants.title,
+			});
 		}
-		console.log(setRestaurants);
 	}, [data]);
 
 	if (loading) {
