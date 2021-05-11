@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { Text, View } from "../components/Themed";
 import { useQuery, useMutation, gql } from "@apollo/client";
+import { useRoute } from "@react-navigation/native";
 import TaskList from "../components/TaskList/TaskList";
 import { MY_TASK_LISTS_QUERY } from "../Apollo/Queries";
 import { CREATE_TASK_LIST, UPDATE_TASK_LIST } from "../Apollo/mutations";
@@ -16,6 +17,9 @@ import { CREATE_TASK_LIST, UPDATE_TASK_LIST } from "../Apollo/mutations";
 import { FontAwesome } from "@expo/vector-icons";
 
 export default function TabTwoScreen() {
+	const route = useRoute();
+	const id: number = route.params.id;
+
 	const [taskLists, setTaskLists] = useState([]);
 	const [createTaskList] = useMutation(CREATE_TASK_LIST, {
 		refetchQueries: [{ query: MY_TASK_LISTS_QUERY }],
@@ -23,7 +27,11 @@ export default function TabTwoScreen() {
 
 	const [updateTaskList] = useMutation(UPDATE_TASK_LIST);
 
-	const { data, error, loading } = useQuery(MY_TASK_LISTS_QUERY);
+	const { data, error, loading } = useQuery(MY_TASK_LISTS_QUERY, {
+		variables: {
+			restaurantId: id,
+		},
+	});
 	useEffect(() => {
 		if (error) {
 			Alert.alert("Error fetching. Please try again.", error.message);
