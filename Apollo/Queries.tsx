@@ -20,8 +20,8 @@ export const GET_TASK_LIST = gql`
 `;
 
 export const MY_TASK_LISTS_QUERY = gql`
-	query myTaskLists {
-		myTaskLists {
+	query myTaskLists($restaurantId: ID!) {
+		myTaskLists(restaurantId: $restaurantId) {
 			id
 			title
 		}
