@@ -1,5 +1,6 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Pressable } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 interface User {
 	user: {
@@ -18,9 +19,17 @@ interface RestaurantProps {
 }
 
 export default function Restaurant({ restaurant }: RestaurantProps) {
+	const navigation = useNavigation();
+	const handlePress = () => {
+		navigation.navigate("TaskListScreen", { id: restaurant.id });
+	};
 	return (
 		<View>
-			<Text>{restaurant.title}</Text>
+			<Pressable onPress={handlePress}>
+				<View>
+					<Text>{restaurant.title}</Text>
+				</View>
+			</Pressable>
 		</View>
 	);
 }
