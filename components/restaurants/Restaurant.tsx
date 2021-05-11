@@ -25,13 +25,28 @@ export default function Restaurant({ restaurant }: RestaurantProps) {
 	};
 	return (
 		<View>
-			<Pressable onPress={handlePress}>
+			<Pressable onPress={handlePress} style={styles.restaurant}>
 				<View>
-					<Text>{restaurant.title}</Text>
+					<Text style={styles.restaurantName}>
+						{restaurant.title}
+					</Text>
 				</View>
 			</Pressable>
 		</View>
 	);
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+	restaurant: {
+		height: 50,
+		width: "100%",
+		justifyContent: "center",
+	},
+
+	restaurantName: {
+		fontSize: 16,
+		marginLeft: 10,
+		fontWeight: "bold",
+		color: "#2E2D4D",
+	},
+});

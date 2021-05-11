@@ -44,19 +44,23 @@ export default function RestaurantScreen() {
 		<View style={styles.screen}>
 			<View style={styles.homeContainer}>
 				<View style={styles.homeRow}>
-					<AntDesign name="star" size={24} color="black" />
+					<AntDesign name="star" size={24} color="#2E2D4D" />
 					<Text style={styles.homeTileTitle}>Starred</Text>
 				</View>
 				<View style={styles.homeRow}>
 					<MaterialIcons
 						name="assignment-late"
 						size={24}
-						color="black"
+						color="#2E2D4D"
 					/>
 					<Text style={styles.homeTileTitle}>Assigned</Text>
 				</View>
 				<View style={styles.homeRow}>
-					<Entypo name="check" size={24} color="black" />
+					<Entypo name="list" size={24} color="#2E2D4D" />
+					<Text style={styles.homeTileTitle}>Lists</Text>
+				</View>
+				<View style={styles.homeRow}>
+					<Entypo name="check" size={24} color="#2E2D4D" />
 					<Text style={styles.homeTileTitle}>Recently Completed</Text>
 				</View>
 			</View>
@@ -64,8 +68,8 @@ export default function RestaurantScreen() {
 				<View style={styles.homeRow}>
 					<MaterialCommunityIcons
 						name="silverware-fork-knife"
-						size={24}
-						color="black"
+						size={30}
+						color="#2E2D4D"
 					/>
 					<Text style={styles.title}>Restaurants</Text>
 				</View>
@@ -97,6 +101,7 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		height: 40,
 		width: "100%",
+		borderRightColor: "#715AFF",
 	},
 
 	homeTileTitle: {
@@ -106,7 +111,7 @@ const styles = StyleSheet.create({
 	},
 
 	title: {
-		fontSize: 20,
+		fontSize: 24,
 		fontWeight: "bold",
 		marginLeft: 10,
 	},
