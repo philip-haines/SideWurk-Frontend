@@ -122,13 +122,23 @@ export const DELETE_BLOCK = gql`
 `;
 
 export const CREATE_TASK_LIST = gql`
-	mutation createTaskList($title: String!) {
-		createTaskList(title: $title) {
+	mutation createTaskList($restaurantId: ID!, $title: String!) {
+		createTaskList(restaurantId: $restaurantId, title: $title) {
 			id
 			title
-			users {
-				id
-				name
+			restaurant {
+				taskLists {
+					id
+					title
+					blocks {
+						id
+						title
+						tasks {
+							id
+							content
+						}
+					}
+				}
 			}
 		}
 	}
