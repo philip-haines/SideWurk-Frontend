@@ -126,9 +126,19 @@ export const CREATE_TASK_LIST = gql`
 		createTaskList(restaurantId: $restaurantId, title: $title) {
 			id
 			title
-			users {
-				id
-				name
+			restaurant {
+				taskLists {
+					id
+					title
+					blocks {
+						id
+						title
+						tasks {
+							id
+							content
+						}
+					}
+				}
 			}
 		}
 	}

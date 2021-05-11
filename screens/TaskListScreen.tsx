@@ -39,7 +39,11 @@ export default function TabTwoScreen() {
 	const id: number = route.params.id;
 
 	const [taskLists, setTaskLists] = useState([]);
-	const [createTaskList] = useMutation(CREATE_TASK_LIST);
+	const [createTaskList] = useMutation(CREATE_TASK_LIST, {
+		refetchQueries: [
+			{ query: MY_TASK_LISTS_QUERY, variables: { restaurantId: id } },
+		],
+	});
 
 	const [updateTaskList] = useMutation(UPDATE_TASK_LIST);
 
