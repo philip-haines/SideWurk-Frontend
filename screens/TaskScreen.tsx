@@ -78,27 +78,6 @@ export default function TabOneScreen() {
 			style={{ flex: 1 }}
 		>
 			<View style={styles.container}>
-				{/* <View
-					style={{
-						flexDirection: "row",
-						alignItems: "center",
-						marginHorizontal: 15,
-					}}
-				>
-					<TextInput
-						style={styles.title}
-						onEndEditing={() => handleTitleUpdate()}
-						onChangeText={setTitle}
-						placeholder={"Title"}
-						value={title}
-					/>
-					<View
-						style={{
-							flexDirection: "row",
-							alignItems: "center",
-						}}
-					></View>
-				</View> */}
 				<View
 					style={{
 						height: "100%",
@@ -143,19 +122,6 @@ export default function TabOneScreen() {
 					</View>
 				</View>
 			</View>
-			{/* <Pressable
-				onPress={handleNavigation}
-				style={{
-					height: 40,
-					width: 40,
-					borderRadius: 5,
-					backgroundColor: "green",
-					alignItems: "center",
-					justifyContent: "center",
-				}}
-			>
-				<MaterialIcons name="groups" size={24} color="white" />
-			</Pressable> */}
 		</KeyboardAvoidingView>
 	);
 }
@@ -164,7 +130,6 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		alignItems: "center",
-		// justifyContent: "space-between",
 		padding: 16,
 	},
 	title: {

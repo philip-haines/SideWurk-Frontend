@@ -81,9 +81,9 @@ export default function SignUPScreen() {
 				onPress={onSubmit}
 				style={{
 					marginVertical: 15,
-					backgroundColor: "black",
+					backgroundColor: "#715AFF",
 					height: 50,
-					borderRadius: 8,
+					borderRadius: 15,
 					alignItems: "center",
 					justifyContent: "center",
 				}}
@@ -107,7 +107,7 @@ export default function SignUPScreen() {
 			>
 				<Text
 					style={{
-						color: "black",
+						color: "#2E2D4D",
 						fontSize: 18,
 						fontWeight: "bold",
 					}}
