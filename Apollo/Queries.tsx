@@ -5,7 +5,6 @@ export const GET_TASK_LIST = gql`
 		getTaskList(id: $id) {
 			id
 			title
-			progress
 			blocks {
 				id
 				title

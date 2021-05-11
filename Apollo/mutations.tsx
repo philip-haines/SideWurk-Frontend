@@ -110,6 +110,7 @@ export const UPDATE_BLOCK_TITLE = gql`
 		updateBlock(id: $id, title: $title) {
 			id
 			title
+			progress
 		}
 	}
 `;

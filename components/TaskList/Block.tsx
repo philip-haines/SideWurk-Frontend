@@ -169,26 +169,16 @@ export default function Block({ block, showCompleted }: BlockProps) {
 				/>
 				<ProgressCircle
 					percent={block.progress}
-					radius={25}
+					radius={18}
 					borderWidth={4}
 					color="black"
 					shadowColor={"#fbfbfc"}
 					bgColor="#fff"
 				>
 					<Text
-						style={{ fontSize: 14, fontWeight: "bold" }}
-					>{`${Math.round(block.progress)}%`}</Text>
+						style={{ fontSize: 12, fontWeight: "bold" }}
+					>{`${Math.round(block.progress)}`}</Text>
 				</ProgressCircle>
-				{/* <View style={styles.outerProgress}>
-					<View
-						style={[
-							styles.innerProgress,
-							{ width: `${block.progress}%` },
-						]}
-					>
-						<View style={styles.innerCircle}></View>
-					</View>
-				</View> */}
 			</View>
 			<FlatList
 				data={toggleShowCompletedTasks()}
@@ -213,29 +203,4 @@ const styles = StyleSheet.create({
 		fontWeight: "bold",
 		marginTop: 10,
 	},
-
-	// outerProgress: {
-	// 	width: 30,
-	// 	height: 30,
-	// 	borderRadius: 100,
-	// 	justifyContent: "center",
-	// 	alignItems: "flex-start",
-	// 	backgroundColor: "red",
-	// },
-
-	// innerProgress: {
-	// 	height: "100%",
-	// 	borderRadius: 100,
-	// 	backgroundColor: "black",
-	// 	justifyContent: "center",
-	// 	alignItems: "center",
-	// 	transform: [{ rotateZ: "45deg" }],
-	// },
-
-	// innerCircle: {
-	// 	height: 15,
-	// 	width: 15,
-	// 	borderRadius: 100,
-	// 	backgroundColor: "white",
-	// },
 });
