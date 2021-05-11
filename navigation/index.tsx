@@ -19,6 +19,7 @@ import SignInScreen from "../screens/AuthScreens/SignInScreen";
 import SignUpScreen from "../screens/AuthScreens/SignUpScreen";
 import SplashScreen from "../screens/SplashScreen";
 import AddUsersScreen from "../screens/AddUsersToListScreen";
+import RestaurantScreen from "../screens/RestaurantScreen";
 import { RootStackParamList } from "../types";
 // import BottomTabNavigator from "./BottomTabNavigator";
 import LinkingConfiguration from "./LinkingConfiguration";
@@ -60,9 +61,14 @@ function RootNavigator() {
 				component={SignUpScreen}
 				options={{ title: "Create Account" }}
 			/>
+			<Stack.Screen
+				name="Home"
+				component={RestaurantScreen}
+				options={{ title: "Restaurants" }}
+			/>
 
 			{/* <Stack.Screen name="Root" component={BottomTabNavigator} /> */}
-			<Stack.Screen name="Home" component={TaskListScreen} />
+			<Stack.Screen name="TaskListScreen" component={TaskListScreen} />
 			<Stack.Screen name="TaskScreen" component={TaskScreen} />
 			<Stack.Screen name="AddUsersScreen" component={AddUsersScreen} />
 			<Stack.Screen
