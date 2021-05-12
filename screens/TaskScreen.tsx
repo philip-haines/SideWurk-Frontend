@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
 		borderRadius: 100,
 		justifyContent: "center",
 		alignItems: "center",
-		backgroundColor: "black",
+		backgroundColor: "#2E2D4D",
 	},
 
 	toggleShowButton: {
@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
 		width: 275,
 		justifyContent: "center",
 		alignItems: "center",
-		backgroundColor: "black",
+		backgroundColor: "#2E2D4D",
 		borderRadius: 15,
 		alignSelf: "center",
 	},
