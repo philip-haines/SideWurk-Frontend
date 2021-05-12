@@ -80,6 +80,7 @@ const styles = StyleSheet.create({
 		height: 80,
 		width: "100%",
 		justifyContent: "center",
+		backgroundColor: "white",
 	},
 
 	restaurantName: {

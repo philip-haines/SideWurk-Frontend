@@ -54,7 +54,7 @@ export default function TabTwoScreen() {
 		return <ActivityIndicator />;
 	}
 
-	const handlePress = () => {
+	const handleCreateTaskList = () => {
 		createTaskList({
 			variables: {
 				restaurantId: id,
@@ -62,6 +62,8 @@ export default function TabTwoScreen() {
 			},
 		});
 	};
+
+	const handleNavigation = () => {};
 
 	const handleTitleUpdate = (taskList) => {
 		updateTaskList({
@@ -90,10 +92,13 @@ export default function TabTwoScreen() {
 					style={{ width: "100%" }}
 				/>
 				<View style={styles.buttonRow}>
-					<Pressable style={styles.button} onPress={handlePress}>
+					<Pressable style={styles.button} onPress={handleNavigation}>
 						<Entypo name="add-user" size={24} color="white" />
 					</Pressable>
-					<Pressable style={styles.button} onPress={handlePress}>
+					<Pressable
+						style={styles.button}
+						onPress={handleCreateTaskList}
+					>
 						<Entypo name="add-to-list" size={24} color="white" />
 					</Pressable>
 				</View>

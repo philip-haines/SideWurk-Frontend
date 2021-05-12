@@ -6,7 +6,9 @@ import {
 	FlatList,
 	Alert,
 	ActivityIndicator,
+	Pressable,
 } from "react-native";
+import { SwipeListView } from "react-native-swipe-list-view";
 import { useNavigation } from "@react-navigation/native";
 import { useQuery } from "@apollo/client";
 import { AntDesign } from "@expo/vector-icons";
@@ -20,6 +22,13 @@ export default function RestaurantScreen() {
 	const navigation = useNavigation();
 	const { data, error, loading } = useQuery(MY_RESTAURANTS);
 	const [restaurants, setRestaurants] = useState([]);
+	const [listData, setListData] = useState(
+		restaurants.map((restaurant) => {
+			key: restaurant.id;
+			title: restaurant.title;
+			tasks: restaurant.tasks;
+		})
+	);
 
 	useEffect(() => {
 		if (error) {
@@ -73,9 +82,23 @@ export default function RestaurantScreen() {
 					/>
 					<Text style={styles.title}>Restaurants</Text>
 				</View>
-				<FlatList
+				<SwipeListView
 					data={restaurants}
-					renderItem={({ item }) => <Restaurant restaurant={item} />}
+					renderItem={(data, rowMap) => {
+						return <Restaurant restaurant={data.item} />;
+					}}
+					renderHiddenItem={(data, rowMap) => {
+						return (
+							<Pressable style={styles.addUserButton}>
+								<Entypo
+									name="add-user"
+									size={24}
+									color="white"
+								/>
+							</Pressable>
+						);
+					}}
+					leftOpenValue={75}
 				/>
 			</View>
 		</View>
@@ -114,5 +137,13 @@ const styles = StyleSheet.create({
 		fontSize: 24,
 		fontWeight: "bold",
 		marginLeft: 10,
+	},
+
+	addUserButton: {
+		height: "80%",
+		width: 75,
+		justifyContent: "center",
+		alignItems: "center",
+		backgroundColor: "#715AFF",
 	},
 });
