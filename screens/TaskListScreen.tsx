@@ -14,7 +14,7 @@ import TaskList from "../components/TaskList/TaskList";
 import { MY_TASK_LISTS_QUERY } from "../Apollo/Queries";
 import { CREATE_TASK_LIST, UPDATE_TASK_LIST } from "../Apollo/mutations";
 
-import { FontAwesome } from "@expo/vector-icons";
+import { Entypo } from "@expo/vector-icons";
 
 export default function TabTwoScreen() {
 	const route = useRoute();
@@ -91,7 +91,10 @@ export default function TabTwoScreen() {
 				/>
 				<View style={styles.buttonRow}>
 					<Pressable style={styles.button} onPress={handlePress}>
-						<FontAwesome name="plus" size={24} color="white" />
+						<Entypo name="add-user" size={24} color="white" />
+					</Pressable>
+					<Pressable style={styles.button} onPress={handlePress}>
+						<Entypo name="add-to-list" size={24} color="white" />
 					</Pressable>
 				</View>
 			</View>
@@ -107,20 +110,22 @@ const styles = StyleSheet.create({
 	},
 
 	buttonRow: {
-		paddingBottom: 30,
+		paddingBottom: 40,
 		paddingRight: 10,
 		height: "12%",
+		flexDirection: "row",
 		alignItems: "flex-end",
 		justifyContent: "center",
 		alignSelf: "flex-end",
 	},
 	button: {
-		height: 40,
-		width: 40,
+		height: 50,
+		width: 50,
 		borderRadius: 100,
 		justifyContent: "center",
 		alignItems: "center",
 		backgroundColor: "black",
+		marginHorizontal: 8,
 	},
 
 	// bottomRow: {
