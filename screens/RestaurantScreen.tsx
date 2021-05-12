@@ -49,6 +49,7 @@ export default function RestaurantScreen() {
 			navigation.setOptions({
 				title: data.myRestaurants.title,
 			});
+			console.log(data.myRestaurants.title);
 		}
 	}, [data]);
 

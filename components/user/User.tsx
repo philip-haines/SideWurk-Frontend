@@ -15,27 +15,14 @@ interface UserProps {
 		email: string;
 		id: string;
 	};
-	loading: boolean;
-	getUserId: () => void;
+	loading?: boolean;
 }
 
-export default function User({ user, loading, getUserId }: UserProps) {
-	// const [isChecked, setIsChecked] = useState(false);
-	const [addUsersArray, setAddUsersArray] = useState([]);
-
-	// const handlePress = () => {
-	// 	setIsChecked(!isChecked);
-	// };
-
+export default function User({ user, loading }: UserProps) {
 	return (
 		<Pressable>
-			<View style={styles.userResultsContainer}>
-				<View style={styles.userResults}>
-					{/* <Checkbox isChecked={isChecked} onPress={handlePress} /> */}
-					<Text>{user.name}</Text>
-					<Text>{user.email}</Text>
-				</View>
-			</View>
+			<Text>{user.name}</Text>
+			<Text>{user.email}</Text>
 		</Pressable>
 	);
 }

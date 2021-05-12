@@ -35,7 +35,7 @@ export default function AddUsersToListScreen() {
 	const users: [] = route.params.users ? route.params.users : null;
 	console.log(users);
 	const [userSearch, setUserSearch] = useState("");
-	const [addUsers, setAddUsers] = useState([]);
+	// const [addUsers, setAddUsers] = useState([]);
 	const [listData, setListData] = useState(
 		userData
 			? userData.map((user) => {
@@ -57,6 +57,14 @@ export default function AddUsersToListScreen() {
 		},
 	});
 
+	const renderUsers = () => {
+		return users.map((user) => (
+			<View style={styles.currentUsers}>
+				<User user={user} />
+			</View>
+		));
+	};
+
 	const [addUserToRestaurant] = useMutation(ADD_USER_TO_RESTAURANT);
 
 	useEffect(() => {
@@ -73,42 +81,7 @@ export default function AddUsersToListScreen() {
 		}
 	}, [searchData]);
 
-	// const renderUsers = () => {
-	// 	return userData.map((user) => (
-	// 		<User getUserId={getUserId} user={user} loading={usersLoading} />
-	// 	));
-	// };
-
-	// const getUserId = (user) => {
-	// 	const foundDataUser = userData.find(
-	// 		(dataUser) => user.id === dataUser.id
-	// 	);
-	// 	const foundAddUser = addUsers.find((addUser) => user.id === addUser.id);
-
-	// 	if (!foundAddUser) {
-	// 		setAddUsers((addUsers) => [...addUsers, foundDataUser]);
-	// 	} else {
-	// 		const newAddUsers = addUsers.filter(
-	// 			(addUser) => user.id === addUser
-	// 		);
-	// 		setAddUsers([...newAddUsers]);
-	// 	}
-	// };
-
-	// const renderButton = () => {
-	// 	if (addUsers.length === 0) {
-	// 		return null;
-	// 	} else {
-	// 		return (
-	// 			<Pressable style={styles.addUserButton}>
-	// 				<Text>Add Users</Text>
-	// 			</Pressable>
-	// 		);
-	// 	}
-	// };
-
 	const handleAdd = (user) => {
-		// console.log(user.id);
 		addUserToRestaurant({
 			variables: {
 				userId: user.id,
@@ -137,14 +110,19 @@ export default function AddUsersToListScreen() {
 					/>
 				</View>
 				{!userData ? <ActivityIndicator /> : null}
-				{/* <ScrollView style={styles.listContainer}> */}
 				{usersLoading ? (
 					<ActivityIndicator />
 				) : (
 					<SwipeListView
 						data={userData}
 						renderItem={(data, rowMap) => {
-							return <User user={data.item} />;
+							return (
+								<View style={styles.userResultsContainer}>
+									<View style={styles.userResults}>
+										<User user={data.item} />
+									</View>
+								</View>
+							);
 						}}
 						renderHiddenItem={(data, rowMap) => {
 							return (
@@ -158,21 +136,17 @@ export default function AddUsersToListScreen() {
 						}}
 						leftOpenValue={75}
 						closeOnRowPress={true}
+						style={styles.swipeList}
 					/>
 				)}
-				{/* </ScrollView> */}
-				{/* {renderButton()} */}
+				<View>{renderUsers()}</View>
 			</View>
 		</KeyboardAvoidingView>
 	);
 }
-
-{
-	/* <ActivityIndicator /> : renderUsers() */
-}
 const styles = StyleSheet.create({
 	container: {
-		flex: 1,
+		height: "100%",
 		alignItems: "center",
 		paddingTop: 1,
 	},
@@ -202,12 +176,21 @@ const styles = StyleSheet.create({
 		paddingLeft: 10,
 	},
 
+	userResults: {
+		backgroundColor: "white",
+	},
+
+	swipeList: {
+		maxHeight: "40%",
+		backgroundColor: "black",
+	},
+
 	addUserButton: {
-		// marginVertical: 15,
 		backgroundColor: "#715AFF",
 		height: "100%",
-		// borderRadius: 15,
-		// alignItems: "center",
-		// justifyContent: "center",
+	},
+
+	currentUsers: {
+		width: "100%",
 	},
 });
