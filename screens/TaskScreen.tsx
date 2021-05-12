@@ -110,7 +110,9 @@ export default function TabOneScreen() {
 									color: "white",
 								}}
 							>
-								Show completed
+								{!toggleCompleted
+									? "Show Completed"
+									: "Hide Completed"}
 							</Text>
 						</Pressable>
 						<Pressable

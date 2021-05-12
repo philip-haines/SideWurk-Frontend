@@ -16,18 +16,9 @@ export default function SplashScreen() {
 		checkUser();
 	}, []);
 
-	const removeToken = async () => {
-		try {
-			await AsyncStorage.removeItem("token");
-		} catch (error) {
-			error.message;
-		}
-	};
-
 	const isAuthenticated = async () => {
 		try {
 			const token = await AsyncStorage.getItem("token");
-			// removeToken();
 			if (token) {
 				return token;
 			}
