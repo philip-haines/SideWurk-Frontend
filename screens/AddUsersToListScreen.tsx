@@ -131,7 +131,7 @@ export default function AddUsersToListScreen() {
 			<KeyboardAvoidingView
 				behavior={Platform.OS === "ios" ? "padding" : "height"}
 				keyboardVerticalOffset={Platform.OS === "ios" ? 90 : 0}
-				style={{ flex: 1 }}
+				style={styles.resultListContainer}
 			>
 				{!userData ? <ActivityIndicator /> : null}
 				{usersLoading ? (
@@ -155,10 +155,16 @@ export default function AddUsersToListScreen() {
 									onPress={(_) => {
 										handleAdd(data.item);
 									}}
-								></Pressable>
+								>
+									<Octicons
+										name="plus"
+										size={24}
+										color="white"
+									/>
+								</Pressable>
 							);
 						}}
-						leftOpenValue={75}
+						leftOpenValue={40}
 						closeOnRowPress={true}
 						style={styles.swipeList}
 					/>
@@ -209,16 +215,31 @@ const styles = StyleSheet.create({
 
 	userResults: {
 		backgroundColor: "white",
+		marginVertical: 5,
+		width: "100%",
+	},
+
+	userResultsContainer: {
+		width: "100%",
+	},
+
+	resultListContainer: {
+		width: "100%",
+		marginBottom: 30,
 	},
 
 	swipeList: {
 		height: 200,
-		backgroundColor: "black",
+		width: "100%",
+		padding: 16,
 	},
 
 	addUserButton: {
 		backgroundColor: "#715AFF",
 		height: "100%",
+		width: 40,
+		alignItems: "center",
+		justifyContent: "center",
 	},
 
 	currentUsersRow: {
