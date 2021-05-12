@@ -63,8 +63,6 @@ export default function TabTwoScreen() {
 		});
 	};
 
-	const handleNavigation = () => {};
-
 	const handleTitleUpdate = (taskList) => {
 		updateTaskList({
 			variables: {
@@ -92,9 +90,6 @@ export default function TabTwoScreen() {
 					style={{ width: "100%" }}
 				/>
 				<View style={styles.buttonRow}>
-					<Pressable style={styles.button} onPress={handleNavigation}>
-						<Entypo name="add-user" size={24} color="white" />
-					</Pressable>
 					<Pressable
 						style={styles.button}
 						onPress={handleCreateTaskList}
@@ -132,26 +127,4 @@ const styles = StyleSheet.create({
 		backgroundColor: "black",
 		marginHorizontal: 8,
 	},
-
-	// bottomRow: {
-	// 	flexDirection: "row",
-	// 	width: "100%",
-	// 	justifyContent: "space-between",
-	// 	alignItems: "center",
-	// 	height: 85,
-	// 	paddingBottom: 93,
-	// },
-
-	// addTaskListButton: {
-	// 	height: 70,
-	// 	width: 70,
-	// 	backgroundColor: "#77df79",
-	// 	alignSelf: "flex-end",
-	// 	position: "absolute",
-	// 	bottom: 60,
-	// 	right: 30,
-	// 	borderRadius: 50,
-	// 	justifyContent: "center",
-	// 	alignItems: "center",
-	// },
 });

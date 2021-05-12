@@ -30,6 +30,11 @@ export default function RestaurantScreen() {
 		})
 	);
 
+	const handleNavigation = (data) => {
+		console.log("this is where it starts", data.item.id);
+		navigation.navigate("AddUsersScreen", { id: data.item.id });
+	};
+
 	useEffect(() => {
 		if (error) {
 			Alert.alert("Error fetching. Please try again.", error.message);
@@ -89,7 +94,10 @@ export default function RestaurantScreen() {
 					}}
 					renderHiddenItem={(data, rowMap) => {
 						return (
-							<Pressable style={styles.addUserButton}>
+							<Pressable
+								style={styles.addUserButton}
+								onPress={() => handleNavigation(data)}
+							>
 								<Entypo
 									name="add-user"
 									size={24}
