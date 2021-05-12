@@ -39,7 +39,7 @@ export default function TaskList({
 					<MaterialCommunityIcons
 						name="file-outline"
 						size={24}
-						color="black"
+						color="#715AFF"
 					/>
 				</View>
 				<View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -66,6 +66,7 @@ const styles = StyleSheet.create({
 		fontSize: 20,
 		fontWeight: "bold",
 		margin: 5,
+		color: "#2E2D4D",
 	},
 
 	root: {
@@ -80,6 +81,4 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		marginRight: 10,
 	},
-
-	time: {},
 });
