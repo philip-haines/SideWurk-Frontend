@@ -119,20 +119,20 @@ export default function AddUsersToListScreen() {
 	};
 
 	return (
-		<KeyboardAvoidingView
-			behavior={Platform.OS === "ios" ? "padding" : "height"}
-			keyboardVerticalOffset={Platform.OS === "ios" ? 90 : 0}
-			style={{ flex: 1 }}
-		>
-			<View style={styles.container}>
-				<View style={styles.inputContainer}>
-					<TextInput
-						style={styles.searchInput}
-						placeholder="Find by Email or Name"
-						value={userSearch}
-						onChangeText={setUserSearch}
-					/>
-				</View>
+		<View style={styles.container}>
+			<View style={styles.inputContainer}>
+				<TextInput
+					style={styles.searchInput}
+					placeholder="Find by Email or Name"
+					value={userSearch}
+					onChangeText={setUserSearch}
+				/>
+			</View>
+			<KeyboardAvoidingView
+				behavior={Platform.OS === "ios" ? "padding" : "height"}
+				keyboardVerticalOffset={Platform.OS === "ios" ? 90 : 0}
+				style={styles.resultListContainer}
+			>
 				{!userData ? <ActivityIndicator /> : null}
 				{usersLoading ? (
 					<ActivityIndicator />
@@ -155,22 +155,30 @@ export default function AddUsersToListScreen() {
 									onPress={(_) => {
 										handleAdd(data.item);
 									}}
-								></Pressable>
+								>
+									<Octicons
+										name="plus"
+										size={24}
+										color="white"
+									/>
+								</Pressable>
 							);
 						}}
-						leftOpenValue={75}
+						leftOpenValue={40}
 						closeOnRowPress={true}
 						style={styles.swipeList}
 					/>
 				)}
-				<View style={{ width: "100%", paddingLeft: 10 }}>
-					<View>
-						<Text style={styles.title}>Current Collaborators</Text>
-					</View>
-					{renderUsers()}
+			</KeyboardAvoidingView>
+			<View style={{ width: "100%", paddingLeft: 10 }}>
+				<View>
+					<Text style={styles.title}>Current Collaborators</Text>
 				</View>
+				<ScrollView style={{ marginBottom: 30 }}>
+					{renderUsers()}
+				</ScrollView>
 			</View>
-		</KeyboardAvoidingView>
+		</View>
 	);
 }
 const styles = StyleSheet.create({
@@ -207,16 +215,31 @@ const styles = StyleSheet.create({
 
 	userResults: {
 		backgroundColor: "white",
+		marginVertical: 5,
+		width: "100%",
+	},
+
+	userResultsContainer: {
+		width: "100%",
+	},
+
+	resultListContainer: {
+		width: "100%",
+		marginBottom: 30,
 	},
 
 	swipeList: {
-		maxHeight: "40%",
-		backgroundColor: "black",
+		height: 200,
+		width: "100%",
+		padding: 16,
 	},
 
 	addUserButton: {
 		backgroundColor: "#715AFF",
 		height: "100%",
+		width: 40,
+		alignItems: "center",
+		justifyContent: "center",
 	},
 
 	currentUsersRow: {
