@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
 	ActivityIndicator,
 	Pressable,
@@ -16,17 +16,29 @@ interface UserProps {
 		id: string;
 	};
 	loading: boolean;
+	getUserId: () => void;
 }
 
-export default function User({ user, loading }: UserProps) {
-	const [addUsers, setAddUsers] = useState([]);
+export default function User({ user, loading, getUserId }: UserProps) {
 	const [isChecked, setIsChecked] = useState(false);
+	const [addUsersArray, setAddUsersArray] = useState([]);
 
 	const handlePress = () => {
 		setIsChecked(!isChecked);
-		setAddUsers((addUsers) => [user, ...addUsers]);
 	};
 
+	useEffect(() => {
+		if (!isChecked) {
+			console.log("user is not checked", user.name);
+			const filteredUsers = addUsersArray.filter(
+				(stateUser) => user.id !== stateUser.id
+			);
+			setAddUsersArray([...filteredUsers]);
+		} else {
+			"user is checked", user.name;
+			setAddUsersArray((addUsersArray) => [...addUsersArray, user]);
+		}
+	}, [isChecked]);
 	return (
 		<Pressable>
 			<View style={styles.userResultsContainer}>

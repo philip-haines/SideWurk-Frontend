@@ -5,6 +5,8 @@ import {
 	FlatList,
 	ActivityIndicator,
 	Pressable,
+	KeyboardAvoidingView,
+	ScrollView,
 } from "react-native";
 import { Text, View } from "../components/Themed";
 import User from "../components/user/User";
@@ -14,6 +16,7 @@ import { useQuery } from "@apollo/client";
 
 export default function AddUsersToListScreen() {
 	const [userSearch, setUserSearch] = useState("");
+	const [addUsers, setAddUsers] = useState([]);
 	const [userData, setUserData] = useState([]);
 	const {
 		data: searchData,
@@ -41,25 +44,61 @@ export default function AddUsersToListScreen() {
 
 	const renderUsers = () => {
 		return userData.map((user) => (
-			<User user={user} loading={usersLoading} />
+			<User getUserId={getUserId} user={user} loading={usersLoading} />
 		));
 	};
 
+	const getUserId = (user) => {
+		const foundDataUser = userData.find(
+			(dataUser) => user.id === dataUser.id
+		);
+		const foundAddUser = addUsers.find((addUser) => user.id === addUser.id);
+
+		if (!foundAddUser) {
+			setAddUsers((addUsers) => [...addUsers, foundDataUser]);
+		} else {
+			const newAddUsers = addUsers.filter(
+				(addUser) => user.id === addUser
+			);
+			setAddUsers([...newAddUsers]);
+		}
+
+		console.log(addUsers);
+	};
+
+	const renderButton = () => {
+		if (addUsers.length === 0) {
+			return null;
+		} else {
+			return (
+				<Pressable style={styles.addUserButton}>
+					<Text>Add Users</Text>
+				</Pressable>
+			);
+		}
+	};
 	return (
-		<View style={styles.container}>
-			<View style={styles.inputContainer}>
-				<TextInput
-					style={styles.searchInput}
-					placeholder="Find by Email or Name"
-					value={userSearch}
-					onChangeText={setUserSearch}
-				/>
+		<KeyboardAvoidingView
+			behavior={Platform.OS === "ios" ? "padding" : "height"}
+			keyboardVerticalOffset={Platform.OS === "ios" ? 90 : 0}
+			style={{ flex: 1 }}
+		>
+			<View style={styles.container}>
+				<View style={styles.inputContainer}>
+					<TextInput
+						style={styles.searchInput}
+						placeholder="Find by Email or Name"
+						value={userSearch}
+						onChangeText={setUserSearch}
+					/>
+				</View>
+				{!userData ? <ActivityIndicator /> : null}
+				<ScrollView style={styles.listContainer}>
+					{usersLoading ? <ActivityIndicator /> : renderUsers()}
+				</ScrollView>
+				{renderButton()}
 			</View>
-			{!userData ? <ActivityIndicator /> : null}
-			<View style={styles.listContainer}>
-				{usersLoading ? <ActivityIndicator /> : renderUsers()}
-			</View>
-		</View>
+		</KeyboardAvoidingView>
 	);
 }
 
@@ -93,5 +132,14 @@ const styles = StyleSheet.create({
 	listContainer: {
 		width: "100%",
 		paddingLeft: 10,
+	},
+
+	addUserButton: {
+		marginVertical: 15,
+		backgroundColor: "#715AFF",
+		height: 50,
+		borderRadius: 15,
+		alignItems: "center",
+		justifyContent: "center",
 	},
 });

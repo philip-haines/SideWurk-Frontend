@@ -96,7 +96,10 @@ export default function RestaurantScreen() {
 						return (
 							<Pressable
 								style={styles.addUserButton}
-								onPress={() => handleNavigation(data)}
+								onPress={() => {
+									handleNavigation(data);
+									rowMap[data.item.key].closeRow();
+								}}
 							>
 								<Entypo
 									name="add-user"
@@ -107,6 +110,7 @@ export default function RestaurantScreen() {
 						);
 					}}
 					leftOpenValue={75}
+					closeOnRowPress={true}
 				/>
 			</View>
 		</View>
