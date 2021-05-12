@@ -14,23 +14,6 @@ import TaskList from "../components/TaskList/TaskList";
 import { MY_TASK_LISTS_QUERY } from "../Apollo/Queries";
 import { CREATE_TASK_LIST, UPDATE_TASK_LIST } from "../Apollo/mutations";
 
-const GET_RESTAURANT = gql`
-	query getRestaurant($id: ID!) {
-		getRestaurant(id: $id) {
-			id
-			title
-			users {
-				id
-				name
-			}
-			taskLists {
-				id
-				title
-			}
-		}
-	}
-`;
-
 import { FontAwesome } from "@expo/vector-icons";
 
 export default function TabTwoScreen() {
@@ -47,12 +30,6 @@ export default function TabTwoScreen() {
 
 	const [updateTaskList] = useMutation(UPDATE_TASK_LIST);
 
-	// const { data, error, loading } = useQuery(GET_RESTAURANT, {
-	// 	variables: {
-	// 		id,
-	// 	},
-	// });
-
 	const { data, error, loading } = useQuery(MY_TASK_LISTS_QUERY, {
 		variables: {
 			restaurantId: id,
@@ -66,7 +43,6 @@ export default function TabTwoScreen() {
 
 	useEffect(() => {
 		if (data) {
-			console.log(data);
 			setTaskLists(data.myTaskLists);
 			navigation.setOptions({
 				title: data.myTaskLists.title,

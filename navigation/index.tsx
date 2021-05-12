@@ -54,7 +54,9 @@ function RootNavigator() {
 			<Stack.Screen
 				name="SignInScreen"
 				component={SignInScreen}
-				options={{ title: "Sign In" }}
+				options={{
+					title: "Sign In",
+				}}
 			/>
 			<Stack.Screen
 				name="SignUpScreen"
