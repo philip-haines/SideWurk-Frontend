@@ -13,7 +13,7 @@ import { useRoute } from "@react-navigation/native";
 import { SwipeListView } from "react-native-swipe-list-view";
 import User from "../components/user/User";
 import { GET_USERS } from "../Apollo/Queries";
-
+import { Octicons } from "@expo/vector-icons";
 import { useMutation, useQuery, gql } from "@apollo/client";
 
 const ADD_USER_TO_RESTAURANT = gql`
@@ -61,12 +61,20 @@ export default function AddUsersToListScreen() {
 		return users.map((user) => (
 			<View>
 				<View style={styles.currentUsersRow}>
-					<View style={styles.userCircle}>
-						<Text style={styles.circleText}>
-							{evaluateUserCircle(user)}
-						</Text>
+					<View style={{ flexDirection: "row" }}>
+						<View style={styles.userCircle}>
+							<Text style={styles.circleText}>
+								{evaluateUserCircle(user)}
+							</Text>
+						</View>
+						<User user={user} />
 					</View>
-					<User user={user} />
+					<Octicons
+						name="kebab-vertical"
+						size={20}
+						color="#2E2D4D"
+						style={{ paddingHorizontal: 20 }}
+					/>
 				</View>
 			</View>
 		));
@@ -213,6 +221,7 @@ const styles = StyleSheet.create({
 
 	currentUsersRow: {
 		flexDirection: "row",
+		justifyContent: "space-between",
 		padding: 10,
 		alignItems: "center",
 	},
