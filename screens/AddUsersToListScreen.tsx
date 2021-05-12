@@ -59,10 +59,26 @@ export default function AddUsersToListScreen() {
 
 	const renderUsers = () => {
 		return users.map((user) => (
-			<View style={styles.currentUsers}>
-				<User user={user} />
+			<View>
+				<View style={styles.currentUsersRow}>
+					<View style={styles.userCircle}>
+						<Text style={styles.circleText}>
+							{evaluateUserCircle(user)}
+						</Text>
+					</View>
+					<User user={user} />
+				</View>
 			</View>
 		));
+	};
+
+	const evaluateUserCircle = (user) => {
+		const name = user.name.split(" ");
+		if (name[0] && name[1]) {
+			return `${name[0][0]}${name[1][0]}`;
+		} else {
+			return name[0][0];
+		}
 	};
 
 	const [addUserToRestaurant] = useMutation(ADD_USER_TO_RESTAURANT);
@@ -139,7 +155,12 @@ export default function AddUsersToListScreen() {
 						style={styles.swipeList}
 					/>
 				)}
-				<View>{renderUsers()}</View>
+				<View style={{ width: "100%", paddingLeft: 10 }}>
+					<View>
+						<Text style={styles.title}>Current Collaborators</Text>
+					</View>
+					{renderUsers()}
+				</View>
 			</View>
 		</KeyboardAvoidingView>
 	);
@@ -190,7 +211,24 @@ const styles = StyleSheet.create({
 		height: "100%",
 	},
 
-	currentUsers: {
-		width: "100%",
+	currentUsersRow: {
+		flexDirection: "row",
+		padding: 10,
+		alignItems: "center",
+	},
+
+	userCircle: {
+		height: 25,
+		width: 25,
+		borderRadius: 50,
+		backgroundColor: "#715AFF",
+		justifyContent: "center",
+		alignItems: "center",
+		marginRight: 5,
+	},
+
+	circleText: {
+		color: "white",
+		fontWeight: "bold",
 	},
 });

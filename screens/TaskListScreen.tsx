@@ -75,7 +75,7 @@ export default function TabTwoScreen() {
 	return (
 		<KeyboardAvoidingView
 			behavior={Platform.OS === "ios" ? "padding" : "height"}
-			keyboardVerticalOffset={Platform.OS === "ios" ? 30 : 0}
+			keyboardVerticalOffset={Platform.OS === "ios" ? 50 : 0}
 			style={{ flex: 1 }}
 		>
 			<View style={styles.container}>

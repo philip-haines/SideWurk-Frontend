@@ -27,8 +27,4 @@ export default function User({ user, loading }: UserProps) {
 	);
 }
 
-const styles = StyleSheet.create({
-	userResults: {
-		backgroundColor: "white",
-	},
-});
+const styles = StyleSheet.create({});
