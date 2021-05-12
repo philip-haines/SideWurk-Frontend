@@ -30,7 +30,10 @@ export default function Restaurant({ restaurant }: RestaurantProps) {
 	const [taskLists, setTasks] = useState([]);
 	const navigation = useNavigation();
 	const handlePress = () => {
-		navigation.navigate("TaskListScreen", { id: restaurant.id });
+		navigation.navigate("TaskListScreen", {
+			id: restaurant.id,
+			title: restaurant.title,
+		});
 	};
 
 	useEffect(() => {

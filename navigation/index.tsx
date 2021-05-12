@@ -63,11 +63,7 @@ function RootNavigator() {
 				component={SignUpScreen}
 				options={{ title: "Create Account" }}
 			/>
-			<Stack.Screen
-				name="Home"
-				component={RestaurantScreen}
-				options={{ title: "Restaurants" }}
-			/>
+			<Stack.Screen name="Home" component={RestaurantScreen} />
 
 			<Stack.Screen name="TaskListScreen" component={TaskListScreen} />
 			<Stack.Screen name="TaskScreen" component={TaskScreen} />

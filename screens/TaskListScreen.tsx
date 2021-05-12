@@ -20,6 +20,7 @@ export default function TabTwoScreen() {
 	const route = useRoute();
 	const navigation = useNavigation();
 	const id: number = route.params.id;
+	const title: string = route.params.title;
 
 	const [taskLists, setTaskLists] = useState([]);
 	const [createTaskList] = useMutation(CREATE_TASK_LIST, {
@@ -45,7 +46,7 @@ export default function TabTwoScreen() {
 		if (data) {
 			setTaskLists(data.myTaskLists);
 			navigation.setOptions({
-				title: data.myTaskLists.title,
+				title,
 			});
 		}
 	}, [data]);

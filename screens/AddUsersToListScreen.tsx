@@ -13,6 +13,7 @@ import { useRoute } from "@react-navigation/native";
 import { SwipeListView } from "react-native-swipe-list-view";
 import User from "../components/user/User";
 import { GET_USERS } from "../Apollo/Queries";
+// import SlideRight from "../components/animatedViews/slideRight";
 import { Octicons } from "@expo/vector-icons";
 import { useMutation, useQuery, gql } from "@apollo/client";
 

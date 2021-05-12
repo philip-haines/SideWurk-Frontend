@@ -46,10 +46,6 @@ export default function RestaurantScreen() {
 	useEffect(() => {
 		if (data) {
 			setRestaurants(data.myRestaurants);
-			navigation.setOptions({
-				title: data.myRestaurants.title,
-			});
-			console.log(data.myRestaurants.title);
 		}
 	}, [data]);
 
