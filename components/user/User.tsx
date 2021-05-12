@@ -20,31 +20,18 @@ interface UserProps {
 }
 
 export default function User({ user, loading, getUserId }: UserProps) {
-	const [isChecked, setIsChecked] = useState(false);
+	// const [isChecked, setIsChecked] = useState(false);
 	const [addUsersArray, setAddUsersArray] = useState([]);
 
-	const handlePress = () => {
-		setIsChecked(!isChecked);
-	};
-
-	useEffect(() => {
-		if (!isChecked) {
-			console.log("user is not checked", user.name);
-			const filteredUsers = addUsersArray.filter(
-				(stateUser) => user.id !== stateUser.id
-			);
-			setAddUsersArray([...filteredUsers]);
-		} else {
-			"user is checked", user.name;
-			setAddUsersArray((addUsersArray) => [...addUsersArray, user]);
-		}
-	}, [isChecked]);
+	// const handlePress = () => {
+	// 	setIsChecked(!isChecked);
+	// };
 
 	return (
 		<Pressable>
 			<View style={styles.userResultsContainer}>
 				<View style={styles.userResults}>
-					<Checkbox isChecked={isChecked} onPress={handlePress} />
+					{/* <Checkbox isChecked={isChecked} onPress={handlePress} /> */}
 					<Text>{user.name}</Text>
 					<Text>{user.email}</Text>
 				</View>
@@ -53,4 +40,8 @@ export default function User({ user, loading, getUserId }: UserProps) {
 	);
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+	userResults: {
+		backgroundColor: "white",
+	},
+});

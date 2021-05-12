@@ -9,13 +9,31 @@ import {
 	ScrollView,
 } from "react-native";
 import { Text, View } from "../components/Themed";
+import { useRoute } from "@react-navigation/native";
 import { SwipeListView } from "react-native-swipe-list-view";
 import User from "../components/user/User";
 import { GET_USERS } from "../Apollo/Queries";
 
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery, gql } from "@apollo/client";
+
+const ADD_USER_TO_RESTAURANT = gql`
+	mutation addUserToRestaurant($userId: ID!, $restaurantId: ID!) {
+		addUserToRestaurant(restaurantId: $restaurantId, userId: $userId) {
+			id
+			title
+			users {
+				id
+				email
+			}
+		}
+	}
+`;
 
 export default function AddUsersToListScreen() {
+	const route = useRoute();
+	const id: number = route.params ? route.params.id : null;
+	console.log(route.params);
+	const users: [] = route.params ? route.params.users : null;
 	const [userSearch, setUserSearch] = useState("");
 	const [addUsers, setAddUsers] = useState([]);
 	const [listData, setListData] = useState(
@@ -28,6 +46,7 @@ export default function AddUsersToListScreen() {
 			: []
 	);
 	const [userData, setUserData] = useState([]);
+
 	const {
 		data: searchData,
 		loading: usersLoading,
@@ -37,6 +56,8 @@ export default function AddUsersToListScreen() {
 			text: userSearch,
 		},
 	});
+
+	const [addUserToRestaurant] = useMutation(ADD_USER_TO_RESTAURANT);
 
 	useEffect(() => {
 		if (userError) {
@@ -58,35 +79,48 @@ export default function AddUsersToListScreen() {
 	// 	));
 	// };
 
-	const getUserId = (user) => {
-		const foundDataUser = userData.find(
-			(dataUser) => user.id === dataUser.id
+	// const getUserId = (user) => {
+	// 	const foundDataUser = userData.find(
+	// 		(dataUser) => user.id === dataUser.id
+	// 	);
+	// 	const foundAddUser = addUsers.find((addUser) => user.id === addUser.id);
+
+	// 	if (!foundAddUser) {
+	// 		setAddUsers((addUsers) => [...addUsers, foundDataUser]);
+	// 	} else {
+	// 		const newAddUsers = addUsers.filter(
+	// 			(addUser) => user.id === addUser
+	// 		);
+	// 		setAddUsers([...newAddUsers]);
+	// 	}
+	// };
+
+	// const renderButton = () => {
+	// 	if (addUsers.length === 0) {
+	// 		return null;
+	// 	} else {
+	// 		return (
+	// 			<Pressable style={styles.addUserButton}>
+	// 				<Text>Add Users</Text>
+	// 			</Pressable>
+	// 		);
+	// 	}
+	// };
+
+	const handleAdd = (user) => {
+		// console.log(user.id);
+		addUserToRestaurant({
+			variables: {
+				userId: user.id,
+				restaurantId: id,
+			},
+		});
+		const newUserSearch = userData.filter(
+			(stateUser) => user.id !== stateUser.id
 		);
-		const foundAddUser = addUsers.find((addUser) => user.id === addUser.id);
-
-		if (!foundAddUser) {
-			setAddUsers((addUsers) => [...addUsers, foundDataUser]);
-		} else {
-			const newAddUsers = addUsers.filter(
-				(addUser) => user.id === addUser
-			);
-			setAddUsers([...newAddUsers]);
-		}
-
-		console.log(addUsers);
+		setUserData(newUserSearch);
 	};
 
-	const renderButton = () => {
-		if (addUsers.length === 0) {
-			return null;
-		} else {
-			return (
-				<Pressable style={styles.addUserButton}>
-					<Text>Add Users</Text>
-				</Pressable>
-			);
-		}
-	};
 	return (
 		<KeyboardAvoidingView
 			behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -117,10 +151,7 @@ export default function AddUsersToListScreen() {
 								<Pressable
 									style={styles.addUserButton}
 									onPress={(_) => {
-										console.log(data.item.name);
-										return rowMap[
-											rowData.item.key
-										].closeRow();
+										handleAdd(data.item);
 									}}
 								></Pressable>
 							);
@@ -130,7 +161,7 @@ export default function AddUsersToListScreen() {
 					/>
 				)}
 				{/* </ScrollView> */}
-				{renderButton()}
+				{/* {renderButton()} */}
 			</View>
 		</KeyboardAvoidingView>
 	);

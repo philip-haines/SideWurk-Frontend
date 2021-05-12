@@ -9,8 +9,8 @@ import {
 	Alert,
 } from "react-native";
 import ProgressCircle from "react-native-progress-circle";
-import { useRoute, useNavigation } from "@react-navigation/native";
-import { useMutation, useQuery, gql } from "@apollo/client";
+import { useRoute } from "@react-navigation/native";
+import { useMutation, useQuery } from "@apollo/client";
 import { GET_TASK_LIST } from "../../Apollo/Queries";
 import {
 	CREATE_TASK,

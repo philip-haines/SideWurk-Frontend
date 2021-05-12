@@ -27,12 +27,14 @@ export default function RestaurantScreen() {
 			key: restaurant.id;
 			title: restaurant.title;
 			tasks: restaurant.tasks;
+			users: restaurant.users;
 		})
 	);
-
 	const handleNavigation = (data) => {
-		console.log("this is where it starts", data.item.id);
-		navigation.navigate("AddUsersScreen", { id: data.item.id });
+		navigation.navigate("AddUsersScreen", {
+			id: data.item.id,
+			users: data.item.users,
+		});
 	};
 
 	useEffect(() => {
