@@ -171,12 +171,16 @@ export default function Block({ block, showCompleted }: BlockProps) {
 					percent={block.progress}
 					radius={18}
 					borderWidth={4}
-					color="black"
+					color="#715AFF"
 					shadowColor={"#fbfbfc"}
 					bgColor="#fff"
 				>
 					<Text
-						style={{ fontSize: 12, fontWeight: "bold" }}
+						style={{
+							fontSize: 12,
+							fontWeight: "bold",
+							color: "#2E2D4D",
+						}}
 					>{`${Math.round(block.progress)}`}</Text>
 				</ProgressCircle>
 			</View>
@@ -200,6 +204,7 @@ export default function Block({ block, showCompleted }: BlockProps) {
 const styles = StyleSheet.create({
 	title: {
 		fontSize: 18,
+		color: "#2E2D4D",
 		fontWeight: "bold",
 		marginTop: 10,
 	},
