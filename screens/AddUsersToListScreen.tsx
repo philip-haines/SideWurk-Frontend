@@ -119,20 +119,20 @@ export default function AddUsersToListScreen() {
 	};
 
 	return (
-		<KeyboardAvoidingView
-			behavior={Platform.OS === "ios" ? "padding" : "height"}
-			keyboardVerticalOffset={Platform.OS === "ios" ? 90 : 0}
-			style={{ flex: 1 }}
-		>
-			<View style={styles.container}>
-				<View style={styles.inputContainer}>
-					<TextInput
-						style={styles.searchInput}
-						placeholder="Find by Email or Name"
-						value={userSearch}
-						onChangeText={setUserSearch}
-					/>
-				</View>
+		<View style={styles.container}>
+			<View style={styles.inputContainer}>
+				<TextInput
+					style={styles.searchInput}
+					placeholder="Find by Email or Name"
+					value={userSearch}
+					onChangeText={setUserSearch}
+				/>
+			</View>
+			<KeyboardAvoidingView
+				behavior={Platform.OS === "ios" ? "padding" : "height"}
+				keyboardVerticalOffset={Platform.OS === "ios" ? 90 : 0}
+				style={{ flex: 1 }}
+			>
 				{!userData ? <ActivityIndicator /> : null}
 				{usersLoading ? (
 					<ActivityIndicator />
@@ -163,14 +163,16 @@ export default function AddUsersToListScreen() {
 						style={styles.swipeList}
 					/>
 				)}
-				<View style={{ width: "100%", paddingLeft: 10 }}>
-					<View>
-						<Text style={styles.title}>Current Collaborators</Text>
-					</View>
-					{renderUsers()}
+			</KeyboardAvoidingView>
+			<View style={{ width: "100%", paddingLeft: 10 }}>
+				<View>
+					<Text style={styles.title}>Current Collaborators</Text>
 				</View>
+				<ScrollView style={{ marginBottom: 30 }}>
+					{renderUsers()}
+				</ScrollView>
 			</View>
-		</KeyboardAvoidingView>
+		</View>
 	);
 }
 const styles = StyleSheet.create({
@@ -210,7 +212,7 @@ const styles = StyleSheet.create({
 	},
 
 	swipeList: {
-		maxHeight: "40%",
+		height: 200,
 		backgroundColor: "black",
 	},
 
