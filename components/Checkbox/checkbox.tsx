@@ -11,7 +11,7 @@ interface CheckBoxProps {
 export default function Checkbox(props: CheckBoxProps) {
 	const { onPress, isChecked } = props;
 	const name = props.isChecked ? "check-box" : "check-box-outline-blank";
-	const color = !props.isChecked ? "black" : "#ccc";
+	const color = props.isChecked ? "#715AFF" : "#2E2D4D";
 	return (
 		<View>
 			<Pressable onPress={onPress}>
