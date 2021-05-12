@@ -39,6 +39,7 @@ export default function User({ user, loading, getUserId }: UserProps) {
 			setAddUsersArray((addUsersArray) => [...addUsersArray, user]);
 		}
 	}, [isChecked]);
+
 	return (
 		<Pressable>
 			<View style={styles.userResultsContainer}>

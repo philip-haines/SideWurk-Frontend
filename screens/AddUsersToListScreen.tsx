@@ -9,6 +9,7 @@ import {
 	ScrollView,
 } from "react-native";
 import { Text, View } from "../components/Themed";
+import { SwipeListView } from "react-native-swipe-list-view";
 import User from "../components/user/User";
 import { GET_USERS } from "../Apollo/Queries";
 
@@ -17,6 +18,15 @@ import { useQuery } from "@apollo/client";
 export default function AddUsersToListScreen() {
 	const [userSearch, setUserSearch] = useState("");
 	const [addUsers, setAddUsers] = useState([]);
+	const [listData, setListData] = useState(
+		userData
+			? userData.map((user) => {
+					key: user.id;
+					name: user.name;
+					email: user.email;
+			  })
+			: []
+	);
 	const [userData, setUserData] = useState([]);
 	const {
 		data: searchData,
@@ -42,11 +52,11 @@ export default function AddUsersToListScreen() {
 		}
 	}, [searchData]);
 
-	const renderUsers = () => {
-		return userData.map((user) => (
-			<User getUserId={getUserId} user={user} loading={usersLoading} />
-		));
-	};
+	// const renderUsers = () => {
+	// 	return userData.map((user) => (
+	// 		<User getUserId={getUserId} user={user} loading={usersLoading} />
+	// 	));
+	// };
 
 	const getUserId = (user) => {
 		const foundDataUser = userData.find(
@@ -93,15 +103,42 @@ export default function AddUsersToListScreen() {
 					/>
 				</View>
 				{!userData ? <ActivityIndicator /> : null}
-				<ScrollView style={styles.listContainer}>
-					{usersLoading ? <ActivityIndicator /> : renderUsers()}
-				</ScrollView>
+				{/* <ScrollView style={styles.listContainer}> */}
+				{usersLoading ? (
+					<ActivityIndicator />
+				) : (
+					<SwipeListView
+						data={userData}
+						renderItem={(data, rowMap) => {
+							return <User user={data.item} />;
+						}}
+						renderHiddenItem={(data, rowMap) => {
+							return (
+								<Pressable
+									style={styles.addUserButton}
+									onPress={(_) => {
+										console.log(data.item.name);
+										return rowMap[
+											rowData.item.key
+										].closeRow();
+									}}
+								></Pressable>
+							);
+						}}
+						leftOpenValue={75}
+						closeOnRowPress={true}
+					/>
+				)}
+				{/* </ScrollView> */}
 				{renderButton()}
 			</View>
 		</KeyboardAvoidingView>
 	);
 }
 
+{
+	/* <ActivityIndicator /> : renderUsers() */
+}
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
@@ -135,11 +172,11 @@ const styles = StyleSheet.create({
 	},
 
 	addUserButton: {
-		marginVertical: 15,
+		// marginVertical: 15,
 		backgroundColor: "#715AFF",
-		height: 50,
-		borderRadius: 15,
-		alignItems: "center",
-		justifyContent: "center",
+		height: "100%",
+		// borderRadius: 15,
+		// alignItems: "center",
+		// justifyContent: "center",
 	},
 });
