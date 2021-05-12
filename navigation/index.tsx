@@ -10,8 +10,8 @@ import {
 } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import * as React from "react";
-import { ColorSchemeName } from "react-native";
-
+import { ColorSchemeName, Button } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import NotFoundScreen from "../screens/NotFoundScreen";
 import TaskListScreen from "../screens/TaskListScreen";
 import TaskScreen from "../screens/TaskScreen";
@@ -42,6 +42,14 @@ export default function Navigation({
 // A root stack navigator is often used for displaying modals on top of all other content
 // Read more here: https://reactnavigation.org/docs/modal
 const Stack = createStackNavigator<RootStackParamList>();
+const removeToken = async (navigation) => {
+	try {
+		await AsyncStorage.removeItem("token");
+		navigation.navigate("SignInScreen");
+	} catch (error) {
+		error.message;
+	}
+};
 
 function RootNavigator() {
 	return (
@@ -56,14 +64,27 @@ function RootNavigator() {
 				component={SignInScreen}
 				options={{
 					title: "Sign In",
+					headerLeft: () => null,
 				}}
 			/>
 			<Stack.Screen
 				name="SignUpScreen"
 				component={SignUpScreen}
-				options={{ title: "Create Account" }}
+				options={{ title: "Create Account", headerLeft: () => null }}
 			/>
-			<Stack.Screen name="Home" component={RestaurantScreen} />
+			<Stack.Screen
+				name="Home"
+				component={RestaurantScreen}
+				options={({ navigation }) => ({
+					headerLeft: () => null,
+					headerRight: () => (
+						<Button
+							onPress={() => removeToken(navigation)}
+							title="Log Out"
+						></Button>
+					),
+				})}
+			/>
 
 			<Stack.Screen name="TaskListScreen" component={TaskListScreen} />
 			<Stack.Screen name="TaskScreen" component={TaskScreen} />
