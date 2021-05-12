@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
 	homeTileTitle: {
 		fontSize: 18,
 		fontWeight: "bold",
-		marginLeft: 10,
+		marginLeft: 15,
 	},
 
 	title: {
