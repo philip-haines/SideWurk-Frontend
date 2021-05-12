@@ -13,7 +13,7 @@ import { useRoute } from "@react-navigation/native";
 import { SwipeListView } from "react-native-swipe-list-view";
 import User from "../components/user/User";
 import { GET_USERS } from "../Apollo/Queries";
-
+import { Octicons } from "@expo/vector-icons";
 import { useMutation, useQuery, gql } from "@apollo/client";
 
 const ADD_USER_TO_RESTAURANT = gql`
@@ -59,10 +59,34 @@ export default function AddUsersToListScreen() {
 
 	const renderUsers = () => {
 		return users.map((user) => (
-			<View style={styles.currentUsers}>
-				<User user={user} />
+			<View>
+				<View style={styles.currentUsersRow}>
+					<View style={{ flexDirection: "row" }}>
+						<View style={styles.userCircle}>
+							<Text style={styles.circleText}>
+								{evaluateUserCircle(user)}
+							</Text>
+						</View>
+						<User user={user} />
+					</View>
+					<Octicons
+						name="kebab-vertical"
+						size={20}
+						color="#2E2D4D"
+						style={{ paddingHorizontal: 20 }}
+					/>
+				</View>
 			</View>
 		));
+	};
+
+	const evaluateUserCircle = (user) => {
+		const name = user.name.split(" ");
+		if (name[0] && name[1]) {
+			return `${name[0][0]}${name[1][0]}`;
+		} else {
+			return name[0][0];
+		}
 	};
 
 	const [addUserToRestaurant] = useMutation(ADD_USER_TO_RESTAURANT);
@@ -139,7 +163,12 @@ export default function AddUsersToListScreen() {
 						style={styles.swipeList}
 					/>
 				)}
-				<View>{renderUsers()}</View>
+				<View style={{ width: "100%", paddingLeft: 10 }}>
+					<View>
+						<Text style={styles.title}>Current Collaborators</Text>
+					</View>
+					{renderUsers()}
+				</View>
 			</View>
 		</KeyboardAvoidingView>
 	);
@@ -190,7 +219,25 @@ const styles = StyleSheet.create({
 		height: "100%",
 	},
 
-	currentUsers: {
-		width: "100%",
+	currentUsersRow: {
+		flexDirection: "row",
+		justifyContent: "space-between",
+		padding: 10,
+		alignItems: "center",
+	},
+
+	userCircle: {
+		height: 25,
+		width: 25,
+		borderRadius: 50,
+		backgroundColor: "#715AFF",
+		justifyContent: "center",
+		alignItems: "center",
+		marginRight: 5,
+	},
+
+	circleText: {
+		color: "white",
+		fontWeight: "bold",
 	},
 });

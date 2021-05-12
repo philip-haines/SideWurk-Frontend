@@ -21,14 +21,12 @@ interface UserProps {
 export default function User({ user, loading }: UserProps) {
 	return (
 		<Pressable>
-			<Text>{user.name}</Text>
-			<Text>{user.email}</Text>
+			<Text style={{ color: "#2E2D4D", fontWeight: "bold" }}>
+				{user.name}
+			</Text>
+			<Text style={{ color: "#2E2D4D" }}>{user.email}</Text>
 		</Pressable>
 	);
 }
 
-const styles = StyleSheet.create({
-	userResults: {
-		backgroundColor: "white",
-	},
-});
+const styles = StyleSheet.create({});
