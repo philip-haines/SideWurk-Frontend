@@ -18,19 +18,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import Restaurant from "../components/restaurants/Restaurant";
 import { MY_RESTAURANTS } from "../Apollo/Queries";
-
-const CREATE_RESTAURANT = gql`
-	mutation createRestaurant($title: String!) {
-		createRestaurant(title: $title) {
-			id
-			title
-			users {
-				id
-				name
-			}
-		}
-	}
-`;
+import { CREATE_RESTAURANT } from "../Apollo/mutations";
 
 export default function RestaurantScreen() {
 	const navigation = useNavigation();

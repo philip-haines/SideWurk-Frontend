@@ -25,6 +25,19 @@ export const SIGN_UP_MUTATION = gql`
 	}
 `;
 
+export const CREATE_RESTAURANT = gql`
+	mutation createRestaurant($title: String!) {
+		createRestaurant(title: $title) {
+			id
+			title
+			users {
+				id
+				name
+			}
+		}
+	}
+`;
+
 export const CREATE_TASK = gql`
 	mutation createTask($content: String!, $blockId: ID!) {
 		createTask(content: $content, blockId: $blockId) {
