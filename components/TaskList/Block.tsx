@@ -71,7 +71,6 @@ export default function Block({ block, showCompleted }: BlockProps) {
 	};
 
 	const updateBlockTitle = () => {
-		console.log("you hit me on end editing");
 		updateBlock({
 			variables: {
 				id: block.id,
@@ -88,6 +87,7 @@ export default function Block({ block, showCompleted }: BlockProps) {
 				},
 			})
 		);
+
 		deleteBlock({
 			variables: {
 				id: block.id,

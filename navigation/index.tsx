@@ -44,8 +44,9 @@ export default function Navigation({
 const Stack = createStackNavigator<RootStackParamList>();
 const removeToken = async (navigation) => {
 	try {
-		await AsyncStorage.removeItem("token");
-		navigation.navigate("SignInScreen");
+		await AsyncStorage.removeItem("token").then(() =>
+			navigation.navigate("SignInScreen")
+		);
 	} catch (error) {
 		error.message;
 	}

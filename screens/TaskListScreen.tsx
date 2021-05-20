@@ -7,7 +7,7 @@ import {
 	KeyboardAvoidingView,
 	Pressable,
 } from "react-native";
-import { Text, View } from "../components/Themed";
+import { View } from "../components/Themed";
 import { useQuery, useMutation, gql } from "@apollo/client";
 import { useRoute, useNavigation } from "@react-navigation/native";
 import TaskList from "../components/TaskList/TaskList";

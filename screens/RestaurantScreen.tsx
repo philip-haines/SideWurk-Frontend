@@ -10,17 +10,22 @@ import {
 } from "react-native";
 import { SwipeListView } from "react-native-swipe-list-view";
 import { useNavigation } from "@react-navigation/native";
-import { useQuery } from "@apollo/client";
+import { useQuery, useMutation, gql } from "@apollo/client";
 import { AntDesign } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { FontAwesome } from "@expo/vector-icons";
 import Restaurant from "../components/restaurants/Restaurant";
 import { MY_RESTAURANTS } from "../Apollo/Queries";
+import { CREATE_RESTAURANT } from "../Apollo/mutations";
 
 export default function RestaurantScreen() {
 	const navigation = useNavigation();
 	const { data, error, loading } = useQuery(MY_RESTAURANTS);
+	const [createRestaurant] = useMutation(CREATE_RESTAURANT, {
+		refetchQueries: [{ query: MY_RESTAURANTS }],
+	});
 	const [restaurants, setRestaurants] = useState([]);
 	const [listData, setListData] = useState(
 		restaurants.map((restaurant) => {
@@ -34,6 +39,14 @@ export default function RestaurantScreen() {
 		navigation.navigate("AddUsersScreen", {
 			id: data.item.id,
 			users: data.item.users,
+		});
+	};
+
+	const handleAddRestaurant = () => {
+		createRestaurant({
+			variables: {
+				title: "this is a test",
+			},
 		});
 	};
 
@@ -79,12 +92,20 @@ export default function RestaurantScreen() {
 			</View>
 			<View>
 				<View style={styles.homeRow}>
-					<MaterialCommunityIcons
-						name="silverware-fork-knife"
-						size={30}
-						color="#2E2D4D"
-					/>
-					<Text style={styles.title}>Restaurants</Text>
+					<View style={styles.homeRow}>
+						<MaterialCommunityIcons
+							name="silverware-fork-knife"
+							size={30}
+							color="#2E2D4D"
+						/>
+						<Text style={styles.title}>Restaurants</Text>
+					</View>
+					<Pressable
+						onPress={handleAddRestaurant}
+						style={styles.addIcon}
+					>
+						<FontAwesome name="plus" size={24} color="#715AFF" />
+					</Pressable>
 				</View>
 				<SwipeListView
 					data={restaurants}
@@ -134,8 +155,15 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		alignItems: "center",
 		height: 40,
-		width: "100%",
+		width: "93%",
 		borderRightColor: "#715AFF",
+	},
+
+	addIcon: {
+		height: 40,
+		width: 40,
+		justifyContent: "center",
+		alignItems: "center",
 	},
 
 	homeTileTitle: {
