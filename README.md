@@ -8,7 +8,7 @@ The idea for SideWürk came from the many hours I spend trying to look at greasy
 ##### Backend ([repo](https://github.com/philip-haines/SideWurk-Backend))
 - [Node JS](https://nodejs.org/en/)
 - [Apollo Server](https://www.apollographql.com/)
-- [Graph QL](https://graphql.org/)
+- [GraphQL](https://graphql.org/)
 - [Mongo DB](https://www.mongodb.com/)
 ##### Frontend
 - [React Native](https://reactnative.dev/)
