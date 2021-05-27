@@ -5,7 +5,7 @@ The idea for SideWürk came from the many hours I spend trying to look at greasy
 
 ## Tech/Framework used
 <b>Built with</b>
-##### Backend
+##### Backend ([repo](https://github.com/philip-haines/SideWurk-Backend))
 - [Node JS](https://nodejs.org/en/)
 - [Apollo Server](https://www.apollographql.com/)
 - [Graph QL](https://graphql.org/)
