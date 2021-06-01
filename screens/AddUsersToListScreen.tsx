@@ -34,9 +34,7 @@ export default function AddUsersToListScreen() {
 	const route = useRoute();
 	const id: number = route.params ? route.params.id : null;
 	const users: [] = route.params.users ? route.params.users : null;
-	console.log(users);
 	const [userSearch, setUserSearch] = useState("");
-	// const [addUsers, setAddUsers] = useState([]);
 	const [listData, setListData] = useState(
 		userData
 			? userData.map((user) => {

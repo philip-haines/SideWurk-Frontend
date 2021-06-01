@@ -14,7 +14,7 @@ export default function SplashScreen() {
 			}
 		};
 		checkUser();
-	}, []);
+	});
 
 	const isAuthenticated = async () => {
 		try {
