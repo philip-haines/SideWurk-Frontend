@@ -38,6 +38,15 @@ export const CREATE_RESTAURANT = gql`
 	}
 `;
 
+export const UPDATE_RESTAURANT = gql`
+	mutation updateRestaurant($id: ID!, $title: String!) {
+		updateRestaurant(id: $id, title: $title) {
+			id
+			title
+		}
+	}
+`;
+
 export const CREATE_TASK = gql`
 	mutation createTask($content: String!, $blockId: ID!) {
 		createTask(content: $content, blockId: $blockId) {

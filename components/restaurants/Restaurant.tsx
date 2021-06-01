@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, Pressable, TextInput } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { gql, useMutation } from "@apollo/client";
+import { UPDATE_RESTAURANT } from "../../Apollo/mutations";
 interface User {
 	user: {
 		id: number;
@@ -25,15 +26,6 @@ interface RestaurantProps {
 		taskLists: [TaskList];
 	};
 }
-
-const UPDATE_RESTAURANT = gql`
-	mutation updateRestaurant($id: ID!, $title: String!) {
-		updateRestaurant(id: $id, title: $title) {
-			id
-			title
-		}
-	}
-`;
 
 export default function Restaurant({ restaurant }: RestaurantProps) {
 	const [taskLists, setTasks] = useState([]);
