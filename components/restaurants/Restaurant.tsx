@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, Pressable } from "react-native";
+import { StyleSheet, Text, View, Pressable, TextInput } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-
+import { gql, useMutation } from "@apollo/client";
 interface User {
 	user: {
 		id: number;
@@ -26,8 +26,19 @@ interface RestaurantProps {
 	};
 }
 
+const UPDATE_RESTAURANT = gql`
+	mutation updateRestaurant($id: ID!, $title: String!) {
+		updateRestaurant(id: $id, title: $title) {
+			id
+			title
+		}
+	}
+`;
+
 export default function Restaurant({ restaurant }: RestaurantProps) {
 	const [taskLists, setTasks] = useState([]);
+	const [restaurantTitle, setRestaurantTitle] = useState("");
+	const [updateRestaurantTitle] = useMutation(UPDATE_RESTAURANT);
 	const navigation = useNavigation();
 	const handlePress = () => {
 		navigation.navigate("TaskListScreen", {
@@ -38,6 +49,7 @@ export default function Restaurant({ restaurant }: RestaurantProps) {
 
 	useEffect(() => {
 		setTasks(restaurant.taskLists);
+		setRestaurantTitle(restaurant.title);
 	}, []);
 
 	const dispatchTaskLists = () => {
@@ -54,23 +66,36 @@ export default function Restaurant({ restaurant }: RestaurantProps) {
 			return (
 				<View style={styles.taskListPreview}>
 					<Text style={{ color: "#2E2D4D", fontWeight: "bold" }}>
-						{taskLists[0].title}
+						{taskLists[taskLists.length - 2].title}
 					</Text>
 					<Text style={{ color: "#2E2D4D", fontWeight: "bold" }}>
-						{taskLists[1].title}
+						{taskLists[taskLists.length - 1].title}
 					</Text>
 				</View>
 			);
 		}
 	};
 
+	const handleUpdate = () => {
+		updateRestaurantTitle({
+			variables: {
+				id: restaurant.id,
+				title: restaurantTitle,
+			},
+		});
+	};
+
 	return (
 		<View>
 			<Pressable onPress={handlePress} style={styles.restaurant}>
 				<View>
-					<Text style={styles.restaurantName}>
-						{restaurant.title}
-					</Text>
+					<TextInput
+						style={styles.restaurantName}
+						value={restaurantTitle}
+						onChangeText={setRestaurantTitle}
+						editable={true}
+						onEndEditing={handleUpdate}
+					/>
 					{dispatchTaskLists()}
 				</View>
 			</Pressable>
@@ -87,6 +112,7 @@ const styles = StyleSheet.create({
 	},
 
 	restaurantName: {
+		height: 20,
 		fontSize: 18,
 		marginLeft: 10,
 		fontWeight: "bold",
