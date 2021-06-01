@@ -87,6 +87,7 @@ export default function Restaurant({ restaurant }: RestaurantProps) {
 						onChangeText={setRestaurantTitle}
 						editable={true}
 						onEndEditing={handleUpdate}
+						placeholder={"Title"}
 					/>
 					{dispatchTaskLists()}
 				</View>

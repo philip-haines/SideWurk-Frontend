@@ -45,7 +45,7 @@ export default function RestaurantScreen() {
 	const handleAddRestaurant = () => {
 		createRestaurant({
 			variables: {
-				title: "this is a test",
+				title: "",
 			},
 		});
 	};
